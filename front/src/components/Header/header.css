@@ -1,0 +1,33 @@
+header {
+    background-color: var(--col2);
+    display: flex;
+}
+
+header > h1 {
+    width: fit-content;
+    display: inline;
+    margin: 0;
+}
+
+header > nav {
+    text-align: right;
+}
+
+header > nav > ul {
+    width: fit-content;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+.headerLinkList {
+    
+}
+
+.headerLinkList > * {
+    text-align: right;
+    display: inline;
+    margin: 5px;
+    padding: 2px;
+    background-color:beige;
+}

@@ -1,0 +1,28 @@
+.weekView {
+    display: grid;
+    grid-template-columns: 10vw 90vw;
+}
+
+.week_sidebarPlaceholder {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+.week_menuPlaceholder {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 50px;
+}
+
+.week_scheduleWrapper {
+    grid-column: 2;
+    grid-row: 2;
+    height: 88vh;
+    overflow-y: scroll;
+}
+
+.week_sidebarWrapper {
+    width: 10%;
+    position: fixed;
+    margin-top: 50px;
+}

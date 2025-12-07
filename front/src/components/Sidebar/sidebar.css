@@ -1,0 +1,42 @@
+.sidebar {
+    background-color: aliceblue;
+    color: black;
+    padding: .5vw;
+    margin: 10px;
+}
+
+.sidebarFilter {
+}
+
+.sidebarFilter > label {
+
+}
+
+.sidebarFilter > input {
+    width: 4vw;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.sidebarFilter > input:focus {
+    outline: none;
+}
+
+.peopleList {
+    padding: 0;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.peopleListItem {
+    list-style: none;
+    border: .01vh dashed black;
+    font-size: smaller;
+    margin-top: .5vh;
+}
+
+.chosen_sidebar {
+    background-color: green;
+    color: white;
+}
