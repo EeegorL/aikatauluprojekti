@@ -55,7 +55,7 @@ app.get("/api/ihmiset", async (req, res) => {
 
 app.get("/api/vuorotyypit", async (req, res) => {
     try {
-        const queryStr = "SELECT * FROM vuorotyyppi ORDER BY id";
+        const queryStr = "SELECT * FROM vuorotyyppi ORDER BY nro";
         const query = await pool.query(queryStr);
 
         res.status(200).json(query);

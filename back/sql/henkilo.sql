@@ -6,4 +6,8 @@
 | lyhenne | varchar(255) | NO   | UNI | NULL    |                |
 +---------+--------------+------+-----+---------+----------------+
 
-TODO Create lause
+CREATE TABLE henkilo(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nimi VARCHAR(255) NOT NULL,
+    lyhenne VARCHAR(255) NOT NULL
+);
