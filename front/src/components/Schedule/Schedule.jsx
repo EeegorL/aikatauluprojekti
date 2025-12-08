@@ -27,18 +27,17 @@ export default function Schedule({day, chosen, setChosen}) {
     }
 
     const onDoubleClick = async (e) => {  
-        if(!chosen.henkilo) return;
+        if(!chosen.id) return;
 
         const targ = e.currentTarget;
         const hour = targ.getAttribute("hour");
         const shift = targ.getAttribute("shift");
 
-        await addVuoro(day, hour, shift, chosen.henkilo);
+        await addVuoro(day, hour, shift, chosen.id);
         setVuorot(await getVuorot(day));
     }
 
     const onMouseOver = (e) => {
-        const elems = [];
         const tableParent = e.target.closest("table");
 
         const shift = e.currentTarget.getAttribute("shift");
@@ -49,20 +48,6 @@ export default function Schedule({day, chosen, setChosen}) {
         
         shiftHeader.classList.add("helperLines");
         hourHeader.classList.add("helperLines");
-
-        // for(let elem of tableParent.querySelectorAll(`[hour="${hour}"]`)) {
-        //     const elemsShift = parseInt(elem.getAttribute("shift"));
-        //     if(elemsShift <= shift) elems.push(elem);
-        // }
-
-        // for(let elem of tableParent.querySelectorAll(`[shift="${shift}"]`)) {
-        //     const elemsHour = parseInt(elem.getAttribute("hour"));
-        //     if(elemsHour <= hour) elems.push(elem);
-        // }
-
-        // for(let elem of elems) {
-        //     elem.classList.add("helperLines");
-        // }
     }
 
     const onMouseLeave = () => {
@@ -72,13 +57,13 @@ export default function Schedule({day, chosen, setChosen}) {
     }
     
     if(vuorotyypit.length === 0) return;
-    return <table className="schedule" id="schedule1">
+    return <table className="schedule">
         <thead>
-            <tr>
+            {/* <tr>
                 <th colSpan={vuorotyypit.length + 1} className="scheduleTopPart">{day}</th>
-            </tr>
+            </tr> */}
             <tr>
-                <th className="scheduleDate"></th>
+                <th className="sideHeader">{day}</th>
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}
@@ -87,7 +72,7 @@ export default function Schedule({day, chosen, setChosen}) {
         <tbody>
             {range(timeRange.start, timeRange.end).map(h => {
                 return <tr>
-                    <th className="scheduleHeader" hourheader={h}>{h}-{h+1}</th>
+                    <th className="scheduleHeader sideHeader" hourheader={h}>{h}-{h+1}</th>
                     {vuorotyypit.map(v => {
                         return <td
                             hour={h}

@@ -9,15 +9,15 @@ import Menu from "../../components/Menu/Menu";
 
 export default function Day() {
     const {day} = useParams();
-    const [chosen, _setChosen] = useState({henkilo: null, nimi: null, lyhenne: null});
+    const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
 
     const setChosen = (p) => {
-        if(p.henkilo === chosen.henkilo) _setChosen({henkilo: null, nimi: null, lyhenne: null});
-        else _setChosen({henkilo: p.henkilo, nimi: p.nimi, lyhenne: p.lyhenne});
+        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+        else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
-        if(p.pv && (p.henkilo !== chosen.henkilo)) {
-            const sidebarSelectionElem = document.querySelector(`[person='${p.henkilo}']`);
-            sidebarSelectionElem.scrollIntoView();
+        if(p.pv && (p.id !== chosen.id)) {
+            const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
+            sidebarSelectionElem.scrollIntoView({container: "nearest"});
         }
     }
 
@@ -33,7 +33,7 @@ export default function Day() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
-            <Menu />
+            <Menu chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_scheduleWrapper">
             <Schedule day={day} chosen={chosen} setChosen={setChosen}/>

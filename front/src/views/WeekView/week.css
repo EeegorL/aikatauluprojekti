@@ -26,3 +26,10 @@
     position: fixed;
     margin-top: 50px;
 }
+
+.week_menuWrapper {
+    width: 88vw;
+    position: fixed;
+    margin-top: 50px;
+    margin-left: 21vh;
+}

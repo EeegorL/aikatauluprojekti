@@ -20,11 +20,11 @@ export default function Week() {
 
 
     const setChosen = (p) => {
-        if(p.henkilo === chosen.henkilo) _setChosen({henkilo: null, nimi: null, lyhenne: null});
-        else _setChosen({henkilo: p.henkilo, nimi: p.nimi, lyhenne: p.lyhenne});
+        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null});
+        else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne});
 
-        if(p.pv && (p.henkilo !== chosen.henkilo)) {
-            const sidebarSelectionElem = document.querySelector(`[person='${p.henkilo}']`);
+        if(p.pv && (p.id !== chosen.id)) {
+            const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
             sidebarSelectionElem.scrollIntoView();
         }
     }
@@ -38,6 +38,9 @@ export default function Week() {
     return <>
         <div className="week_sidebarWrapper">
             <Sidebar chosen={chosen} setChosen={setChosen}/>
+        </div>
+        <div className="week_menuWrapper">
+            <Menu chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="weekView">
             <div className="week_sidebarPlaceholder"/>
@@ -53,26 +56,3 @@ export default function Week() {
             </div>
         </>
 }
-
-    // return <>
-    //     <div className="week_sidebarWrapper">
-    //         <Sidebar chosen={chosen} setChosen={setChosen}/>
-    //     </div>
-    //     <div>
-
-    //     </div>
-    //     <div className="weekView">
-    //         <div className="week_sidebarPlaceholder"/>
-    //         <div className="week_menuPlaceholder"/>
-    //         <div>
-    //         {days.map(day => {
-    //             const dayStr = dateToStr(day);
-    //             return <div>
-    //                 <div className="week_scheduleWrapper">
-    //                     <Schedule day={dayStr} chosen={chosen} setChosen={setChosen}/>
-    //                 </div>
-    //             </div>
-    //         })}
-    //         </div>
-    //         </div>
-    //     </>

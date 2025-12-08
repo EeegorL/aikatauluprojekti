@@ -1,6 +1,7 @@
 .schedule {
     margin: 10px;
     width: 99%;
+    margin-bottom: 100px;
     table-layout: fixed;
     overflow-wrap: break-word;
     text-align: center;
@@ -17,6 +18,10 @@ tr, td {
 .scheduleHeader {
     background-color: aliceblue;
     outline: .01vw solid black;
+}
+
+.sideHeader {
+    width: 100px;
 }
 
 .scheduleTopPart {

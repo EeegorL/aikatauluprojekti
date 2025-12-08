@@ -1,5 +1,7 @@
 import "./menu.css";
 
-export default function Menu() {
-    return <div className="menu">Skibi</div>
+export default function Menu({chosen, setChosen}) {
+    if(!chosen.id) return;
+
+    return <div className="menu">{chosen.nimi} | {chosen.vuoro}</div>
 }

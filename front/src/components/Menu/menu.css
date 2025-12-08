@@ -1,4 +1,4 @@
 .menu {
     border: 1px solid black;
-    height: 100%;
+    min-height: 80px;
 }
