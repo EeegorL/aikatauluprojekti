@@ -10,6 +10,8 @@ import Menu from "../../components/Menu/Menu";
 export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
+    const [menuTarget, setMenuTarget] = useState(null);
+
 
     const setChosen = (p) => {
         if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
@@ -33,10 +35,10 @@ export default function Day() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
-            <Menu chosen={chosen} setChosen={setChosen}/>
+            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
-            <Schedule day={day} chosen={chosen} setChosen={setChosen}/>
+            <Schedule day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
     </div>
 }

@@ -4,7 +4,7 @@ import { getVuorotyypit, getVuorot, addVuoro } from "../../dbHandler/dbHandler";
 import { range } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
-export default function Schedule({day, chosen, setChosen}) {
+export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTarget}) {
     const [vuorot, setVuorot] = useState([]);
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [timeRange, setTimeRange] = useState({start: 8, end: 22});
@@ -55,6 +55,8 @@ export default function Schedule({day, chosen, setChosen}) {
             elem.classList.remove("helperLines");
         }
     }
+
+    
     
     if(vuorotyypit.length === 0) return;
     return <table className="schedule">
@@ -84,7 +86,13 @@ export default function Schedule({day, chosen, setChosen}) {
                         >
                             <div className="shiftContainer">
                             {correctVuorot(v.id, h).map(v => {
-                                return <Vuoro data={v} chosen={chosen} setChosen={setChosen}/>
+                                return <Vuoro 
+                                            data={v} 
+                                            chosen={chosen} 
+                                            setChosen={setChosen}
+                                            menuTarget={menuTarget}
+                                            setMenuTarget={setMenuTarget}
+                                        />
                             })}
                             </div>
 

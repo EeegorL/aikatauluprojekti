@@ -10,7 +10,8 @@ import "./week.css";
 
 export default function Week() {
     const {day} = useParams();
-    const [chosen, _setChosen] = useState({henkilo: null, nimi: null, lyhenne: null});
+    const [chosen, _setChosen] = useState({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+    const [menuTarget, setMenuTarget] = useState(null);
 
     const dayDate = new Date(Date.parse(day));
     const weekStart = new Date(dayDate.getTime() - ((dayDate.getDay() - 1) * 24 * 60 * 60 * 1000));
@@ -20,8 +21,8 @@ export default function Week() {
 
 
     const setChosen = (p) => {
-        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null});
-        else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne});
+        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+        else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
         if(p.pv && (p.id !== chosen.id)) {
             const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
@@ -40,7 +41,7 @@ export default function Week() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="week_menuWrapper">
-            <Menu chosen={chosen} setChosen={setChosen}/>
+            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="weekView">
             <div className="week_sidebarPlaceholder"/>
@@ -49,7 +50,7 @@ export default function Week() {
             {days.map(day => {
                 const dayStr = dateToStr(day);
                 return <div>
-                        <Schedule day={dayStr} chosen={chosen} setChosen={setChosen}/>
+                        <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
                     </div>
             })}
             </div>

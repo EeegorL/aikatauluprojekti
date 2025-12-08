@@ -1,6 +1,6 @@
 import "./vuoro.css";
 
-export default function Vuoro({data, chosen, setChosen}) {
+export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarget}) {
     const fData = {
         id: data.henkilo,
         nimi: data.nimi,
@@ -9,7 +9,7 @@ export default function Vuoro({data, chosen, setChosen}) {
             id: data.id,
             pv: data.pv,
             aika: data.aika,
-            tyyppi: data.tyyppi,
+            tyyppi: data.vuoro,
             note: data.note
         }
     }
@@ -18,10 +18,27 @@ export default function Vuoro({data, chosen, setChosen}) {
         e.stopPropagation();
     }
 
+    const onRightClick = (e) => {
+        e.preventDefault();
+
+        if(menuTarget !== null) {
+            if(menuTarget.vuoro.id !== fData.vuoro.id) {
+                setMenuTarget(data);
+            }
+            else {
+                setMenuTarget(null);
+            }
+        }
+        else {
+            setMenuTarget(fData);
+        }
+    }
+
     return <span 
         className={`vuoro ${chosen.id === fData.id ? "chosen_vuoro" : ""}`}
         onClick={() => setChosen(fData)}
         onDoubleClick={onDoubleClick}
+        onContextMenu={onRightClick}
         draggable
     >
         {data.lyhenne}
