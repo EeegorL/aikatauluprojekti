@@ -10,8 +10,15 @@ import Menu from "../../components/Menu/Menu";
 export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
-    const [menuTarget, setMenuTarget] = useState(null);
+    const [menuTarget, _setMenuTarget] = useState(null);
 
+    const setMenuTarget = (p) => {
+        if(!menuTarget) _setMenuTarget(p);
+        else {
+            if(menuTarget.id !== p.id) _setMenuTarget(p);
+            else _setMenuTarget(null);
+        }
+    }
 
     const setChosen = (p) => {
         if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});

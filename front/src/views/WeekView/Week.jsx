@@ -11,7 +11,7 @@ import "./week.css";
 export default function Week() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
-    const [menuTarget, setMenuTarget] = useState(null);
+    const [menuTarget, _setMenuTarget] = useState(null);
 
     const dayDate = new Date(Date.parse(day));
     const weekStart = new Date(dayDate.getTime() - ((dayDate.getDay() - 1) * 24 * 60 * 60 * 1000));
@@ -19,6 +19,14 @@ export default function Week() {
     const days = [];
     for(let i = 0; i < 7; i++) days.push(new Date(weekStart.getTime() + (i * 24 * 60 * 60* 1000)));
 
+    const setMenuTarget = (p) => {
+        if(!menuTarget) _setMenuTarget(p);
+        else {
+            if(menuTarget.id !== p.id) _setMenuTarget(p);
+            else _setMenuTarget(null);
+        }
+
+    }
 
     const setChosen = (p) => {
         if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});

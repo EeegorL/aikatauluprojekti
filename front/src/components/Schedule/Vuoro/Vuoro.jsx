@@ -21,17 +21,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
     const onRightClick = (e) => {
         e.preventDefault();
 
-        if(menuTarget !== null) {
-            if(menuTarget.vuoro.id !== fData.vuoro.id) {
-                setMenuTarget(data);
-            }
-            else {
-                setMenuTarget(null);
-            }
-        }
-        else {
-            setMenuTarget(fData);
-        }
+        setMenuTarget(fData);
     }
 
     return <span 
