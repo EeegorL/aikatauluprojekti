@@ -67,7 +67,12 @@ app.get("/api/vuorotyypit", async (req, res) => {
 
 app.get("/api/vuorot/:pv", async (req, res) => {
     try {
-        const queryStr = "SELECT V.id AS id, V.pv, V.vuoro, V.note AS note, aika, V.henkilo as henkilo, H.nimi, H.lyhenne FROM vuoro V INNER JOIN henkilo H ON V.henkilo = H.id WHERE pv = ?";
+        const queryStr = `SELECT V.id AS id, V.pv, V.vuoro, VT.nimi AS vuoronimi, V.note AS note, aika, V.henkilo as henkilo, H.nimi, H.lyhenne 
+                        FROM vuoro V 
+                        INNER JOIN henkilo H ON V.henkilo = H.id 
+                        INNER JOIN vuorotyyppi VT ON V.vuoro = VT.id
+                        WHERE pv = ?
+                        ;`;
         const query = await pool.query(queryStr, [req.params.pv]);
 
         res.status(200).json(query);

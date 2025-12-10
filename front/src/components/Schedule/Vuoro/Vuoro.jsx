@@ -10,6 +10,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
             pv: data.pv,
             aika: data.aika,
             tyyppi: data.vuoro,
+            nimi: data.vuoronimi,
             note: data.note
         }
     }

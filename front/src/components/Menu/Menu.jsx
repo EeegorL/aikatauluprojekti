@@ -1,10 +1,13 @@
 import "./menu.css";
 
 export default function Menu({menuTarget, setMenuTarget}) {
-    if(!menuTarget) return;
+    if(!menuTarget) {
+        return <div className="menu">...</div>
+    }
     console.log(menuTarget)
     return <div className="menu">
-        <p>{menuTarget.nimi}</p>
-        <p>{menuTarget.vuoro.tyyppi}</p>
+        <div>
+            <span>{menuTarget.nimi}, {menuTarget.vuoro.nimi}</span>
+        </div>
     </div>
 }

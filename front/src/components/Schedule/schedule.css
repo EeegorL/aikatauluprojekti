@@ -35,6 +35,10 @@ tr, td {
     border: 1px solid black;
 }
 
+.scheduleCell:hover {
+    background-color: #ddcab1;
+}
+
 .shiftContainer {
     min-height: 15px;
     padding: 10px;

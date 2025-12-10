@@ -21,10 +21,10 @@ export default function Day() {
     }
 
     const setChosen = (p) => {
-        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+        if(p.id === chosen.id) _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
         else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
-        if(p.pv && (p.id !== chosen.id)) {
+        if(p.vuoro && (p.id !== chosen.id)) {
             const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
             sidebarSelectionElem.scrollIntoView({container: "nearest"});
         }

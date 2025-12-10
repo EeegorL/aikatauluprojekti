@@ -6,6 +6,10 @@
     white-space: nowrap;
 }
 
+.vuoro:hover {
+    cursor: pointer;
+}
+
 .chosen_vuoro {
     background-color: green;
     color: white;

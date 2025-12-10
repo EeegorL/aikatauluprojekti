@@ -10,11 +10,6 @@
 
 .day_scheduleWrapper {
     grid-column: 2;
-    grid-row: 1;
-    margin: 10px;
-}
-
-.day_scheduleWrapper {
-    grid-column: 2;
     grid-row: 2;
+    margin: 10px;
 }
