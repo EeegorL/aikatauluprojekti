@@ -10,8 +10,26 @@ export const isValidDate = (date) => {
     return true;
 }
 
-export const dateToStr = (date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+export const dateToStr = (date, normaali=false) => {
+    if(!normaali) {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    }
+    else {
+        return `${dayName(date.getDay())} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    }
+}
+
+export const dayName = (day) => {
+    switch(day) {
+        case 1: return "ma";
+        case 2: return "ti";
+        case 3: return "ke";
+        case 4: return "to";
+        case 5: return "pe";
+        case 6: return "la";
+        case 7: return "su";
+        default: return null;
+    }
 }
 
 export const range = (start, end) => {

@@ -15,7 +15,7 @@ export default function Day() {
     const setMenuTarget = (p) => {
         if(!menuTarget) _setMenuTarget(p);
         else {
-            if(menuTarget.id !== p.id) _setMenuTarget(p);
+            if(menuTarget.vuoro.id !== p.vuoro.id) _setMenuTarget(p);
             else _setMenuTarget(null);
         }
     }

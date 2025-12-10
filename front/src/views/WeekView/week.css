@@ -11,14 +11,17 @@
 .week_menuPlaceholder {
     grid-column: 2;
     grid-row: 1;
-    margin: 50px;
+    margin-bottom: 100px;
+    margin-top: 10px;
 }
 
 .week_scheduleWrapper {
     grid-column: 2;
     grid-row: 2;
+    width: 100%;
     height: 88vh;
     overflow-y: scroll;
+    border: 1px solid black;
 }
 
 .week_sidebarWrapper {
@@ -28,8 +31,8 @@
 }
 
 .week_menuWrapper {
-    width: 88vw;
+    width: 90%;
     position: fixed;
-    margin-top: 50px;
-    margin-left: 21vh;
+    margin-top: 60px;
+    margin-left: 20vh;
 }

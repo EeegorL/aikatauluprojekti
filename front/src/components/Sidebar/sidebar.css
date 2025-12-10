@@ -1,22 +1,15 @@
 .sidebar {
-    background-color: aliceblue;
-    color: black;
+    background-color: var(--lightest);
+    color: var(--blackish);
     padding: .5vw;
     margin: 10px;
-}
-
-.sidebarFilter {
-}
-
-.sidebarFilter > label {
-
 }
 
 .sidebarFilter > input {
     width: 4vw;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--blackish);
 }
 
 .sidebarFilter > input:focus {
@@ -27,16 +20,17 @@
     padding: 0;
     height: 60vh;
     overflow-y: scroll;
+    scrollbar-color: var(--light) var(--lightest);
 }
 
 .peopleListItem {
     list-style: none;
-    border: .01vh dashed black;
+    border: .01vh dashed var(--blackish);
     font-size: smaller;
     margin-top: .5vh;
 }
 
 .chosen_sidebar {
-    background-color: green;
-    color: white;
+    background-color: var(--chosenShiftBg);
+    color: var(--chosenShiftCol);
 }

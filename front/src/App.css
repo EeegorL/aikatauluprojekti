@@ -1,10 +1,19 @@
 :root {
-    --col1: #e8e8e8;
-    --col2: #cecece;
-    --col3: #adadad;
+    --blackish: #00222e;
+    --dark: #044370;
+    --light: #1096c3;
+    --lightest: #caf2ff;
+    --whiteish: #F0EFF4;
+
+    --highlight: #9ccddc;
+
+    --chosenShiftCol: #ffe1c1;
+    --chosenShiftBg: #c96800;
+
+    color: var(--blackish);
 
     user-select: none;
-    overflow: hidden;
+    overflow-x: hidden;
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 

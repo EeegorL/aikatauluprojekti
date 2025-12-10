@@ -5,7 +5,7 @@
     table-layout: fixed;
     overflow-wrap: break-word;
     text-align: center;
-    background-color: #faebd7;
+    background-color: var(--lightest);
 
     user-select: none;
     border-collapse: collapse;
@@ -16,8 +16,9 @@ tr, td {
 }
 
 .scheduleHeader {
-    background-color: aliceblue;
-    outline: .01vw solid black;
+    color: var(--whiteish);
+    background-color: var(--light);
+    outline: .01vw solid var(--blackish);
 }
 
 .sideHeader {
@@ -25,18 +26,18 @@ tr, td {
 }
 
 .scheduleTopPart {
-    outline: 1px solid black;
+    outline: 1px solid var(--blackish);
     border-radius: 10px 10px 0px 0px;
 
     text-align: left;
 }
 
 .scheduleCell {
-    border: 1px solid black;
+    border: 1px solid var(--blackish);
 }
 
 .scheduleCell:hover {
-    background-color: #ddcab1;
+    background-color: var(--highlight);
 }
 
 .shiftContainer {
@@ -45,6 +46,6 @@ tr, td {
 }
 
 .helperLines {
-    background-color: black;
+    background-color: var(--dark);
     color: white;
 }
