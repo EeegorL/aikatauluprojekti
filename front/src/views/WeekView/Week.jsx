@@ -10,7 +10,7 @@ import "./week.css";
 
 export default function Week() {
     const {day} = useParams();
-    const [chosen, _setChosen] = useState({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+    const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [menuTarget, _setMenuTarget] = useState(null);
 
     const dayDate = new Date(Date.parse(day));
@@ -29,7 +29,7 @@ export default function Week() {
     }
 
     const setChosen = (p) => {
-        if(p.id === chosen.id) _setChosen({henkilo: null, nimi: null, lyhenne: null, vuoro: null});
+        if(p.id === chosen.id) _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
         else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
         if(p.vuoro && (p.id !== chosen.id)) {
