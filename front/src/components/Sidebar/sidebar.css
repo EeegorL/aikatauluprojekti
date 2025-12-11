@@ -2,7 +2,6 @@
     background-color: var(--lightest);
     color: var(--blackish);
     padding: .5vw;
-    margin: 10px;
 }
 
 .sidebarFilter > input {

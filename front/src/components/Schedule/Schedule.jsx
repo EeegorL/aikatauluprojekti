@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./schedule.css";
 import { getVuorotyypit, getVuorot, addVuoro } from "../../dbHandler/dbHandler";
-import { range } from "../../utils";
+import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
 export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTarget}) {
@@ -56,16 +56,16 @@ export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTar
         }
     }
 
-    
-    
     if(vuorotyypit.length === 0) return;
     return <table className="schedule">
         <thead>
-            {/* <tr>
-                <th colSpan={vuorotyypit.length + 1} className="scheduleTopPart">{day}</th>
-            </tr> */}
             <tr>
-                <th className="sideHeader">{day}</th>
+                <th colSpan={vuorotyypit.length + 1} className="scheduleTopPart">
+                    Viikko {weekNum(day)}, {dateToStr(day, true)}
+                </th>
+            </tr>
+            <tr>
+                <th className="scheduleHeader emptyCell"></th>
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}

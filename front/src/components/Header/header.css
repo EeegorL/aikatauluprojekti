@@ -1,5 +1,5 @@
 header {
-    background-color: var(--col2);
+    background-color: var(--dark);
     display: flex;
 }
 
@@ -7,6 +7,10 @@ header > h1 {
     width: fit-content;
     display: inline;
     margin: 0;
+}
+
+header > h1 > * { /* <Link/> */
+    color: var(--whiteish);
 }
 
 header > nav {

@@ -21,8 +21,9 @@ tr, td {
     outline: .01vw solid var(--blackish);
 }
 
-.sideHeader {
+.emptyCell {
     width: 100px;
+    background-color: var(--light);
 }
 
 .scheduleTopPart {

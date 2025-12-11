@@ -11,12 +11,24 @@ export const isValidDate = (date) => {
 }
 
 export const dateToStr = (date, normaali=false) => {
+    date = typeof date === Date ? date : new Date(Date.parse(date));
+
     if(!normaali) {
         return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     }
     else {
         return `${dayName(date.getDay())} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
     }
+}
+
+export const weekNum = (_date) => {
+    const date = typeof _date === Date ? _date : new Date(Date.parse(_date));
+    
+    // https://weeknumber.com/how-to/javascript
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 
 export const dayName = (day) => {

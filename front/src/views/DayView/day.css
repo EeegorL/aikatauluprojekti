@@ -1,6 +1,7 @@
 .dayView {
     display: grid;
     grid-template-columns: 10vw 90vw;
+    gap: 10px;
 }
 
 .day_sidebarWrapper {

@@ -44,24 +44,21 @@ export default function Week() {
 
         return <Navigate to={`/day/${todayStr}`} replace/>
     }
-    return <>
-        <div className="week_sidebarWrapper">
-            <Sidebar chosen={chosen} setChosen={setChosen}/>
-        </div>
-        <div className="week_menuWrapper">
-            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
-        </div>
-        <div className="weekView">
-            <div className="week_sidebarPlaceholder"/>
-            <div className="week_menuPlaceholder"/>
+    return<div className="weekView">
+            <div className="week_sidebarWrapper">
+                <Sidebar chosen={chosen} setChosen={setChosen}/>
+            </div>
+            <div className="week_menuWrapper">
+                <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+            </div>
             <div className="week_scheduleWrapper">
-            {days.map(day => {
-                const dayStr = dateToStr(day);
-                return <div>
-                        <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
-                    </div>
-            })}
+                {days.map(day => {
+                    const dayStr = dateToStr(day);
+                    return <div>
+                            <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+                        </div>
+                })}
             </div>
-            </div>
-        </>
+
+        </div>
 }
