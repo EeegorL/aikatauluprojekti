@@ -31,10 +31,10 @@ function App() {
       <div className="main">
         <Header/>
         <Routes>
-          <Route path="/" element={<Navigate to={`/day/${today}`} replace/>}/>
-          <Route path="/day/:day" element={<Day/>}/>
-          <Route path="/week/:day" element={<Week/>}/>
-          <Route path="*" element={<Navigate to={`/day/${today}`} replace/>}/>
+          <Route path="/" element={<Navigate to={`/pv/${today}`} replace/>}/>
+          <Route path="/pv/:day" element={<Day/>}/>
+          <Route path="/vk/:day" element={<Week/>}/>
+          <Route path="*" element={<Navigate to={`/pv/${today}`} replace/>}/>
         </Routes>
       </div>
       </BrowserRouter>

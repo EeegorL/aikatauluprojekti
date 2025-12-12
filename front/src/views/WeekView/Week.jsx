@@ -14,15 +14,15 @@ export default function Week() {
     const [menuTarget, _setMenuTarget] = useState(null);
 
     const dayDate = new Date(Date.parse(day));
-    const weekStart = new Date(dayDate.getTime() - ((dayDate.getDay() - 1) * 24 * 60 * 60 * 1000));
+    const weekStart = new Date(dayDate.getTime() - (((dayDate.getDay() === 0 ? 7 : dayDate.getDay()) - 1) * 24 * 60 * 60 * 1000));
 
     const days = [];
     for(let i = 0; i < 7; i++) days.push(new Date(weekStart.getTime() + (i * 24 * 60 * 60* 1000)));
 
     const setMenuTarget = (p) => {
-        if(!menuTarget) _setMenuTarget(p);
+        if(!menuTarget || !menuTarget.vuoro) _setMenuTarget(p);
         else {
-            if(menuTarget.id !== p.id) _setMenuTarget(p);
+            if(menuTarget.vuoro.id !== p.vuoro.id) _setMenuTarget(p);
             else _setMenuTarget(null);
         }
 
@@ -42,7 +42,7 @@ export default function Week() {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
 
-        return <Navigate to={`/day/${todayStr}`} replace/>
+        return <Navigate to={`/pv/${todayStr}`} replace/>
     }
     return<div className="weekView">
             <div className="week_sidebarWrapper">
@@ -55,7 +55,7 @@ export default function Week() {
                 {days.map(day => {
                     const dayStr = dateToStr(day);
                     return <div>
-                            <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+                            <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>
                         </div>
                 })}
             </div>

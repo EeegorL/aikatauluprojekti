@@ -68,3 +68,20 @@ export const addVuoro = async (day, hour, shift, henkilo, note=null) => {
         })
     });
 }
+
+export const canAddVuoro = async (newVuoro, pv, h, v) => {
+    const f = await fetch(url+"/canAdd", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            movedData: newVuoro,
+            day: pv,
+            hour: parseInt(h),
+            vuoro: parseInt(v)
+        })
+    });
+
+    return f.status === 200;
+}

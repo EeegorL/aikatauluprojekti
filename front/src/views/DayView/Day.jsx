@@ -34,7 +34,7 @@ export default function Day() {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
 
-        return <Navigate to={`/day/${todayStr}`} replace/>
+        return <Navigate to={`/pv/${todayStr}`} replace/>
     }
     
     return <div className="dayView">
@@ -45,7 +45,7 @@ export default function Day() {
             <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
-            <Schedule day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+            <Schedule day={day} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>
         </div>
     </div>
 }

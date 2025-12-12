@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./schedule.css";
-import { getVuorotyypit, getVuorot, addVuoro } from "../../dbHandler/dbHandler";
+import { getVuorotyypit, getVuorot, addVuoro, canAddVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
-export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTarget}) {
+export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
     const [vuorot, setVuorot] = useState([]);
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [timeRange, setTimeRange] = useState({start: 8, end: 22});
@@ -51,9 +51,39 @@ export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTar
     }
 
     const onMouseLeave = () => {
-        for(let elem of document.querySelectorAll(".helperLines")) {
+        for(let elem of document.querySelectorAll(".helperLines, .focusHighlight")) {
             elem.classList.remove("helperLines");
+            elem.classList.remove("focusHighlight");
         }
+    }
+
+    const onDragOver = (e) => {
+        e.preventDefault();
+        e.currentTarget.classList.add("focusHighlight");
+        onMouseOver(e);
+    }
+
+    const onDragLeave = (e) => {
+        e.currentTarget.classList.remove("focusHighlight");
+        onMouseLeave(e);
+    }
+
+    const onDrop = async (e) => {
+        const shift = e.currentTarget.getAttribute("shift");
+        const hour = e.currentTarget.getAttribute("hour");
+        let data = null;
+
+        try {
+            data = JSON.parse(e.dataTransfer.getData("application/json"));
+        }
+        catch(err) { // if the data comes from somewhere else than table cell, and thus does not contain suitable data. Could also add the login token to the body as verification... TODO?
+            return;
+        }
+
+        if(await canAddVuoro(data, day, hour, shift)) {
+            await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
+        }
+        setVuorot(await getVuorot(day));
     }
 
     if(vuorotyypit.length === 0) return;
@@ -83,6 +113,9 @@ export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTar
                             onDoubleClick={onDoubleClick}
                             onMouseOver={onMouseOver}
                             onMouseLeave={onMouseLeave}
+                            onDragOver={onDragOver}
+                            onDragLeave={onDragLeave}
+                            onDrop={onDrop}
                         >
                             <div className="shiftContainer">
                             {correctVuorot(v.id, h).map(v => {
@@ -90,7 +123,6 @@ export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTar
                                             data={v} 
                                             chosen={chosen} 
                                             setChosen={setChosen}
-                                            menuTarget={menuTarget}
                                             setMenuTarget={setMenuTarget}
                                         />
                             })}

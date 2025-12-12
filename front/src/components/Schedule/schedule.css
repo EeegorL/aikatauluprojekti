@@ -33,12 +33,16 @@ tr, td {
     text-align: left;
 }
 
+.focusHighlight {
+    background-color: var(--highlight); 
+}
+
 .scheduleCell {
     border: 1px solid var(--blackish);
 }
 
 .scheduleCell:hover {
-    background-color: var(--highlight);
+    background-color: var(--highlight); 
 }
 
 .shiftContainer {

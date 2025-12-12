@@ -1,7 +1,7 @@
 .weekView {
     display: grid;
-    grid-template-columns: 10vw 90vw;
-    grid-template-rows: 10vh 90vh;
+    grid-template-columns: 10vw 80vw;
+    grid-template-rows: 10vh 80vh;
     gap: 10px;
 }
 
@@ -19,7 +19,6 @@
 .week_scheduleWrapper {
     grid-column: 2;
     grid-row: 2;
-
 
     overflow-y: scroll;
 }

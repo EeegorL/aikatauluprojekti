@@ -96,6 +96,28 @@ app.post("/api/vuorot", async (req, res) => {
     }
 });
 
+app.post("/api/canAdd", async (req, res) => {
+    try {
+        const {movedData, day, hour, vuoro} = req.body;
+        const henkilo = movedData.id;
+
+        const shiftsAtSameTimeQueryStr = "SELECT (SELECT COUNT(*) FROM vuoro WHERE henkilo = ? AND pv = ? AND aika = ?) < 1 as res;";
+        const alreadyShiftOnHour = (await pool.query(shiftsAtSameTimeQueryStr, [henkilo, day, hour]))[0].res === 1;
+        
+        if(movedData.vuoro) { // if the data has shift data, i.e. not being dragged from the sidebar selection
+            const v = movedData.vuoro;
+
+            if(v.pv === day && v.aika === hour) { // the shift moves on its own row, so there is naturally one "conflicting" shift
+                // TODO delete conflicting row and allow the new shift to be added (200 OK)
+            }
+        }
+    }
+    catch(err) {
+        console.log(err)
+        res.status(500).json({err: err});
+    }
+})
+
 app.listen(port, () => {
     console.log(`localhost:${port}`);
 });

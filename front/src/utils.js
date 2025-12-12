@@ -39,7 +39,7 @@ export const dayName = (day) => {
         case 4: return "to";
         case 5: return "pe";
         case 6: return "la";
-        case 7: return "su";
+        case 0: return "su";
         default: return null;
     }
 }
