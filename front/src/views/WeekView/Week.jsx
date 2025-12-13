@@ -49,12 +49,12 @@ export default function Week() {
                 <Sidebar chosen={chosen} setChosen={setChosen}/>
             </div>
             <div className="week_menuWrapper">
-                <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+                <Menu menuTarget={menuTarget}/>
             </div>
             <div className="week_scheduleWrapper">
                 {days.map(day => {
                     const dayStr = dateToStr(day);
-                    return <div>
+                    return <div key={`scheduleContainer_${day.getDay()}`}>
                             <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>
                         </div>
                 })}

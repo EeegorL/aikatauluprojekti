@@ -5,7 +5,7 @@ import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
 export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
-    const [vuorot, setVuorot] = useState([]);
+    const [vuorot, setVuorot] = useState(null);
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [timeRange, setTimeRange] = useState({start: 8, end: 22});
 
@@ -21,9 +21,28 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
         })();
     }, []);
 
+    setInterval(async () => {
+        setVuorot(await getVuorot(day));
+    }, 1000 * 60 * 5);
 
     const correctVuorot = (vuoro, aika) => {
         return vuorot.filter(x => x.vuoro === vuoro && x.aika === aika);
+    }
+
+    const tryAdd = async (data, day, hour, shift) => {
+        try {
+            if(await canAddVuoro(data, day, hour, shift)) {
+                await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
+                return true;
+            }
+            else {
+                alert("Hell naw bro");
+                return false;
+            }
+        }
+        finally {
+            setVuorot(await getVuorot(day));
+        }
     }
 
     const onDoubleClick = async (e) => {  
@@ -33,8 +52,8 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
         const hour = targ.getAttribute("hour");
         const shift = targ.getAttribute("shift");
 
-        await addVuoro(day, hour, shift, chosen.id);
-        setVuorot(await getVuorot(day));
+        let noShift = {id: chosen.id};
+        await tryAdd(noShift, day, hour, shift);
     }
 
     const onMouseOver = (e) => {
@@ -79,15 +98,12 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
         catch(err) { // if the data comes from somewhere else than table cell, and thus does not contain suitable data. Could also add the login token to the body as verification... TODO?
             return;
         }
-
-        if(await canAddVuoro(data, day, hour, shift)) {
-            await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
-        }
-        setVuorot(await getVuorot(day));
+        await tryAdd(data, day, hour, shift);
     }
 
     if(vuorotyypit.length === 0) return;
-    return <table className="schedule">
+    if(!vuorot) return <div>Odota...</div>
+    else return <table className="schedule">
         <thead>
             <tr>
                 <th colSpan={vuorotyypit.length + 1} className="scheduleTopPart">
@@ -97,13 +113,13 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
             <tr>
                 <th className="scheduleHeader emptyCell"></th>
                 {vuorotyypit.filter(x => x.shown).map(v => {
-                    return <th className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
+                    return <th key={`shiftHeader_${v.id}`} className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}
             </tr>
         </thead>
         <tbody>
             {range(timeRange.start, timeRange.end).map(h => {
-                return <tr>
+                return <tr key={`scheduleRow_${day}_${h}`}>
                     <th className="scheduleHeader sideHeader" hourheader={h}>{h}-{h+1}</th>
                     {vuorotyypit.map(v => {
                         return <td
@@ -116,11 +132,13 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
                             onDragOver={onDragOver}
                             onDragLeave={onDragLeave}
                             onDrop={onDrop}
+                            key={`shiftCell_${day}-${h}_${v.id}`}
                         >
                             <div className="shiftContainer">
-                            {correctVuorot(v.id, h).map(v => {
+                            {correctVuorot(v.id, h).map(p => {
                                 return <Vuoro 
-                                            data={v} 
+                                            key={`shift_${p.id}_${day}_${h}_${v.id}`}
+                                            data={p} 
                                             chosen={chosen} 
                                             setChosen={setChosen}
                                             setMenuTarget={setMenuTarget}

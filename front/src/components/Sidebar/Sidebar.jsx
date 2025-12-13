@@ -22,7 +22,7 @@ export default function Sidebar({chosen, setChosen}) {
         </div>  
         <ul className="peopleList">
             {filteredPeople.map(p => {
-                return <PersonPick henkilo={p} chosen={chosen} setChosen={setChosen}/>
+                return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen}/>
             })}
         </ul>
     </div>;

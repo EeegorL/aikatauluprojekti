@@ -42,7 +42,7 @@ export default function Day() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
-            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+            <Menu menuTarget={menuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
             <Schedule day={day} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>

@@ -87,7 +87,7 @@ app.post("/api/vuorot", async (req, res) => {
         const {day, hour, shift, henkilo, note} = req.body;
 
         const queryStr = "INSERT INTO vuoro(pv, vuoro, aika, henkilo, note) VALUES(?, ?, ?, ?, ?);";
-        const query = await pool.query(queryStr, [day, shift, hour, henkilo, note]);
+        await pool.query(queryStr, [day, shift, hour, henkilo, note]);
 
         res.status(200).end();
     }
@@ -101,22 +101,46 @@ app.post("/api/canAdd", async (req, res) => {
         const {movedData, day, hour, vuoro} = req.body;
         const henkilo = movedData.id;
 
-        const shiftsAtSameTimeQueryStr = "SELECT (SELECT COUNT(*) FROM vuoro WHERE henkilo = ? AND pv = ? AND aika = ?) < 1 as res;";
+        const shiftsAtSameTimeQueryStr = "SELECT (SELECT COUNT(*) FROM vuoro WHERE henkilo = ? AND pv = ? AND aika = ?) > 0 as res;";
         const alreadyShiftOnHour = (await pool.query(shiftsAtSameTimeQueryStr, [henkilo, day, hour]))[0].res === 1;
-        
-        if(movedData.vuoro) { // if the data has shift data, i.e. not being dragged from the sidebar selection
-            const v = movedData.vuoro;
 
-            if(v.pv === day && v.aika === hour) { // the shift moves on its own row, so there is naturally one "conflicting" shift
-                // TODO delete conflicting row and allow the new shift to be added (200 OK)
+        if(alreadyShiftOnHour) {
+            if(movedData.vuoro) { // if shift has data, i.e. is being dragged from the schedule, not from the sidebar
+                const v = movedData.vuoro;
+                if(v.pv === day && v.aika === hour) {
+                    res.status(409).json({canBeResolvedByDeletingOrigin: true});
+                    return;
+                }
+                res.status(409).json({canBeResolvedByDeletingOrigin: false});
+                return;
             }
+            else {
+                res.status(409).json({canBeResolvedByDeletingOrigin: false}).end();
+                return;
+            }
+        }
+        else { // no conflicts
+            res.status(200).end();
+            return;
         }
     }
     catch(err) {
-        console.log(err)
-        res.status(500).json({err: err});
+        res.status(500).end();
     }
-})
+});
+
+app.delete("/api/vuorot", async (req, res) => {
+    try {
+        const {id} = req.body;
+        const queryStr = "DELETE FROM vuoro WHERE id = ?;";
+        const query = await pool.query(queryStr, [id]);
+
+        res.status(204).end();
+    }
+    catch(err) {
+        
+    }
+});
 
 app.listen(port, () => {
     console.log(`localhost:${port}`);

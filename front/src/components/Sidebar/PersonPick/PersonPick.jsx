@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export default function PersonPick({henkilo, chosen, setChosen}) {
     const fData = {
         id: henkilo.henkilo,
@@ -6,8 +8,31 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         vuoro: null
     }
 
+    const [clone, setClone] = useState(null);
+
     const onDragStart = (e) => {
         e.dataTransfer.setData("application/json", JSON.stringify(fData));
+        e.dataTransfer.setDragImage(new Image(0, 0), 0, 0);
+
+        const _clone = document.createElement("span");
+        _clone.innerHTML = fData.lyhenne;
+
+        _clone.classList.add("vuoro");
+        if(chosen.id === fData.id) _clone.classList.add("chosen_vuoro");
+        _clone.style.position = "absolute";
+        document.body.appendChild(_clone);
+
+        setClone(_clone);
+    }
+
+    const onDrag = (e) => {
+        clone.style.top = `${e.pageY - 30}px`;
+        clone.style.left = `${e.pageX - 10}px`;
+    } 
+
+    const onDragEnd = (e) => {
+        clone.remove();
+        setClone(null);
     }
 
     return <li 
@@ -15,6 +40,8 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         person={fData.id}
         onClick={() => setChosen(fData)}
         onDragStart={onDragStart}
+        onDrag={onDrag}
+        onDragEnd={onDragEnd}
         draggable>
             <b>{fData.lyhenne}</b> {fData.nimi}
         </li>

@@ -1,11 +1,11 @@
 import "./menu.css";
 import {dateToStr} from "../../utils";
 
-export default function Menu({menuTarget, setMenuTarget}) {
+export default function Menu({menuTarget}) {
     if(!menuTarget) {
         return <div className="menu">...</div>
     }
-    console.log(menuTarget)
+
     return <div className="menu">
         <div>
             <div>{menuTarget.nimi}, {menuTarget.vuoro.nimi}</div>

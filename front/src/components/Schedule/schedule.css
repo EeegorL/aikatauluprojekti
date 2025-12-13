@@ -15,6 +15,11 @@ tr, td {
     min-height: 100px;
 }
 
+thead {
+    position: sticky;
+    top: 0px;
+}
+
 .scheduleHeader {
     color: var(--whiteish);
     background-color: var(--light);
@@ -28,7 +33,8 @@ tr, td {
 
 .scheduleTopPart {
     outline: 1px solid var(--blackish);
-    border-radius: 10px 10px 0px 0px;
+    /* border-radius: 10px 10px 0px 0px; */
+    background-color: var(--lightest);
 
     text-align: left;
 }

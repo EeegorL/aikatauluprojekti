@@ -29,6 +29,11 @@
     margin-top: .5vh;
 }
 
+.peopleListItem:hover:not(.chosen_sidebar) {
+    background-color: var(--dark);
+    color: var(--whiteish);
+}
+
 .chosen_sidebar {
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);

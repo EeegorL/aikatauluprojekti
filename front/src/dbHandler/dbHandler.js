@@ -69,19 +69,44 @@ export const addVuoro = async (day, hour, shift, henkilo, note=null) => {
     });
 }
 
-export const canAddVuoro = async (newVuoro, pv, h, v) => {
+export const deleteVuoro = async (id) => {
+    const f = await fetch(url+"/vuorot", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+}
+
+export const canAddVuoro = async (movedData, pv, h, v) => {
     const f = await fetch(url+"/canAdd", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            movedData: newVuoro,
+            movedData: movedData,
             day: pv,
             hour: parseInt(h),
             vuoro: parseInt(v)
         })
     });
-
-    return f.status === 200;
+    
+    if(f.status === 200) {
+        if(movedData.vuoro) await deleteVuoro(movedData.vuoro.id);
+        return true;
+    }
+    if(f.status === 409) {
+        const canBeResolved = (await f.json()).canBeResolvedByDeletingOrigin;
+        if(canBeResolved) {
+            await deleteVuoro(movedData.vuoro.id); // poistaa vuoron, sallien "siirtämisen"
+            return true;
+        }
+        return false;
+        
+    }
+    return false;
 }
