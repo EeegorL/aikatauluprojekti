@@ -3,11 +3,13 @@
     height: 80px;
     display: grid;
 
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 25% 25% 50%;
     grid-template-rows: 10% 90%;
+    gap: 50px;
 }
 
 .menuNoteArea {
     height: 70px;
+    width: 100%;
     resize: none;
 }

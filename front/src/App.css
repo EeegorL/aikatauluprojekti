@@ -7,8 +7,13 @@
 
     --highlight: #9ccddc;
 
-    --chosenShiftCol: #ffe1c1;
+    --chosenShiftCol: #ffebd5;
     --chosenShiftBg: #c96800;
+    --chosenShiftBg_hover: #954d00;
+
+    --menuShiftCol: #ddffdc;
+    --menuShiftBg: #078c00;
+    --menuShiftBg_hover: #056800;
 
     color: var(--blackish);
 

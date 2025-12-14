@@ -9,11 +9,26 @@
 
 .vuoro:hover {
     cursor: pointer;
+    background-color: var(--dark);
+    color: var(--whiteish);
 }
 
 .chosen_vuoro {
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
     border: 1px solid black;
-    box-shadow: 1px 1px 3px var(--blackish);
+}
+
+.chosen_vuoro:hover {
+    background-color: var(--chosenShiftBg_hover);
+}
+
+.menu_vuoro {
+    background-color: var(--menuShiftBg);
+    color: var(--menuShiftCol);
+}
+
+.menu_vuoro:hover {
+    cursor: pointer;
+    background-color: var(--menuShiftBg_hover);
 }

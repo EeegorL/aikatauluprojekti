@@ -14,9 +14,14 @@ export default function Day() {
 
     const setMenuTarget = (p) => {
         if(!menuTarget) _setMenuTarget(p);
+        else if(!p) _setMenuTarget(null);
         else {
-            if(menuTarget.vuoro.id !== p.vuoro.id) _setMenuTarget(p);
-            else _setMenuTarget(null);
+            if(menuTarget.vuoro.id !== p.vuoro.id){
+                _setMenuTarget(p);
+            }
+            else {
+                _setMenuTarget(null);
+            }
         }
     }
 
@@ -42,10 +47,10 @@ export default function Day() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
-            <Menu menuTarget={menuTarget}/>
+            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
-            <Schedule day={day} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>
+            <Schedule day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
     </div>
 }

@@ -4,7 +4,7 @@ import { getVuorotyypit, getVuorot, addVuoro, canAddVuoro } from "../../dbHandle
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
-export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
+export default function Schedule({day, chosen, setChosen, menuTarget, setMenuTarget}) {
     const [vuorot, setVuorot] = useState(null);
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [timeRange, setTimeRange] = useState({start: 8, end: 22});
@@ -141,6 +141,7 @@ export default function Schedule({day, chosen, setChosen, setMenuTarget}) {
                                             data={p} 
                                             chosen={chosen} 
                                             setChosen={setChosen}
+                                            menuTarget={menuTarget}
                                             setMenuTarget={setMenuTarget}
                                         />
                             })}

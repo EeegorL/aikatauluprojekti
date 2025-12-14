@@ -94,7 +94,6 @@ export const canAddVuoro = async (movedData, pv, h, v) => {
             vuoro: parseInt(v)
         })
     });
-    
     if(f.status === 200) {
         if(movedData.vuoro) await deleteVuoro(movedData.vuoro.id);
         return true;

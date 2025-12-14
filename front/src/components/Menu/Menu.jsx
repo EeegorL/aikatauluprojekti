@@ -1,9 +1,23 @@
 import "./menu.css";
 import {dateToStr} from "../../utils";
+import {deleteVuoro} from "../../dbHandler/dbHandler";
+import { useState } from "react";
 
-export default function Menu({menuTarget}) {
+export default function Menu({menuTarget, setMenuTarget}) {
     if(!menuTarget) {
         return <div className="menu">...</div>
+    }
+
+    const [note, setNote] = useState(menuTarget.vuoro.note ?? "");
+
+    const onClickDelete = async() => {
+        await deleteVuoro(menuTarget.vuoro.id);
+        // TODO UI:sta elementin poisto
+        setMenuTarget(null);
+    }
+
+    const onChange = (e) => {
+        setNote(e.target.value);
     }
 
     return <div className="menu">
@@ -17,7 +31,11 @@ export default function Menu({menuTarget}) {
                 contentEditable
                 className="menuNoteArea"
                 placeholder="voit kirjoittaa tähän lisätietoa vuorosta"
-                value={menuTarget.vuoro.note}/>
+                onChange={onChange}
+                value={note}/>
+        </div>
+        <div>
+            <button onClick={onClickDelete}>Poista vuoro</button>
         </div>
     </div>
 }

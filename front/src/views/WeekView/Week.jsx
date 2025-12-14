@@ -55,7 +55,7 @@ export default function Week() {
                 {days.map(day => {
                     const dayStr = dateToStr(day);
                     return <div key={`scheduleContainer_${day.getDay()}`}>
-                            <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} setMenuTarget={setMenuTarget}/>
+                            <Schedule day={dayStr} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
                         </div>
                 })}
             </div>
