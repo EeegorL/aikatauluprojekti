@@ -19,6 +19,10 @@ export default function Week() {
     const days = [];
     for(let i = 0; i < 7; i++) days.push(new Date(weekStart.getTime() + (i * 24 * 60 * 60* 1000)));
 
+    const updateVuorot = async () => {
+        // TODO updateVuorot kuten Day-näkymässä
+    }
+
     const setMenuTarget = (p) => {
         if(!menuTarget || !menuTarget.vuoro) _setMenuTarget(p);
         else {

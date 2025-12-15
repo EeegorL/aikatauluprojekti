@@ -4,13 +4,25 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import Schedule from "../../components/Schedule/Schedule";
 
 import "./day.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Menu from "../../components/Menu/Menu";
+import { getVuorot } from "../../dbHandler/dbHandler";
 
 export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
+    const [vuorot, setVuorot] = useState(null);
     const [menuTarget, _setMenuTarget] = useState(null);
+
+    const updateVuorot = async () => {
+        setVuorot(await getVuorot(day));
+    } 
+
+    useEffect(() => {
+        (async () => {
+            updateVuorot();
+        })();
+    }, []);
 
     const setMenuTarget = (p) => {
         if(!menuTarget) _setMenuTarget(p);
@@ -47,10 +59,14 @@ export default function Day() {
             <Sidebar chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
-            <Menu menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+            <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
-            <Schedule day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+            {
+                vuorot 
+                ? <Schedule vuorot={vuorot} updateVuorot={updateVuorot} day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+                : "Odotapas..."
+            }
         </div>
     </div>
 }

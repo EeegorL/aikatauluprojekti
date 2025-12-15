@@ -3,7 +3,7 @@ import {dateToStr} from "../../utils";
 import {deleteVuoro} from "../../dbHandler/dbHandler";
 import { useState } from "react";
 
-export default function Menu({menuTarget, setMenuTarget}) {
+export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
     if(!menuTarget) {
         return <div className="menu">...</div>
     }
@@ -12,7 +12,7 @@ export default function Menu({menuTarget, setMenuTarget}) {
 
     const onClickDelete = async() => {
         await deleteVuoro(menuTarget.vuoro.id);
-        // TODO UI:sta elementin poisto
+        await updateVuorot();
         setMenuTarget(null);
     }
 
