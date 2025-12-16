@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { getIhmiset } from "../../dbHandler/dbHandler";
+import { deleteVuoro, getIhmiset } from "../../dbHandler/dbHandler";
 import "./sidebar.css";
 import PersonPick from "./PersonPick/PersonPick";
 
-export default function Sidebar({chosen, setChosen}) {
+export default function Sidebar({updateVuorot, chosen, setChosen}) {
     const [people, setPeople] = useState([]);
     const [filter, setFilter] = useState("");
 
@@ -15,7 +15,29 @@ export default function Sidebar({chosen, setChosen}) {
         })();
     }, []);
 
-    return <div className="sidebar">
+    const onDragOver = (e) => {
+        e.preventDefault();
+    }
+
+    const onDrop = async (e) => {
+        const data = e.dataTransfer.getData("application/json");
+        if(data === "") return;
+
+        let jsonData;
+        try {
+            jsonData = JSON.parse(data);
+        }
+        catch(e) { // Invalid JSON, skip
+            return;
+        }
+
+        if(jsonData.vuoro) {
+            await deleteVuoro(jsonData.vuoro.id);
+            await updateVuorot(jsonData.vuoro.pv);
+        }
+    }
+
+    return <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
         <div className="sidebarFilter">
             <label htmlFor="filter">Suodata:</label>
             <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>

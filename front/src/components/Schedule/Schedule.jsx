@@ -16,12 +16,12 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
             }
             setVuorotyypit(tyypit);
             
-            await updateVuorot();
+            await updateVuorot(day);
         })();
     }, []);
 
     setInterval(async () => {
-        await updateVuorot();
+        await updateVuorot(day);
     }, 1000 * 60 * 5);
 
     const correctVuorot = (vuoro, aika) => {
@@ -40,7 +40,7 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
             }
         }
         finally {
-            await updateVuorot();
+            await updateVuorot(day);
         }
     }
 

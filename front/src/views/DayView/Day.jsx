@@ -14,13 +14,13 @@ export default function Day() {
     const [vuorot, setVuorot] = useState(null);
     const [menuTarget, _setMenuTarget] = useState(null);
 
-    const updateVuorot = async () => {
+    const updateVuorot = async (day) => {
         setVuorot(await getVuorot(day));
     } 
 
     useEffect(() => {
         (async () => {
-            updateVuorot();
+            updateVuorot(day);
         })();
     }, []);
 
@@ -56,7 +56,7 @@ export default function Day() {
     
     return <div className="dayView">
         <div className="day_sidebarWrapper">
-            <Sidebar chosen={chosen} setChosen={setChosen}/>
+            <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen}/>
         </div>
         <div className="day_menuWrapper">
             <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
