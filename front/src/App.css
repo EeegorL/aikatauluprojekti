@@ -15,6 +15,14 @@
     --menuShiftBg: #078c00;
     --menuShiftBg_hover: #056800;
 
+    --goodButtonCol: var(--whiteish);
+    --goodButtonBg: var(--menuShiftBg);
+    --goodButtonBg_hover: var(--menuShiftBg_hover);
+
+    --badButtonCol: var(--whiteish);
+    --badButtonBg: #c32929;    
+    --badButtonBg_hover: #8b3434;
+
     color: var(--blackish);
 
     user-select: none;
@@ -25,7 +33,12 @@
 body {
     margin: 0;
     padding: 0;
+
     background-color: var(--col1);
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .main {

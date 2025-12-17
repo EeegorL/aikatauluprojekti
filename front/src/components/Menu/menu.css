@@ -1,15 +1,55 @@
 .menu {
     outline: 1px solid black;
+    background-color: aliceblue;
     height: 80px;
     display: grid;
 
-    grid-template-columns: 25% 25% 50%;
+    grid-template-columns: 40% 25% 15%;
     grid-template-rows: 10% 90%;
     gap: 50px;
+
+    position: sticky;
+    top: 0px;
+    left: 10vw;
+    margin-left: 10px;
+    z-index: 1;
+
+    grid-row: 1 / span 2;
+    grid-column: 2;
+}
+
+.hidden {
+    display: none;
 }
 
 .menuNoteArea {
     height: 70px;
     width: 100%;
     resize: none;
+}
+
+.menu_deleteVuoro {
+    background-color: var(--badButtonBg);
+    color: var(--badButtonCol);
+    border: none;
+}
+
+.menu_deleteVuoro:hover {
+    background-color: var(--badButtonBg_hover);
+}
+
+.menu_saveNote {
+    background-color: var(--goodButtonBg);
+    color: var(--goodButtonCol);
+}
+
+.menu_saveNote:hover {
+    background-color: var(--goodButtonBg_hover);
+}
+
+.menu_buttonGrid {
+    display: grid;
+    grid-column: 50% 50%;
+    grid-row: 50% 50%;  
+    gap: 10px;
 }

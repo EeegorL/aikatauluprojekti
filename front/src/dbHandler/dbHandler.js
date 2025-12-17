@@ -109,3 +109,19 @@ export const canAddVuoro = async (movedData, pv, h, v) => {
     }
     return false;
 }
+
+export const updateNote = async (id, note) => {
+    const f = await fetch(url+"/note", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: id,
+            note: note
+        })
+    });
+
+    if(f.status === 200) return true;
+    else return false;    
+}

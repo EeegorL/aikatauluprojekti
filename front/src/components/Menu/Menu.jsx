@@ -1,26 +1,32 @@
 import "./menu.css";
 import {dateToStr} from "../../utils";
-import {deleteVuoro} from "../../dbHandler/dbHandler";
+import {deleteVuoro, updateNote} from "../../dbHandler/dbHandler";
 import { useState } from "react";
 
 export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
     if(!menuTarget) {
-        return <div className="menu">...</div>
+        return <div className="menu hidden">...</div>
     }
 
     const [note, setNote] = useState(menuTarget.vuoro.note ?? "");
 
-    const onClickDelete = async() => {
+    const onClickDelete = async () => {
         await deleteVuoro(menuTarget.vuoro.id);
-        await updateVuorot();
+        await updateVuorot(menuTarget.vuoro.pv);
         setMenuTarget(null);
+    }
+
+    const onClickSave = async () => {
+        const id = menuTarget.vuoro.id;
+        await updateNote(id, note);
+        await updateVuorot(menuTarget.vuoro.pv);
     }
 
     const onChange = (e) => {
         setNote(e.target.value);
     }
 
-    return <div className="menu">
+    return <div className={`menu`}>
         <div>
             <div>{menuTarget.nimi}, {menuTarget.vuoro.nimi}</div>
             <div>{menuTarget.vuoro.aika}:00 - {menuTarget.vuoro.aika + 1}:00</div>
@@ -34,8 +40,10 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
                 onChange={onChange}
                 value={note}/>
         </div>
-        <div>
-            <button onClick={onClickDelete}>Poista vuoro</button>
+        <div className="menu_buttonGrid">
+            <button onClick={onClickSave} className="menu_saveNote">Tallenna</button>
+            <button onClick={onClickDelete} className="menu_deleteVuoro">Poista vuoro</button>
+            <button onClick={()=>setMenuTarget(null)}>Sulje</button>
         </div>
     </div>
 }

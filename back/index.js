@@ -133,12 +133,29 @@ app.delete("/api/vuorot", async (req, res) => {
     try {
         const {id} = req.body;
         const queryStr = "DELETE FROM vuoro WHERE id = ?;";
-        const query = await pool.query(queryStr, [id]);
+        await pool.query(queryStr, [id]);
 
         res.status(204).end();
     }
     catch(err) {
         
+    }
+});
+
+app.put("/api/note", async (req, res) => {
+    try {
+        const {id, note} = req.body;
+        if(!id) { 
+            res.status(400).end();
+        }
+
+        const queryStr = "UPDATE vuoro SET note = ? WHERE id = ?;";
+        await pool.query(queryStr, [note, id]);
+
+        res.status(200).end();
+    }
+    catch(err) {
+        res.status(500).end();
     }
 });
 

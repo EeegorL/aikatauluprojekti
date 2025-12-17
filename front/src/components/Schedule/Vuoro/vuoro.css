@@ -17,15 +17,21 @@
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
     border: 1px solid black;
+    padding: 5px;
 }
 
 .chosen_vuoro:hover {
     background-color: var(--chosenShiftBg_hover);
 }
 
+.bold {
+    font-weight: bold;
+}
+
 .menu_vuoro {
     background-color: var(--menuShiftBg);
     color: var(--menuShiftCol);
+    padding: 5px;
 }
 
 .menu_vuoro:hover {

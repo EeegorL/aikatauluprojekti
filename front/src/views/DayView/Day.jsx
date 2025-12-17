@@ -25,7 +25,9 @@ export default function Day() {
     }, []);
 
     const setMenuTarget = (p) => {
-        if(!menuTarget) _setMenuTarget(p);
+        if(!menuTarget) {
+            _setMenuTarget(p);
+        }
         else if(!p) _setMenuTarget(null);
         else {
             if(menuTarget.vuoro.id !== p.vuoro.id){
@@ -55,11 +57,9 @@ export default function Day() {
     }
     
     return <div className="dayView">
+        <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         <div className="day_sidebarWrapper">
             <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen}/>
-        </div>
-        <div className="day_menuWrapper">
-            <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         </div>
         <div className="day_scheduleWrapper">
             {

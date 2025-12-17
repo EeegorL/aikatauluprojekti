@@ -31,7 +31,13 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
     const tryAdd = async (data, day, hour, shift) => {
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
-                await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
+                if(data.vuoro) {
+                    await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id), data.vuoro.note);
+                }
+                else {
+                    await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
+                }
+                
                 return true;
             }
             else {
