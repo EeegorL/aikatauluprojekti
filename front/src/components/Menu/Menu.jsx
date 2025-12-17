@@ -1,14 +1,19 @@
 import "./menu.css";
 import {dateToStr} from "../../utils";
 import {deleteVuoro, updateNote} from "../../dbHandler/dbHandler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
+    const [note, setNote] = useState(menuTarget ? menuTarget.vuoro.note : "");
+
+    useEffect(() => {
+        setNote(menuTarget?.vuoro?.note ? menuTarget.vuoro.note : "");
+    }, [menuTarget]);
+
+
     if(!menuTarget) {
         return <div className="menu hidden">...</div>
     }
-
-    const [note, setNote] = useState(menuTarget.vuoro.note ?? "");
 
     const onClickDelete = async () => {
         await deleteVuoro(menuTarget.vuoro.id);
@@ -21,11 +26,7 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
         await updateNote(id, note);
         await updateVuorot(menuTarget.vuoro.pv);
     }
-
-    const onChange = (e) => {
-        setNote(e.target.value);
-    }
-
+    
     return <div className={`menu`}>
         <div>
             <div>{menuTarget.nimi}, {menuTarget.vuoro.nimi}</div>
@@ -34,11 +35,11 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
         </div>
         <div>
             <textarea
-                contentEditable
                 className="menuNoteArea"
                 placeholder="voit kirjoittaa tähän lisätietoa vuorosta"
-                onChange={onChange}
-                value={note}/>
+                onChange={(e) => setNote(e.target.value)}
+                value={note}
+                ></textarea>
         </div>
         <div className="menu_buttonGrid">
             <button onClick={onClickSave} className="menu_saveNote">Tallenna</button>

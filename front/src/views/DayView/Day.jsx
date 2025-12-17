@@ -28,15 +28,29 @@ export default function Day() {
         if(!menuTarget) {
             _setMenuTarget(p);
         }
-        else if(!p) _setMenuTarget(null);
         else {
-            if(menuTarget.vuoro.id !== p.vuoro.id){
-                _setMenuTarget(p);
-            }
-            else {
+            if(!p) {
                 _setMenuTarget(null);
             }
+            else {
+                if(menuTarget.vuoro.id === p.vuoro.id) _setMenuTarget(null);
+                else _setMenuTarget(p);
+            }
         }
+        // if(!menuTarget) {
+        //     _setMenuTarget(p);
+        // }
+        // else if(!p) {
+        //     _setMenuTarget(null);
+        // }
+        // else {
+        //     if(menuTarget.vuoro.id !== p.vuoro.id){
+        //         _setMenuTarget(p);
+        //     }
+        //     else {
+        //         _setMenuTarget(null);
+        //     }
+        // }
     }
 
     const setChosen = (p) => {
@@ -64,7 +78,15 @@ export default function Day() {
         <div className="day_scheduleWrapper">
             {
                 vuorot 
-                ? <Schedule vuorot={vuorot} updateVuorot={updateVuorot} day={day} chosen={chosen} setChosen={setChosen} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+                ? <Schedule 
+                    vuorot={vuorot} 
+                    updateVuorot={updateVuorot} 
+                    day={day} 
+                    chosen={chosen} 
+                    setChosen={setChosen} 
+                    menuTarget={menuTarget} 
+                    setMenuTarget={setMenuTarget}
+                    />
                 : "Odotapas..."
             }
         </div>

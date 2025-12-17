@@ -105,7 +105,7 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
         }
         await tryAdd(data, day, hour, shift);
     }
-
+    
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
     else return <table className="schedule">

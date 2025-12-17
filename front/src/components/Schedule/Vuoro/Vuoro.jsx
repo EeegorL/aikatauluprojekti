@@ -23,7 +23,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
 
     const onRightClick = (e) => {
         e.preventDefault();
-
+        
         setMenuTarget(fData);
     }
 
@@ -38,7 +38,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
             vuoro
             ${chosen.id === fData.id ? " chosen_vuoro" : ""}
             ${fData.vuoro.id === (menuTarget ? menuTarget.vuoro.id : null) ? " menu_vuoro" : ""}
-            ${fData.vuoro.note ? "bold" : ""}
+            ${fData.vuoro.note ? "hasNote" : ""}
             `}
         onClick={() => setChosen(fData)}
         onDoubleClick={onDoubleClick}

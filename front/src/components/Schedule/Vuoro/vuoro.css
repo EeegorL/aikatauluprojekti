@@ -24,8 +24,9 @@
     background-color: var(--chosenShiftBg_hover);
 }
 
-.bold {
-    font-weight: bold;
+.hasNote {
+     font-weight: bold;
+     outline: 1px solid var(--dark);
 }
 
 .menu_vuoro {
