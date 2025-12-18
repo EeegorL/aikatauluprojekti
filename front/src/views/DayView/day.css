@@ -1,6 +1,6 @@
 .dayView {
     display: grid;
-    grid-template-columns: 10vw 80vw;
+    grid-template-columns: 10vw 88vw;
     grid-template-rows: 10vh 80vh;
     gap: 10px;
 }

@@ -95,17 +95,11 @@ export const canAddVuoro = async (movedData, pv, h, v) => {
         })
     });
     if(f.status === 200) {
-        if(movedData.vuoro) await deleteVuoro(movedData.vuoro.id);
         return true;
     }
     if(f.status === 409) {
         const canBeResolved = (await f.json()).canBeResolvedByDeletingOrigin;
-        if(canBeResolved) {
-            await deleteVuoro(movedData.vuoro.id); // poistaa vuoron, sallien "siirtämisen"
-            return true;
-        }
-        return false;
-        
+        return canBeResolved;    
     }
     return false;
 }

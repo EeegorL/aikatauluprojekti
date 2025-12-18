@@ -12,24 +12,23 @@ export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [vuorot, setVuorot] = useState([]);
+    const [vuorotyypit, setVuorotyypit] = useState([]);
     const [menuTarget, _setMenuTarget] = useState(null);
-    let vuorotyypit;
 
-    const updateVuorot = async (day) => {
+    const updateVuorot = async () => {
         setVuorot(await getVuorot(day));
     } 
 
     useEffect(() => {
         (async () => {
             updateVuorot(day);
+            const tyypit = [];
+            for(let x of await getVuorotyypit()) {
+                tyypit.push({id: x.id, nimi: x.nimi, shown: true});
+            }
+            setVuorotyypit(tyypit);
         })();
     }, [day]);
-
-    useEffect(() => {
-        (async () => {
-            vuorotyypit = await getVuorotyypit();
-        })();
-    }, []);
 
     const setMenuTarget = (p) => {
         if(!menuTarget) {
@@ -73,7 +72,8 @@ export default function Day() {
                 vuorot 
                 ? <Schedule 
                     vuorot={vuorot} 
-                    updateVuorot={updateVuorot} 
+                    updateVuorot={updateVuorot}
+                    vuorotyypit={vuorotyypit} 
                     day={day} 
                     chosen={chosen} 
                     setChosen={setChosen} 

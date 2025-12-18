@@ -23,7 +23,6 @@ thead {
 .scheduleHeader {
     color: var(--whiteish);
     background-color: var(--light);
-    outline: .01vw solid var(--blackish);
 }
 
 .emptyCell {
@@ -32,8 +31,6 @@ thead {
 }
 
 .scheduleTopPart {
-    outline: 1px solid var(--blackish);
-    /* border-radius: 10px 10px 0px 0px; */
     background-color: var(--lightest);
 
     text-align: left;

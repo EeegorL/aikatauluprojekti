@@ -1,24 +1,10 @@
-import { useEffect, useState } from "react";
 import "./schedule.css";
-import { getVuorotyypit, getVuorot, addVuoro, canAddVuoro } from "../../dbHandler/dbHandler";
+import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 
-export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget}) {
-    const [vuorotyypit, setVuorotyypit] = useState([]);
-    const [timeRange, setTimeRange] = useState({start: 8, end: 22});
-
-    useEffect(() => {
-        (async () => {
-            let tyypit = [];
-            for(let x of await getVuorotyypit()) {
-                tyypit.push({id: x.id, nimi: x.nimi, shown: true});
-            }
-            setVuorotyypit(tyypit);
-            
-            await updateVuorot(day);
-        })();
-    }, []);
+export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget}) {
+    const timeRange = {start: 8, end: 22};
 
     setInterval(async () => {
         await updateVuorot(day);
@@ -31,6 +17,7 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
     const tryAdd = async (data, day, hour, shift) => {
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
+                if(data.vuoro) await deleteVuoro(data.vuoro.id);
                 if(data.vuoro) {
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id), data.vuoro.note);
                 }
@@ -41,12 +28,12 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
                 return true;
             }
             else {
-                alert("Hell naw bro");
+                alert("Lisäys ei onnistu, jokin konflikti!\n(joku parempi ilmotustapa pitäs keksii...)");
                 return false;
             }
         }
         finally {
-            await updateVuorot(day);
+            await updateVuorot();
         }
     }
 

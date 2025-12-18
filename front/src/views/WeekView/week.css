@@ -1,6 +1,6 @@
 .weekView {
     display: grid;
-    grid-template-columns: 10vw 80vw;
+    grid-template-columns: 10vw 88vw;
     grid-template-rows: 10vh 80vh;
     gap: 10px;
 }
@@ -10,15 +10,9 @@
     grid-column: 1;
 }
 
-.week_menuWrapper {
-    grid-row: 1;
-    grid-column: 2;
-
-}
-
 .week_scheduleWrapper {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 1 / span 2;
 
     overflow-y: scroll;
 }
