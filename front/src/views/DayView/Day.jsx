@@ -6,13 +6,14 @@ import Schedule from "../../components/Schedule/Schedule";
 import "./day.css";
 import { useEffect, useState } from "react";
 import Menu from "../../components/Menu/Menu";
-import { getVuorot } from "../../dbHandler/dbHandler";
+import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
 
 export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
-    const [vuorot, setVuorot] = useState(null);
+    const [vuorot, setVuorot] = useState([]);
     const [menuTarget, _setMenuTarget] = useState(null);
+    let vuorotyypit;
 
     const updateVuorot = async (day) => {
         setVuorot(await getVuorot(day));
@@ -21,6 +22,12 @@ export default function Day() {
     useEffect(() => {
         (async () => {
             updateVuorot(day);
+        })();
+    }, [day]);
+
+    useEffect(() => {
+        (async () => {
+            vuorotyypit = await getVuorotyypit();
         })();
     }, []);
 
@@ -37,20 +44,6 @@ export default function Day() {
                 else _setMenuTarget(p);
             }
         }
-        // if(!menuTarget) {
-        //     _setMenuTarget(p);
-        // }
-        // else if(!p) {
-        //     _setMenuTarget(null);
-        // }
-        // else {
-        //     if(menuTarget.vuoro.id !== p.vuoro.id){
-        //         _setMenuTarget(p);
-        //     }
-        //     else {
-        //         _setMenuTarget(null);
-        //     }
-        // }
     }
 
     const setChosen = (p) => {

@@ -25,7 +25,7 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
     }, 1000 * 60 * 5);
 
     const correctVuorot = (vuoro, aika) => {
-        return vuorot.filter(x => x.vuoro === vuoro && x.aika === aika);
+        return vuorot.length > 0 ? vuorot.filter(x => x.vuoro === vuoro && x.aika === aika) : [];
     }
 
     const tryAdd = async (data, day, hour, shift) => {

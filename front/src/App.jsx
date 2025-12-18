@@ -33,8 +33,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to={`/pv/${today}`} replace/>}/>
           <Route path="/pv/:day" element={<Day/>}/>
-          <Route path="/vk/:day" element={<Navigate to={`/pv/:day}`} replace/>}/> {/* pitää tehä uus viikkologiikka kuten päiväs */}
-          {/* <Route path="/vk/:day" element={<Week/>}/> */}
+          {/* <Route path="/vk/:day" element={<Navigate to={`/pv/:day}`} replace/>}/> */}
+          <Route path="/vk/:day" element={<Week/>}/>
           <Route path="*" element={<Navigate to={`/pv/${today}`} replace/>}/>
         </Routes>
       </div>
