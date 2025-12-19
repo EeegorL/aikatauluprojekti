@@ -1,0 +1,11 @@
+.frontPage {
+    margin: 5px;
+}
+
+.frontPage > h1 {
+
+}
+
+.frontPage > p {
+    margin-left: 10px;
+}

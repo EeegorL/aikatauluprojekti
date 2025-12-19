@@ -25,6 +25,7 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
         const id = menuTarget.vuoro.id;
         await updateNote(id, note);
         await updateVuorot(menuTarget.vuoro.pv);
+        setMenuTarget(null);
     }
     
     return <div className={`menu`}>

@@ -7,6 +7,8 @@ import Header from "./components/Header/Header";
 import { dateToStr } from "./utils";
 import { connTest } from "./dbHandler/dbHandler";
 import { useEffect, useState } from "react";
+import FrontPage from "./views/FrontPage/FrontPage";
+import Info from "./views/Info/Info";
 
 const isLoggedIn = true;
 const today = dateToStr(new Date(Date.now()));
@@ -31,11 +33,12 @@ function App() {
       <div className="main">
         <Header/>
         <Routes>
-          <Route path="/" element={<Navigate to={`/pv/${today}`} replace/>}/>
+          <Route path="/" element={<FrontPage/>}/>
+          <Route path="info" element={<Info/>}/>
           <Route path="/pv/:day" element={<Day/>}/>
-          {/* <Route path="/vk/:day" element={<Navigate to={`/pv/:day}`} replace/>}/> */}
           <Route path="/vk/:day" element={<Week/>}/>
-          <Route path="*" element={<Navigate to={`/pv/${today}`} replace/>}/>
+
+          <Route path="*" element={<Navigate to={`/`} replace/>}/>
         </Routes>
       </div>
       </BrowserRouter>

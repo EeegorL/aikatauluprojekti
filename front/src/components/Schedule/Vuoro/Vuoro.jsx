@@ -33,6 +33,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
         }
         e.dataTransfer.setData("application/json", JSON.stringify(fData));
     }
+
     return <span 
         className={`
             vuoro
@@ -44,7 +45,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
         onDoubleClick={onDoubleClick}
         onContextMenu={onRightClick}
         onDragStart={onDragStart}
-        title={`${fData.nimi}\nklo ${fData.vuoro.aika}-${fData.vuoro.aika + 1}, ${fData.vuoro.nimi}${fData.vuoro.note ? `\n${fData.vuoro.note}` : ""}`}
+        title={`${fData.nimi}\nklo ${fData.vuoro.aika}-${fData.vuoro.aika + 1}, ${fData.vuoro.nimi}${fData.vuoro.note ? `\n------------\n${fData.vuoro.note}` : ""}`}
         draggable
     >
         {data.lyhenne}

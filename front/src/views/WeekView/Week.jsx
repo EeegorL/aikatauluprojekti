@@ -104,8 +104,8 @@ export default function Week() {
     if(!isValidDate(day)) {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
-
-        return <Navigate to={`/vk/${todayStr}`} replace/>
+        
+        return <Navigate to={`/vk/${todayStr}`}/>
     }
 
     return <div className="weekView">
