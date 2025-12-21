@@ -26,15 +26,34 @@ thead {
 }
 
 .emptyCell {
-    width: 100px;
+    width: 10px;
     background-color: var(--light);
 }
 
-.scheduleTopPart {
-    background-color: var(--lightest);
-
-    text-align: left;
+.scheduleDatePart {
+    background-color: var(--light);
+    color: var(--whiteish);
+    border: 1px solid black;
+    
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
 }
+    .scheduleDatePart b:first-child {
+        text-align: left;
+    }
+
+    .scheduleDatePart span {
+        text-align: center;
+    }
+
+    .scheduleDatePart b:last-child {
+        text-align: right;
+    }
+
+    .scheduleDatePart > b > * {
+        text-decoration: none;
+        color: var(--blackish);
+    }
 
 .focusHighlight {
     background-color: var(--highlight); 
@@ -43,10 +62,9 @@ thead {
 .scheduleCell {
     border: 1px solid var(--blackish);
 }
-
-.scheduleCell:hover {
-    background-color: var(--highlight); 
-}
+    .scheduleCell:hover {
+        background-color: var(--highlight); 
+    }
 
 .shiftContainer {
     min-height: 15px;
@@ -57,3 +75,16 @@ thead {
     background-color: var(--dark);
     color: white;
 }
+
+.popup {
+    padding: 5px;
+}
+    .popup_info {
+        color: green;
+        background-color: #acffac;
+    }
+
+    .popup_error {
+        color: red;
+        background-color: rgb(255, 197, 197);
+    }

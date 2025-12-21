@@ -1,6 +1,7 @@
 header {
     background-color: var(--dark);
     display: flex;
+    padding: .5vw;
 }
 
 header > h1 {

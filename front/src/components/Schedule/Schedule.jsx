@@ -2,13 +2,36 @@ import "./schedule.css";
 import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
+import { useEffect, useRef, useState } from "react";
+import { Link, Navigate, redirect, replace } from "react-router-dom";
 
-export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget}) {
+export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, skipAmount}) {
     const timeRange = {start: 8, end: 22};
+    const [popup, setPopup] = useState();
+    let timeout = useRef(null);
+    const popupElem = useRef(0);
 
-    setInterval(async () => {
-        await updateVuorot(day);
-    }, 1000 * 60 * 5);
+    useEffect(() => {
+        let timeout;
+
+        const f = async () => {
+            await updateVuorot();
+            timeout = setTimeout(f, 1000 * 60 * 20);
+        }
+        
+        setTimeout(f, 1000 * 60 * 10); // the first periodic update launches after 10 minutes, starting the loop
+
+        return clearTimeout(timeout);
+    }, []);
+
+    const showPopup = (text, isError) => {
+        if(timeout.current) clearTimeout(timeout.current);
+
+        setPopup({text: text, isError: isError});
+        timeout.current = setTimeout(() => {
+            setPopup(null);
+        }, 2000);
+    }
 
     const correctVuorot = (vuoro, aika) => {
         return vuorot.length > 0 ? vuorot.filter(x => x.vuoro === vuoro && x.aika === aika) : [];
@@ -20,15 +43,16 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                 if(data.vuoro) await deleteVuoro(data.vuoro.id);
                 if(data.vuoro) {
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id), data.vuoro.note);
+                    showPopup("Vuoro siirretty", false);
                 }
                 else {
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
+                    showPopup("Vuoro lisätty", false);
                 }
-                
                 return true;
             }
             else {
-                alert("Lisäys ei onnistu, jokin konflikti!\n(joku parempi ilmotustapa pitäs keksii...)");
+                showPopup("Vuorot ovat ristiriidassa keskenään", true);
                 return false;
             }
         }
@@ -92,18 +116,33 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         }
         await tryAdd(data, day, hour, shift);
     }
+
+    const navToText = (dir) => {
+        const next = Date.parse(day) + dir * skipAmount * 1000*60*60*24;
+        const newDate = new Date(next);
+
+        return skipAmount === 1
+            ? `/pv/${dateToStr(newDate)}`
+            : `/vk/${dateToStr(newDate)}`;
+    }
     
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
-    else return <table className="schedule">
+    else return <div>
+        <div ref={popupElem} className={popup ? (popup.isError ? "popup_error" : "popup_info") : ""}>
+            {popup
+                ? <span>{popup.text}</span>
+                : <span>&nbsp;</span> // empty element that still takes up space
+            }
+        </div>
+        <table className="schedule">
         <thead>
             <tr>
-                <th colSpan={vuorotyypit.length + 1} className="scheduleTopPart">
-                    Viikko {weekNum(day)}, {dateToStr(day, true)}
+                <th className="scheduleDatePart">
+                    <b><Link to={navToText(-1)}>&#8666;</Link></b>
+                    <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                    <b><Link to={navToText(1)}>&#8667;</Link></b>
                 </th>
-            </tr>
-            <tr>
-                <th className="scheduleHeader emptyCell"></th>
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th key={`shiftHeader_${v.id}`} className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}
@@ -144,5 +183,6 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                 </tr>
             })}
         </tbody>
-    </table>;
+    </table>
+    </div>
 }

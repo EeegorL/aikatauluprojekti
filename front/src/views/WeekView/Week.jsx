@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { isValidDate, dateToStr } from "../../utils";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Schedule from "../../components/Schedule/Schedule";
@@ -104,8 +104,8 @@ export default function Week() {
     if(!isValidDate(day)) {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
-        
-        return <Navigate to={`/vk/${todayStr}`}/>
+
+        return <Navigate to={`/pv/${todayStr}`} replace/>
     }
 
     return <div className="weekView">
@@ -131,6 +131,7 @@ export default function Week() {
                             setChosen={setChosen} 
                             menuTarget={menuTarget} 
                             setMenuTarget={setMenuTarget}
+                            skipAmount={7}
                             />
                         : "Odotapas..."
                     }

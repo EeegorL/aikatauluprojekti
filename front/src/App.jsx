@@ -4,14 +4,12 @@ import "./App.css";
 import Day from "./views/DayView/Day";
 import Week from "./views/WeekView/Week";
 import Header from "./components/Header/Header";
-import { dateToStr } from "./utils";
 import { connTest } from "./dbHandler/dbHandler";
 import { useEffect, useState } from "react";
 import FrontPage from "./views/FrontPage/FrontPage";
 import Info from "./views/Info/Info";
 
 const isLoggedIn = true;
-const today = dateToStr(new Date(Date.now()));
 
 function App() {
   const [done, setDone] = useState(false);

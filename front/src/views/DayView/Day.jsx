@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
 import { isValidDate, dateToStr } from "../../utils";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Schedule from "../../components/Schedule/Schedule";
@@ -61,6 +61,8 @@ export default function Day() {
 
         return <Navigate to={`/pv/${todayStr}`} replace/>
     }
+
+    let skipAmount = 1;
     
     return <div className="dayView">
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
@@ -79,6 +81,7 @@ export default function Day() {
                     setChosen={setChosen} 
                     menuTarget={menuTarget} 
                     setMenuTarget={setMenuTarget}
+                    skipAmount={skipAmount}
                     />
                 : "Odotapas..."
             }
