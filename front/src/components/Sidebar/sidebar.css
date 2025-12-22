@@ -25,7 +25,6 @@
 .peopleListItem {
     list-style: none;
     border: .01vh dashed var(--blackish);
-    font-size: smaller;
     margin-top: .5vh;
 }
 

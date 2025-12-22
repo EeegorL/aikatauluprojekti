@@ -9,6 +9,7 @@
 
     user-select: none;
     border-collapse: collapse;
+
 }
 
 tr, td {
@@ -30,30 +31,47 @@ thead {
     background-color: var(--light);
 }
 
-.scheduleDatePart {
+.scheduleDateSwitcherRow {
     background-color: var(--light);
     color: var(--whiteish);
-    border: 1px solid black;
-    
-    display: grid;
-    grid-template-columns: 20% 60% 20%;
+    outline: 1px solid black;
+    display: table-cell;
+    grid-template-columns: 10% 80% 10%;
 }
-    .scheduleDatePart b:first-child {
-        text-align: left;
-    }
 
-    .scheduleDatePart span {
-        text-align: center;
+    .scheduleDateSwitcher {
+        background-color: var(--light);
+        width: 250px;
+        color: var(--whiteish);
+        border: 1px solid black;
+        display: grid;
+        grid-template-columns: 10% 80% 10%;
     }
+        .scheduleDateSwitcher > * {
+            align-self: center;
+            text-wrap: nowrap;
+        }
+        .scheduleDateSwitcher b:first-child {
+            text-align: left;
+        }
 
-    .scheduleDatePart b:last-child {
-        text-align: right;
-    }
+        .scheduleDateSwitcher span {
+            text-align: center;
+            overflow-wrap: nowrap;
+        }
 
-    .scheduleDatePart > b > * {
-        text-decoration: none;
-        color: var(--blackish);
-    }
+        .scheduleDateSwitcher b:last-child {
+            text-align: right;
+        }
+
+        .scheduleDateSwitcher > b > * {
+            text-decoration: none;
+            color: var(--blackish);
+        }
+            .scheduleDateSwitcher > b > *:hover {
+                text-decoration: none;
+                color: var(--whiteish);
+            }
 
 .focusHighlight {
     background-color: var(--highlight); 

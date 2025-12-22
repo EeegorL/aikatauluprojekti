@@ -138,11 +138,16 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         <table className="schedule">
         <thead>
             <tr>
-                <th className="scheduleDatePart">
-                    <b><Link to={navToText(-1)}>&#8666;</Link></b>
-                    <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
-                    <b><Link to={navToText(1)}>&#8667;</Link></b>
+                <th colSpan={vuorotyypit.length + 1} className="scheduleDateSwitcherRow">
+                    <nav className="scheduleDateSwitcher">
+                        <b><Link to={navToText(-1)}>&#8666;</Link></b>
+                        <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                        <b><Link to={navToText(1)}>&#8667;</Link></b>
+                    </nav>
                 </th>
+            </tr>
+            <tr>
+                <th className="emptyCell"/>
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th key={`shiftHeader_${v.id}`} className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}
