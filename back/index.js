@@ -3,6 +3,7 @@ const cors = require("cors");
 const mariadb = require("mariadb");
 require("dotenv").config();
 const port = process.env.PORT;
+const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
 
 const app = express();
 
@@ -12,9 +13,9 @@ app.use(express.json());
 
 const pool = mariadb.createPool({
     host: "localhost",
-    user: "root",
-    password: "root",
-    database: "aikataulu",
+    user: DB_USER,
+    password: DB_PASSWORD,
+    database: DB_NAME,
     connectionLimit: 100
 });
 

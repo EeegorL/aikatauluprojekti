@@ -1,5 +1,5 @@
 CREATE TABLE vuorotyyppi(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nimi VARCHAR(255) NOT NULL
+    nimi VARCHAR(255) NOT NULL,
     nro INT NOT NULL
 );
