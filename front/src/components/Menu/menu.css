@@ -50,6 +50,7 @@
 .menu_buttonGrid {
     display: grid;
     grid-column: 50% 50%;
-    grid-row: 50% 50%;  
-    gap: 10px;
+    grid-row: 50% 50%; 
+    height: 79px; 
+    gap: 2px;
 }

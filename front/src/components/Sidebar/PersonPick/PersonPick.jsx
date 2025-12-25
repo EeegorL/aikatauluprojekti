@@ -18,7 +18,7 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         _clone.innerHTML = fData.lyhenne;
 
         _clone.classList.add("vuoro");
-        if(chosen.id === fData.id) _clone.classList.add("chosen_vuoro");
+        if(chosen.id === fData.id) _clone.classList.add("chosen_drag", "ghost");
         _clone.style.position = "absolute";
         document.body.appendChild(_clone);
 
