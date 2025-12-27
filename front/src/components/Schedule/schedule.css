@@ -34,7 +34,6 @@ thead {
 .scheduleDateSwitcherRow {
     background-color: var(--light);
     color: var(--whiteish);
-    outline: 1px solid black;
     display: table-cell;
     grid-template-columns: 10% 80% 10%;
 }
@@ -53,6 +52,7 @@ thead {
         }
         .scheduleDateSwitcher b:first-child {
             text-align: left;
+            color: var(--whiteish);
         }
 
         .scheduleDateSwitcher span {
@@ -66,11 +66,11 @@ thead {
 
         .scheduleDateSwitcher > b > * {
             text-decoration: none;
-            color: var(--blackish);
+            color: var(--whiteish);
         }
             .scheduleDateSwitcher > b > *:hover {
                 text-decoration: none;
-                color: var(--whiteish);
+                color: var(--dark);
             }
 
 .focusHighlight {

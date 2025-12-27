@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mariadb = require("mariadb");
-require("dotenv").config();
+require("dotenv").config({quiet: true});
 const port = process.env.PORT;
 const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
 

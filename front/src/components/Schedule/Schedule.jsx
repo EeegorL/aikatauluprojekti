@@ -3,7 +3,7 @@ import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 import { useEffect, useRef, useState } from "react";
-import { Link, Navigate, redirect, replace } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, skipAmount}) {
     const timeRange = {start: 8, end: 22};
@@ -57,7 +57,10 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
             }
         }
         finally {
-            await updateVuorot();
+            if(data.vuoro) {
+                await updateVuorot(day, data.vuoro.pv);
+            }
+            else await updateVuorot(day);
         }
     }
 

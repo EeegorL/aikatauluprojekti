@@ -24,8 +24,12 @@
 
 .peopleListItem {
     list-style: none;
-    border: .01vh dashed var(--blackish);
+    border: .01vh solid var(--blackish);
     margin-top: .5vh;
+}
+
+.peopleListItem:hover {
+    cursor: pointer;
 }
 
 .peopleListItem:hover:not(.chosen_sidebar) {

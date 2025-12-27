@@ -8,6 +8,7 @@ import Menu from "../../components/Menu/Menu";
 
 import "./week.css";
 import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
+import Popup from "../../components/Popup/Popup";
 
 export default function Week() {
     const {day} = useParams();
@@ -30,8 +31,9 @@ export default function Week() {
     const days = [];
     for(let i = 0; i < 7; i++) days.push(new Date(weekStart.getTime() + (i * 24 * 60 * 60* 1000)));
 
-    const updateVuorot = async (day="all") => {
-        if(day === "all") { // updates the whole week
+    const updateVuorot = async (...daysToUpdate) => {
+        if(daysToUpdate.length === 0) { // updates the whole week
+            console.log("hdifug")
             const vuorotTemp = {
                 0: [],
                 1: [],
@@ -49,15 +51,23 @@ export default function Week() {
              }
             setVuorot(vuorotTemp);
         }
-        else if(days.some(x => dateToStr(x) === day)) { // updates only data for a certain day
-            const correctDayIndex = days.findIndex(x => dateToStr(x) === day);
-            const correctDay = days[correctDayIndex];
-            const dayData = await getVuorot(dateToStr(correctDay));
+        else if(daysToUpdate.every(d => days.some(x => dateToStr(x) === d))) { // updates only data for a certain day(s). Checks if the daysToUpdate only contains valid days
+            const getNewData = await Promise.all( // returns {day's index: data}, e.g. {3: [{...}, {...}, ...]}
+                daysToUpdate.map(async d => {
+                    const correctDayIndex = days.findIndex(x => dateToStr(x) === d); // index of the appropriate day in the days-array
+                    const correctDay = days[correctDayIndex];
+                    const dayData = await getVuorot(dateToStr(correctDay)); // data appropriate for the correct day
 
-            setVuorot({
-                ...vuorot,
-                [correctDayIndex]: dayData
-            });
+                    return [correctDayIndex, dayData];
+                })
+            );
+
+            const newData = Object.fromEntries(getNewData); // [x, y] => {x: y}
+
+            setVuorot(current => ({
+                ...current,
+                ...newData
+            }));
         }
         else {
             return false;
@@ -109,6 +119,7 @@ export default function Week() {
     }
 
     return <div className="weekView">
+        <Popup />
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
         <div className="week_sidebarWrapper">
             <Sidebar chosen={chosen} setChosen={setChosen}/>
