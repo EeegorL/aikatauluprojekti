@@ -19,9 +19,13 @@
     --goodButtonBg: var(--menuShiftBg);
     --goodButtonBg_hover: var(--menuShiftBg_hover);
 
-    --badButtonCol: var(--whiteish);
-    --badButtonBg: #c32929;    
-    --badButtonBg_hover: #8b3434;
+    --goodCol: #deffdc;
+    --goodBg: #078c00;
+    --goodHover: #056800;
+
+    --badCol: #ffe0e0;
+    --badBg: #c32929;
+    --badHover: #7d1414;
 
     color: var(--blackish);
 

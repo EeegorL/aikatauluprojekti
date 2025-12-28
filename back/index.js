@@ -99,7 +99,7 @@ app.post("/api/vuorot", async (req, res) => {
 
 app.post("/api/canAdd", async (req, res) => {
     try {
-        const {movedData, day, hour, vuoro} = req.body;
+        const {movedData, day, hour} = req.body;
         const henkilo = movedData.id;
 
         const shiftsAtSameTimeQueryStr = "SELECT (SELECT COUNT(*) FROM vuoro WHERE henkilo = ? AND pv = ? AND aika = ?) > 0 as res;";

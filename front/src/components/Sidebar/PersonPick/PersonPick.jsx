@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useRef} from "react";
 
 export default function PersonPick({henkilo, chosen, setChosen}) {
     const fData = {
@@ -8,7 +8,7 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         vuoro: null
     }
 
-    const [clone, setClone] = useState(null);
+    const clone = useRef(null);
 
     const onDragStart = (e) => {
         e.dataTransfer.setData("application/json", JSON.stringify(fData));
@@ -17,22 +17,21 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         const _clone = document.createElement("span");
         _clone.innerHTML = fData.lyhenne;
 
-        _clone.classList.add("vuoro");
-        if(chosen.id === fData.id) _clone.classList.add("chosen_drag", "ghost");
+        _clone.classList.add("vuoro", "ghost");
         _clone.style.position = "absolute";
         document.body.appendChild(_clone);
 
-        setClone(_clone);
+        clone.current = _clone
     }
 
     const onDrag = (e) => {
-        clone.style.top = `${e.pageY - 30}px`;
-        clone.style.left = `${e.pageX - 10}px`;
+        clone.current.style.top = `${e.pageY - 30}px`;
+        clone.current.style.left = `${e.pageX - 10}px`;
     } 
 
     const onDragEnd = (e) => {
-        clone.remove();
-        setClone(null);
+        clone.current.remove();
+        clone.current = null;
     }
 
     return <li 

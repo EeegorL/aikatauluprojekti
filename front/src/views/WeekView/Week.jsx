@@ -1,13 +1,14 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { isValidDate, dateToStr } from "../../utils";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Schedule from "../../components/Schedule/Schedule";
-
-import { useEffect, useState } from "react";
-import Menu from "../../components/Menu/Menu";
+import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 
 import "./week.css";
+
+import { isValidDate, dateToStr } from "../../utils";
 import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
+
+import Menu from "../../components/Menu/Menu";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Schedule from "../../components/Schedule/Schedule";
 import Popup from "../../components/Popup/Popup";
 
 export default function Week() {
@@ -25,6 +26,18 @@ export default function Week() {
         6: []
     });
 
+    const [popup, setPopup] = useState();
+    const timeout = useRef(null);
+    
+    const showPopup = (text, isError) => {
+        if(timeout.current) clearTimeout(timeout.current);
+
+        setPopup({text: text, isError: isError});
+        timeout.current = setTimeout(() => {
+            setPopup(null);
+        }, 2000);
+    }
+
     const dayDate = new Date(Date.parse(day));
     const weekStart = new Date(dayDate.getTime() - (((dayDate.getDay() === 0 ? 7 : dayDate.getDay()) - 1) * 24 * 60 * 60 * 1000));
 
@@ -33,7 +46,6 @@ export default function Week() {
 
     const updateVuorot = async (...daysToUpdate) => {
         if(daysToUpdate.length === 0) { // updates the whole week
-            console.log("hdifug")
             const vuorotTemp = {
                 0: [],
                 1: [],
@@ -119,10 +131,10 @@ export default function Week() {
     }
 
     return <div className="weekView">
-        <Popup />
-        <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+        <Popup popup={popup}/>
+        <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
         <div className="week_sidebarWrapper">
-            <Sidebar chosen={chosen} setChosen={setChosen}/>
+            <Sidebar vuorotyypit={vuorotyypit} updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
         <div className="week_scheduleWrapper">
             {days.map(day => {
@@ -142,6 +154,7 @@ export default function Week() {
                             setChosen={setChosen} 
                             menuTarget={menuTarget} 
                             setMenuTarget={setMenuTarget}
+                            showPopup={showPopup}
                             skipAmount={7}
                             />
                         : "Odotapas..."

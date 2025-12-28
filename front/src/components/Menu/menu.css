@@ -29,22 +29,22 @@
 }
 
 .menu_deleteVuoro {
-    background-color: var(--badButtonBg);
-    color: var(--badButtonCol);
+    background-color: var(--badBg);
+    color: var(--badCol);
     border: none;
 }
 
 .menu_deleteVuoro:hover {
-    background-color: var(--badButtonBg_hover);
+    background-color: var(--badHover);
 }
 
 .menu_saveNote {
-    background-color: var(--goodButtonBg);
-    color: var(--goodButtonCol);
+    background-color: var(--goodBg);
+    color: var(--goodCol);
 }
 
 .menu_saveNote:hover {
-    background-color: var(--goodButtonBg_hover);
+    background-color: var(--goodHover);
 }
 
 .menu_buttonGrid {

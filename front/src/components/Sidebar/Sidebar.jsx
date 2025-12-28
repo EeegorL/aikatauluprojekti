@@ -3,11 +3,13 @@ import { deleteVuoro, getIhmiset } from "../../dbHandler/dbHandler";
 import "./sidebar.css";
 import PersonPick from "./PersonPick/PersonPick";
 
-export default function Sidebar({updateVuorot, chosen, setChosen}) {
+export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, showPopup}) {
     const [people, setPeople] = useState([]);
     const [filter, setFilter] = useState("");
 
-    const filteredPeople = people.filter(x => x.nimi.toLowerCase().includes(filter.toLowerCase()));
+    const filteredPeople = filter.startsWith("/")
+        ? [people[0]]
+        : people.filter(x => x.nimi.toLowerCase().includes(filter.toLowerCase()));
 
     useEffect(() => {
         (async () => {
@@ -33,6 +35,7 @@ export default function Sidebar({updateVuorot, chosen, setChosen}) {
 
         if(jsonData.vuoro) {
             await deleteVuoro(jsonData.vuoro.id);
+            showPopup("Vuoro poistettu", false);
             await updateVuorot(jsonData.vuoro.pv);
         }
     }

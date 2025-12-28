@@ -2,14 +2,11 @@ import "./schedule.css";
 import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, skipAmount}) {
+export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
     const timeRange = {start: 8, end: 22};
-    const [popup, setPopup] = useState();
-    let timeout = useRef(null);
-    const popupElem = useRef(0);
 
     useEffect(() => {
         let timeout;
@@ -24,24 +21,16 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         return clearTimeout(timeout);
     }, []);
 
-    const showPopup = (text, isError) => {
-        if(timeout.current) clearTimeout(timeout.current);
-
-        setPopup({text: text, isError: isError});
-        timeout.current = setTimeout(() => {
-            setPopup(null);
-        }, 2000);
-    }
-
     const correctVuorot = (vuoro, aika) => {
         return vuorot.length > 0 ? vuorot.filter(x => x.vuoro === vuoro && x.aika === aika) : [];
     }
 
     const tryAdd = async (data, day, hour, shift) => {
+        if(data.vuoro?.pv === day && data.vuoro?.aika === parseInt(hour) && data.vuoro?.tyyppi === parseInt(shift)) return;
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
-                if(data.vuoro) await deleteVuoro(data.vuoro.id);
                 if(data.vuoro) {
+                    await deleteVuoro(data.vuoro.id);
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id), data.vuoro.note);
                     showPopup("Vuoro siirretty", false);
                 }
@@ -132,12 +121,6 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
     else return <div>
-        <div ref={popupElem} className={popup ? (popup.isError ? "popup_error" : "popup_info") : ""}>
-            {popup
-                ? <span>{popup.text}</span>
-                : <span>&nbsp;</span> // empty element that still takes up space
-            }
-        </div>
         <table className="schedule">
         <thead>
             <tr>

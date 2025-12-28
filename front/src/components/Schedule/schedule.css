@@ -9,7 +9,6 @@
 
     user-select: none;
     border-collapse: collapse;
-
 }
 
 tr, td {
@@ -93,16 +92,3 @@ thead {
     background-color: var(--dark);
     color: white;
 }
-
-.popup {
-    padding: 5px;
-}
-    .popup_info {
-        color: green;
-        background-color: #acffac;
-    }
-
-    .popup_error {
-        color: red;
-        background-color: rgb(255, 197, 197);
-    }

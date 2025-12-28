@@ -1,12 +1,16 @@
-import { Navigate, redirect, useNavigate, useParams } from "react-router-dom";
-import { isValidDate, dateToStr } from "../../utils";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import Schedule from "../../components/Schedule/Schedule";
+import { Navigate, useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 
 import "./day.css";
-import { useEffect, useState } from "react";
-import Menu from "../../components/Menu/Menu";
+
 import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
+import { isValidDate, dateToStr } from "../../utils";
+
+import Menu from "../../components/Menu/Menu";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Schedule from "../../components/Schedule/Schedule";
+import Popup from "../../components/Popup/Popup";
+
 
 export default function Day() {
     const {day} = useParams();
@@ -15,9 +19,21 @@ export default function Day() {
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [menuTarget, _setMenuTarget] = useState(null);
 
+    const [popup, setPopup] = useState();
+    const timeout = useRef(null);
+    
+    const showPopup = (text, isError) => {
+        if(timeout.current) clearTimeout(timeout.current);
+
+        setPopup({text: text, isError: isError});
+        timeout.current = setTimeout(() => {
+            setPopup(null);
+        }, 2000);
+    }
+
     const updateVuorot = async () => {
         setVuorot(await getVuorot(day));
-    } 
+    }
 
     useEffect(() => {
         (async () => {
@@ -61,13 +77,12 @@ export default function Day() {
 
         return <Navigate to={`/pv/${todayStr}`} replace/>
     }
-
-    let skipAmount = 1;
     
     return <div className="dayView">
-        <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget}/>
+        <Popup popup={popup}/>
+        <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
         <div className="day_sidebarWrapper">
-            <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen}/>
+            <Sidebar updateVuorot={updateVuorot} vuorotyypit={vuorotyypit} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
         <div className="day_scheduleWrapper">
             {
@@ -81,7 +96,8 @@ export default function Day() {
                     setChosen={setChosen} 
                     menuTarget={menuTarget} 
                     setMenuTarget={setMenuTarget}
-                    skipAmount={skipAmount}
+                    showPopup={showPopup}
+                    skipAmount={1}   
                     />
                 : "Odotapas..."
             }
