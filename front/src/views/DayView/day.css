@@ -7,10 +7,24 @@
 
 .day_sidebarWrapper {
     grid-column: 1;
-    grid-row: 1 / span 2;
 }
 
 .day_scheduleWrapper {
     grid-column: 2;
     grid-row: 1;
+}
+
+@media (max-width: 800px) {
+    .dayView {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .day_sidebarWrapper {
+        flex: 1;
+    }
+
+    .day_scheduleWrapper {
+        flex: 2;
+    }
 }

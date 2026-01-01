@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { deleteVuoro, getIhmiset } from "../../dbHandler/dbHandler";
 import "./sidebar.css";
 import PersonPick from "./PersonPick/PersonPick";
@@ -40,15 +40,41 @@ export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, s
         }
     }
 
-    return <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
-        <div className="sidebarFilter">
-            <label htmlFor="filter">Suodata:</label>
-            <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>
-        </div>  
-        <ul className="peopleList">
-            {filteredPeople.map(p => {
-                return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen}/>
-            })}
-        </ul>
-    </div>;
+    const isOnMobile = (window.screen.height / window.screen.width) > 1;
+
+    const toggleSidebar = () => {
+        console.log("dghfdghfghfgh")
+    }
+
+
+    return isOnMobile 
+        // ?   <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
+        //         <div className="sidebarFilter">
+        //             <label htmlFor="filter">Suodata:</label>
+        //             <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>
+        //         </div> 
+        //         <ul className="peopleList">
+        //             {filteredPeople.map(p => {
+        //                 return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen}/>
+        //             })}
+        //         </ul>
+        //     </div>
+        ? <div className="testi">
+            <div className="scroll">
+                {filteredPeople.map(p => {
+                    return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen} />
+                })}
+            </div>
+        </div>
+        :   <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
+                <div className="sidebarFilter">
+                    <label htmlFor="filter">Suodata:</label>
+                    <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>
+                </div>  
+                <ul className="peopleList">
+                    {filteredPeople.map(p => {
+                        return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen}/>
+                    })}
+                </ul>
+            </div>
 }

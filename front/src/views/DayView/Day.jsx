@@ -84,7 +84,7 @@ export default function Day() {
         <div className="day_sidebarWrapper">
             <Sidebar updateVuorot={updateVuorot} vuorotyypit={vuorotyypit} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
-        <div className="day_scheduleWrapper">
+        {/* <div className="day_scheduleWrapper">
             {
                 vuorot 
                 ? <Schedule 
@@ -101,6 +101,6 @@ export default function Day() {
                     />
                 : "Odotapas..."
             }
-        </div>
+        </div> */}
     </div>
 }

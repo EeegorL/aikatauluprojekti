@@ -17,7 +17,7 @@
 
 .peopleList {
     padding: 0;
-    height: 60vh;
+    max-height: 60vh;
     overflow-y: scroll;
     scrollbar-color: var(--light) var(--lightest);
 }
@@ -40,4 +40,22 @@
 .chosen_sidebar {
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
+}
+
+@media (max-width: 800px) {
+    .testi {
+        width: 100vw;
+        overflow: hidden;
+        height: 100vh;
+    }
+
+    .scroll {
+        overflow-x: scroll;
+        height: fit-content;
+    }
+
+    li {
+        display: inline;
+        white-space: nowrap;
+    }
 }
