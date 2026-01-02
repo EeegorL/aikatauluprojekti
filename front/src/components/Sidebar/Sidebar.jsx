@@ -11,6 +11,8 @@ export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, s
         ? [people[0]]
         : people.filter(x => x.nimi.toLowerCase().includes(filter.toLowerCase()));
 
+    const mobileFilteredPeople = people.filter(x => x.nimi.startsWith(filter));
+
     useEffect(() => {
         (async () => {
             setPeople(await getIhmiset());
@@ -42,26 +44,17 @@ export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, s
 
     const isOnMobile = (window.screen.height / window.screen.width) > 1;
 
-    const toggleSidebar = () => {
-        console.log("dghfdghfghfgh")
-    }
-
 
     return isOnMobile 
-        // ?   <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
-        //         <div className="sidebarFilter">
-        //             <label htmlFor="filter">Suodata:</label>
-        //             <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>
-        //         </div> 
-        //         <ul className="peopleList">
-        //             {filteredPeople.map(p => {
-        //                 return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen}/>
-        //             })}
-        //         </ul>
-        //     </div>
-        ? <div className="testi">
-            <div className="scroll">
-                {filteredPeople.map(p => {
+        ? <div className="mobileSidebar">
+            <div className="mobileFilter">
+                {
+                    ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö"]
+                    .map(x => <p className={`filterLetter ${filter === x ? "chosenFilterLetter" : ""}`} onClick={()=>filter === x ? setFilter("") : setFilter(x)}>{x}</p>)
+                }
+            </div>
+            <div className="peopleScroll">
+                {mobileFilteredPeople.map(p => {
                     return <PersonPick key={`personPick_${p.henkilo}`} henkilo={p} chosen={chosen} setChosen={setChosen} />
                 })}
             </div>

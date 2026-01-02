@@ -43,19 +43,56 @@
 }
 
 @media (max-width: 800px) {
-    .testi {
-        width: 100vw;
+    .mobileSidebar {
+        padding: 0;
         overflow: hidden;
-        height: 100vh;
+
+        height: 96vh;
+        width: 96vw;
+        margin-top: 1vh;
+
+        margin-left: 2vw;
+        margin-right: 2vw;
     }
 
-    .scroll {
+    .mobileFilter {
+       white-space: initial;
+       overflow: scroll;
+       width: 94vw;
+       height: 5vh;
+       border: 1px solid black;
+    }
+    .mobileFilter > * {
+        padding: 10px;
+        display: inline;
+    }
+    
+    .filterLetter {
+        border: 1px solid black;
+    }
+
+    .chosenFilterLetter {
+        background-color: grey;
+    }
+
+    .peopleScroll {
         overflow-x: scroll;
-        height: fit-content;
+        width: 94vw;
+        height: 5vh;
+        border: 1px solid;
+    }
+
+    .peopleScroll > * {
+        display: inline;
+        padding: 10px;
+        border: 1px solid black;
+        height: 100%;
     }
 
     li {
         display: inline;
         white-space: nowrap;
     }
+
+
 }

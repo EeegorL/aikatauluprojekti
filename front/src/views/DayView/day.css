@@ -16,15 +16,18 @@
 
 @media (max-width: 800px) {
     .dayView {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 100vw;
+        grid-template-rows: 10vh 80vh;
+        gap: 10px;
     }
 
     .day_sidebarWrapper {
-        flex: 1;
+        grid-column: 1;
     }
 
     .day_scheduleWrapper {
-        flex: 2;
+        grid-column: 1;
+        grid-row: 2;
     }
 }

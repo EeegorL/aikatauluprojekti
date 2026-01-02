@@ -16,3 +16,21 @@
 
     overflow-y: scroll;
 }
+
+@media (max-width: 800px) {
+    .weekView {
+        display: grid;
+        grid-template-columns: 100vw;
+        grid-template-rows: 10vh 80vh;
+        gap: 10px;
+    }
+
+    .week_sidebarWrapper {
+        grid-column: 1;
+    }
+
+    .week_scheduleWrapper {
+        grid-column: 1;
+        grid-row: 2;
+    }
+}

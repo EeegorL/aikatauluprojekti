@@ -92,3 +92,24 @@ thead {
     background-color: var(--dark);
     color: white;
 }
+
+@media (max-width: 800px) {
+    .scheduleContainer {
+        width: 100vw;
+        overflow: auto;
+    }
+
+    .schedule {
+        width: 1500px;
+    }
+
+    .sideHeader {
+        position: sticky;
+        left: 0px;
+    }
+
+    .scheduleDateSwitcher {
+        position: sticky;
+        left: 0px;
+    }
+}

@@ -2,11 +2,12 @@ import "./schedule.css";
 import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
     const timeRange = {start: 8, end: 22};
+    const touchStart = useRef({x: 0, y: 0});
 
     useEffect(() => {
         let timeout;
@@ -117,10 +118,34 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
             ? `/pv/${dateToStr(newDate)}`
             : `/vk/${dateToStr(newDate)}`;
     }
+
+    const onTouchStart = (e) => {
+        touchStart.current = {x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY};
+    }
+
+    const onTouchEnd = async (e) => {
+        if(!chosen.id) return;
+
+        const aX = touchStart.current.x;
+        const aY = touchStart.current.y;
+        const bX = e.changedTouches[0].pageX;
+        const bY = e.changedTouches[0].pageY;
+
+        const triangleDiff = Math.sqrt(Math.abs(bX - aX)**2 + Math.abs(bY - aY)**2);
+        if(triangleDiff > 30) return;
+        if(e.target.nodeName != "DIV") return;
+
+        const hour = e.currentTarget.getAttribute("hour");
+        const shift = e.currentTarget.getAttribute("shift");
+
+        await tryAdd(chosen, day, hour, shift);
+    }
+
+
     
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
-    else return <div>
+    else return <div className="scheduleContainer">
         <table className="schedule">
         <thead>
             <tr>
@@ -154,6 +179,8 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                             onDragOver={onDragOver}
                             onDragLeave={onDragLeave}
                             onDrop={onDrop}
+                            onTouchStart={onTouchStart}
+                            onTouchEnd={onTouchEnd}
                             key={`shiftCell_${day}-${h}_${v.id}`}
                         >
                             <div className="shiftContainer">
