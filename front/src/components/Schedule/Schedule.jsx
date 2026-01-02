@@ -29,7 +29,6 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
 
     const tryAdd = async (data, day, hour, shift) => {
         if(addOnTimeout.current) {
-            console.log("timeouttii hei bro");
             return;
         }
         addOnTimeout.current = true;
