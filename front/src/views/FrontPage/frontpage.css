@@ -9,3 +9,21 @@
 .frontPage > p {
     margin-left: 10px;
 }
+
+.frontPage ul {
+    display: inline-block;
+}
+
+.frontPage li {
+    
+}
+
+.mobileListBreak {
+    display: none;
+}
+
+@media (max-width: 1000px) {
+    .mobileListBreak {
+        display: initial;
+    }
+}

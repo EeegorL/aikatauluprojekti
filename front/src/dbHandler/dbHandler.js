@@ -1,4 +1,4 @@
-const url = "http://localhost:3001/api";
+const url = "http://91.152.124.98:3001/api";
 
 export const connTest = async () => {
     try {
@@ -8,11 +8,11 @@ export const connTest = async () => {
                 "Access-Control-Allow-Origin": "*"
             }
         });
-
-        return f.status === 200;
+        
+        return f;
     }
     catch(err) {
-        return false;
+        return err
     }
 }
 

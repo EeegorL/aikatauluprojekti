@@ -93,7 +93,7 @@ thead {
     color: white;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .scheduleContainer {
         width: 100vw;
         overflow: auto;
@@ -103,13 +103,18 @@ thead {
         width: 1500px;
     }
 
-    .sideHeader {
+    .hourHeader {
         position: sticky;
         left: 0px;
+    }
+
+    .emptyCell {
+        width: 50px;
     }
 
     .scheduleDateSwitcher {
         position: sticky;
         left: 0px;
+        margin-left: 10px;
     }
 }

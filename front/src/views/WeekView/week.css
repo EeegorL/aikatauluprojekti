@@ -17,7 +17,7 @@
     overflow-y: scroll;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .weekView {
         display: grid;
         grid-template-columns: 100vw;

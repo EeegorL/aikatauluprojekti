@@ -17,8 +17,14 @@ function App() {
 
   useEffect(() => {
     (async () => {
+      try {
       if(!await connTest()) setBackendDown(true);
       setDone(true);
+      }
+      catch(err) {
+
+      }
+
     })();
   }, []);
 

@@ -42,7 +42,7 @@
     color: var(--chosenShiftCol);
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
     .mobileSidebar {
         padding: 0;
         overflow: hidden;

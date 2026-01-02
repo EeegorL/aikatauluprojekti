@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
     const timeRange = {start: 8, end: 22};
     const touchStart = useRef({x: 0, y: 0});
+    const addOnTimeout = useRef(false);
 
     useEffect(() => {
         let timeout;
@@ -27,6 +28,11 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
     }
 
     const tryAdd = async (data, day, hour, shift) => {
+        if(addOnTimeout.current) {
+            console.log("timeouttii hei bro");
+            return;
+        }
+        addOnTimeout.current = true;
         if(data.vuoro?.pv === day && data.vuoro?.aika === parseInt(hour) && data.vuoro?.tyyppi === parseInt(shift)) return;
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
@@ -51,6 +57,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                 await updateVuorot(day, data.vuoro.pv);
             }
             else await updateVuorot(day);
+            addOnTimeout.current = false;
         }
     }
 
@@ -141,22 +148,35 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         await tryAdd(chosen, day, hour, shift);
     }
 
-
+    const onMobile = screen.width <= 1000;
     
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
+    
     else return <div className="scheduleContainer">
+        {onMobile 
+            ? <nav className="scheduleDateSwitcher">
+                <b><Link to={navToText(-1)}>&#8666;</Link></b>
+                <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                <b><Link to={navToText(1)}>&#8667;</Link></b>
+            </nav>
+            : ""
+        }
         <table className="schedule">
         <thead>
-            <tr>
-                <th colSpan={vuorotyypit.length + 1} className="scheduleDateSwitcherRow">
-                    <nav className="scheduleDateSwitcher">
-                        <b><Link to={navToText(-1)}>&#8666;</Link></b>
-                        <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
-                        <b><Link to={navToText(1)}>&#8667;</Link></b>
-                    </nav>
-                </th>
-            </tr>
+            {!onMobile 
+                ? <tr>
+                    <th colSpan={vuorotyypit.length + 1} className="scheduleDateSwitcherRow">
+                        <nav className="scheduleDateSwitcher">
+                            <b><Link to={navToText(-1)}>&#8666;</Link></b>
+                            <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                            <b><Link to={navToText(1)}>&#8667;</Link></b>
+                        </nav>
+                    </th>
+                </tr>
+                : ""
+            }
+
             <tr>
                 <th className="emptyCell"/>
                 {vuorotyypit.filter(x => x.shown).map(v => {
@@ -167,7 +187,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         <tbody>
             {range(timeRange.start, timeRange.end).map(h => {
                 return <tr key={`scheduleRow_${day}_${h}`}>
-                    <th className="scheduleHeader sideHeader" hourheader={h}>{h}-{h+1}</th>
+                    <th className="scheduleHeader hourHeader" hourheader={h}>{h}-{h+1}</th>
                     {vuorotyypit.map(v => {
                         return <td
                             hour={h}
