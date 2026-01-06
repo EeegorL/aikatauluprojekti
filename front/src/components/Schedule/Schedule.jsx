@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
     const timeRange = {start: 8, end: 22};
     const touchStart = useRef({x: 0, y: 0});
-    const addOnTimeout = useRef(false);
+    const queue = useRef(false);
 
     useEffect(() => {
         let timeout;
@@ -28,10 +28,10 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
     }
 
     const tryAdd = async (data, day, hour, shift) => {
-        if(addOnTimeout.current) {
+        if(queue.current) {
             return;
         }
-        addOnTimeout.current = true;
+        queue.current = true;
         if(data.vuoro?.pv === day && data.vuoro?.aika === parseInt(hour) && data.vuoro?.tyyppi === parseInt(shift)) return;
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
@@ -39,6 +39,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                     await deleteVuoro(data.vuoro.id);
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id), data.vuoro.note);
                     showPopup("Vuoro siirretty", false);
+                    setChosen(null);
                 }
                 else {
                     await addVuoro(day, parseInt(hour), parseInt(shift), parseInt(data.id));
@@ -56,7 +57,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                 await updateVuorot(day, data.vuoro.pv);
             }
             else await updateVuorot(day);
-            addOnTimeout.current = false;
+            queue.current = false;
         }
     }
 
@@ -148,15 +149,15 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
     }
 
     const onMobile = screen.width <= 1000;
-    
+    const viewChange = window.location.pathname.startsWith("/pv") ? "vk" : "pv";
+
     if(vuorotyypit.length === 0) return;
     if(!vuorot) return <div>Odota...</div>
-    
     else return <div className="scheduleContainer">
         {onMobile 
             ? <nav className="scheduleDateSwitcher">
                 <b><Link to={navToText(-1)}>&#8666;</Link></b>
-                <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                <span className={"scheduleInfo"}><Link to={`/${viewChange}/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
                 <b><Link to={navToText(1)}>&#8667;</Link></b>
             </nav>
             : ""
@@ -168,7 +169,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                     <th colSpan={vuorotyypit.length + 1} className="scheduleDateSwitcherRow">
                         <nav className="scheduleDateSwitcher">
                             <b><Link to={navToText(-1)}>&#8666;</Link></b>
-                            <span>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</span>
+                            <span className={"scheduleInfo"}><Link to={`/${viewChange}/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
                             <b><Link to={navToText(1)}>&#8667;</Link></b>
                         </nav>
                     </th>
@@ -214,7 +215,6 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                                         />
                             })}
                             </div>
-
                         </td>
                     })}
                 </tr>

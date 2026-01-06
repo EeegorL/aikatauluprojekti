@@ -1,4 +1,4 @@
-const url = "http://91.152.124.98:3001/api";
+const url = "http://localhost:3001/api";
 
 export const connTest = async () => {
     try {
@@ -8,13 +8,25 @@ export const connTest = async () => {
                 "Access-Control-Allow-Origin": "*"
             }
         });
-        
-        return f;
+        return true;
     }
     catch(err) {
-        return err
+        return false;
     }
 }
+
+export const checkSession = async () => {
+    try {
+        return true; // TODO
+        // const cookie = window.cookieStore.get("sessionId");
+        // if(!cookie) return false;
+
+
+    }
+    catch(err) {
+
+    }
+} 
 
 export const getIhmiset = async () => {
     const f = await fetch(url+"/ihmiset", {

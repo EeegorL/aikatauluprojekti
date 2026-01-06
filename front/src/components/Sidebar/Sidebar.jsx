@@ -42,15 +42,14 @@ export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, s
         }
     }
 
-    const isOnMobile = (window.screen.height / window.screen.width) > 1;
-
+    const isOnMobile = window.screen.width <= 1000;
 
     return isOnMobile 
         ? <div className="mobileSidebar">
             <div className="mobileFilter">
                 {
                     ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Å", "Ä", "Ö"]
-                    .map(x => <p className={`filterLetter ${filter === x ? "chosenFilterLetter" : ""}`} onClick={()=>filter === x ? setFilter("") : setFilter(x)}>{x}</p>)
+                    .map(x => <p className={`filterLetter ${filter === x ? "chosenFilterLetter" : ""}`} onClick={()=>filter === x ? setFilter("") : setFilter(x)} key={`filterLetter${x}`}>{x}</p>)
                 }
             </div>
             <div className="peopleScroll">

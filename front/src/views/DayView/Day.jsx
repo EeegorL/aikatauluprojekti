@@ -15,7 +15,7 @@ import Popup from "../../components/Popup/Popup";
 export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
-    const [vuorot, setVuorot] = useState([]);
+    const [vuorot, setVuorot] = useState(null);
     const [vuorotyypit, setVuorotyypit] = useState([]);
     const [menuTarget, _setMenuTarget] = useState(null);
 
@@ -62,7 +62,10 @@ export default function Day() {
     }
 
     const setChosen = (p) => {
-        if(p.id === chosen.id) _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
+        if(!p || p?.id === chosen.id) {
+            _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
+            return;
+        }
         else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
         if(p.vuoro && (p.id !== chosen.id)) {

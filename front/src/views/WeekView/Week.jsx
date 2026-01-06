@@ -16,15 +16,7 @@ export default function Week() {
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [menuTarget, _setMenuTarget] = useState(null);
     const [vuorotyypit, setVuorotyypit] = useState([]);
-    const [vuorot, setVuorot] = useState({
-        0: [],
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: []
-    });
+    const [vuorot, setVuorot] = useState(null);
 
     const [popup, setPopup] = useState();
     const timeout = useRef(null);
@@ -114,7 +106,10 @@ export default function Week() {
     }
 
     const setChosen = (p) => {
-        if(p.id === chosen.id) _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
+        if(!p || p?.id === chosen.id) {
+            _setChosen({id: null, nimi: null, lyhenne: null, vuoro: null});
+            return;
+        }
         else _setChosen({id: p.id, nimi: p.nimi, lyhenne: p.lyhenne, vuoro: p.vuoro});
 
         if(p.vuoro && (p.id !== chosen.id)) {
@@ -129,14 +124,14 @@ export default function Week() {
 
         return <Navigate to={`/pv/${todayStr}`} replace/>
     }
-
     return <div className="weekView">
         <Popup popup={popup}/>
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
         <div className="week_sidebarWrapper">
             <Sidebar vuorotyypit={vuorotyypit} updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
-        <div className="week_scheduleWrapper">
+        {vuorot // displays the schedules once loaded
+        ? <div className="week_scheduleWrapper">
             {days.map(day => {
                 const _day = dateToStr(day);
                 const idx = days.indexOf(day);
@@ -162,5 +157,6 @@ export default function Week() {
                     </div>
             })}
         </div>
+        : "Ladataan..."}
     </div>
 }

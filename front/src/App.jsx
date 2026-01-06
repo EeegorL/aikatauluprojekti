@@ -1,13 +1,17 @@
 import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import { checkSession } from "./dbHandler/dbHandler";
 
 import "./App.css";
+
 import Day from "./views/DayView/Day";
 import Week from "./views/WeekView/Week";
 import Header from "./components/Header/Header";
 import { connTest } from "./dbHandler/dbHandler";
-import { useEffect, useState } from "react";
 import FrontPage from "./views/FrontPage/FrontPage";
 import Info from "./views/Info/Info";
+import Login from "./views/Login/Login";
 
 const isLoggedIn = true;
 
@@ -17,19 +21,14 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      try {
       if(!await connTest()) setBackendDown(true);
       setDone(true);
-      }
-      catch(err) {
-
-      }
-
     })();
   }, []);
 
   if(done) {
-    if(!isLoggedIn) return <div>Login pls</div>; // todo
+    
+    if(!checkSession()) return <Login/>; // todo
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
 
     return (
@@ -41,7 +40,6 @@ function App() {
           <Route path="info" element={<Info/>}/>
           <Route path="/pv/:day" element={<Day/>}/>
           <Route path="/vk/:day" element={<Week/>}/>
-
           <Route path="*" element={<Navigate to={`/`} replace/>}/>
         </Routes>
       </div>

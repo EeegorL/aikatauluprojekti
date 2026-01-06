@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mariadb = require("mariadb");
+const bcrypt = require("bcrypt");
+
 require("dotenv").config({quiet: true});
 const port = process.env.PORT;
 const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
@@ -22,7 +24,8 @@ const pool = mariadb.createPool({
 app.use("/", async (req, res, next) => {
     try {
         const connection = await pool.getConnection();
-
+        // const now = new Date(Date.now());
+        // console.log(`${now.toLocaleDateString()} : ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} - ${req.url} - ${req.ip}`);
         res.on("finish", () => {
             connection.end();
         });
@@ -31,6 +34,24 @@ app.use("/", async (req, res, next) => {
         res.status(500).end();
     }
     next();
+});
+
+app.post("/api/register", async (req, res) => {
+    try {
+        const {username, password} = req.body;
+        if(!username || !password) {
+            res.status(400).json({err: "Username of password missing"});
+            return;
+        }
+        
+        let passwordHash = await bcrypt.hash(password, 12);
+        const queryStr = "INSERT INTO kayttaja(kayttajanimi, pwdHash) VALUES(?, ?);";
+        await pool.query(queryStr, [username, passwordHash]);
+        res.status(200).end();
+    }
+    catch(err) {
+        res.status(500).json({err: err});
+    }
 });
 
 app.get("/api/test", async (req, res) => {

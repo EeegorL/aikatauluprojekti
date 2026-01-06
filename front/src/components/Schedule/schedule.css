@@ -118,3 +118,8 @@ thead {
         margin-left: 10px;
     }
 }
+
+.scheduleInfo > * {
+    text-decoration: underline;
+    color: var(--whiteish);
+}

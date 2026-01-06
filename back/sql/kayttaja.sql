@@ -1,0 +1,5 @@
+CREATE TABLE kayttaja(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    kayttajanimi VARCHAR(50) NOT NULL UNIQUE,
+    pwdHash VARCHAR(61) NOT NULL 
+);
