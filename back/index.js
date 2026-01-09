@@ -36,6 +36,37 @@ app.use("/", async (req, res, next) => {
     next();
 });
 
+app.post("/api/login", async (req, res) => {
+    try {
+        const {username, password} = req.body;
+        if(!username || !password) {
+            res.status(401).json({err: "Username or password missing"});
+            return;
+        }
+
+        const foundUserQueryStr = "SELECT kayttajanimi, pwdHash FROM kayttaja WHERE kayttajanimi = ?;";
+        const foundUserQuery = await pool.query(foundUserQueryStr, [username]);
+
+        const user = foundUserQuery[0];
+        if(!user) {
+            res.status(404).json({err: "Username is not associated with a user"});
+            return;
+        }
+
+        if(!await bcrypt.compare(password, user.pwdHash)) {
+            res.status(401).json({err: "Incorrect password"});
+            return;
+        }
+
+        // success
+        res.status(200).json({res: "Jee!"});
+        res.end();
+    }
+    catch(err) {
+
+    }
+});
+
 app.post("/api/register", async (req, res) => {
     try {
         const {username, password} = req.body;

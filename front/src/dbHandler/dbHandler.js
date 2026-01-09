@@ -15,9 +15,34 @@ export const connTest = async () => {
     }
 }
 
+export const login = async (username, password) => {
+    try {
+        const f = await fetch(url+"/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username, 
+                password
+            })
+        });
+        
+        if(f.status === 200) {
+            return {success: true}
+        }
+        else {
+            return {success: false, err: (await f.json()).err};
+        }
+    }
+    catch(err) {
+        return false;
+    }
+}
+
 export const checkSession = async () => {
     try {
-        return true; // TODO
+        return false; // TODO
         // const cookie = window.cookieStore.get("sessionId");
         // if(!cookie) return false;
 

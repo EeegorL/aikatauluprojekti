@@ -17,18 +17,22 @@ const isLoggedIn = true;
 
 function App() {
   const [done, setDone] = useState(false);
+  const [login, setLogin] = useState(null);
   const [backendDown, setBackendDown] = useState(false);
+
 
   useEffect(() => {
     (async () => {
       if(!await connTest()) setBackendDown(true);
+      const login = await checkSession();
+      setLogin(login);
+
       setDone(true);
     })();
   }, []);
 
   if(done) {
-    
-    if(!checkSession()) return <Login/>; // todo
+    if(!login) return <Login/>; // todo
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
 
     return (
