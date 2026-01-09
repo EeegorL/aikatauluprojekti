@@ -1,27 +1,23 @@
 .loginContainer {
     display: inline-block;
     position: absolute;
-
+    width: 400px;
     left: 50%;
+    margin-left: -200px;
     top: 25%;
-    width: 15vw;
-    margin-left: -8.5vw;
-    margin-top: -5vh;
     
-    height: fit-content;
-    padding: 2vw;
-    background-color: darkkhaki;
+    background-color: aliceblue;
 }
 
 .loginContainer fieldset > input {
-    margin-left: 2vw;
     float: right;
 }
 
 .popupContainer {
     position: absolute;
+    display: inline-block;
     left: 50%;
-    width: 17vw;
-    margin-left: -8.5vw;
+    width: 200px;
+    margin-left: -100px;
     text-align: center;
 }

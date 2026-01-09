@@ -2,10 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const mariadb = require("mariadb");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config({quiet: true});
 const port = process.env.PORT;
-const {DB_USER, DB_PASSWORD, DB_NAME} = process.env;
+const {DB_USER, DB_PASSWORD, DB_NAME, JWT_SECRET} = process.env;
 
 const app = express();
 
@@ -24,8 +25,7 @@ const pool = mariadb.createPool({
 app.use("/", async (req, res, next) => {
     try {
         const connection = await pool.getConnection();
-        // const now = new Date(Date.now());
-        // console.log(`${now.toLocaleDateString()} : ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} - ${req.url} - ${req.ip}`);
+
         res.on("finish", () => {
             connection.end();
         });
@@ -44,7 +44,7 @@ app.post("/api/login", async (req, res) => {
             return;
         }
 
-        const foundUserQueryStr = "SELECT kayttajanimi, pwdHash FROM kayttaja WHERE kayttajanimi = ?;";
+        const foundUserQueryStr = "SELECT id, kayttajanimi, rooli, pwdHash FROM kayttaja WHERE kayttajanimi = ?;";
         const foundUserQuery = await pool.query(foundUserQueryStr, [username]);
 
         const user = foundUserQuery[0];
@@ -58,12 +58,20 @@ app.post("/api/login", async (req, res) => {
             return;
         }
 
-        // success
-        res.status(200).json({res: "Jee!"});
-        res.end();
+        const dataForToken = {
+            userId: user.id,
+            user: user.kayttajanimi,
+            role: user.rooli,
+        }
+
+        const signedToken = jwt.sign(dataForToken, JWT_SECRET);
+        
+        res.status(200).json({
+            token: signedToken,
+        });
     }
     catch(err) {
-
+        res.status(500).end();
     }
 });
 

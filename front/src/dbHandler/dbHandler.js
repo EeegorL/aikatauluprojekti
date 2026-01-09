@@ -29,6 +29,8 @@ export const login = async (username, password) => {
         });
         
         if(f.status === 200) {
+            const token = (await f.json()).token;
+            // TODO kaikki muu
             return {success: true}
         }
         else {
