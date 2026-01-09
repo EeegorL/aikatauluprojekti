@@ -1,5 +1,6 @@
 CREATE TABLE kayttaja(
     id INT PRIMARY KEY AUTO_INCREMENT,
     kayttajanimi VARCHAR(50) NOT NULL UNIQUE,
+    rooli INT DEFAULT 0,
     pwdHash VARCHAR(61) NOT NULL 
 );
