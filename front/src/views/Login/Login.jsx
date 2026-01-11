@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import "./login.css";
 import { login } from "../../dbHandler/dbHandler";
 import Popup from "../../components/Popup/Popup";
@@ -9,7 +9,7 @@ export default function Login() {
 
     const [popup, setPopup] = useState(null);
     const timeout = useRef(null);
-    
+
     const showPopup = (text, isError) => {
         if(timeout.current) clearTimeout(timeout.current);
 
@@ -30,7 +30,7 @@ export default function Login() {
             showPopup(tryLogin.err, true);
         }
     }
-
+    
     return <div>
         <div>
             <Popup popup={popup}/>
