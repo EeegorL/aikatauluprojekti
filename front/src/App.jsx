@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import "./App.css";
 
@@ -10,12 +10,13 @@ import { connTest } from "./dbHandler/dbHandler";
 import FrontPage from "./views/FrontPage/FrontPage";
 import Info from "./views/Info/Info";
 import Login from "./views/Login/Login";
+import { LoginContext } from "./dbHandler/LoginContext";
 
 
 function App() {
   const [done, setDone] = useState(false);
-  const [login, setLogin] = useState(null);
   const [backendDown, setBackendDown] = useState(false);
+  const {loginCredentials, updateLogin} = useContext(LoginContext);
 
   useEffect(() => {
     (async () => {
@@ -28,7 +29,7 @@ function App() {
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
 
-    if(login) {
+    if(loginCredentials) {
       return (
         <div className="main">
           <Header/>

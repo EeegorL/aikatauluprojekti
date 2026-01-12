@@ -2,6 +2,7 @@ import { useState, useRef, useContext } from "react"
 import "./login.css";
 import { login } from "../../dbHandler/dbHandler";
 import Popup from "../../components/Popup/Popup";
+import { LoginContext } from "../../dbHandler/LoginContext";
 
 export default function Login() {
     const [username, setUsername] = useState(null);
@@ -9,7 +10,8 @@ export default function Login() {
 
     const [popup, setPopup] = useState(null);
     const timeout = useRef(null);
-
+    const {loginCredentials, updateLogin} = useContext(LoginContext);
+    
     const showPopup = (text, isError) => {
         if(timeout.current) clearTimeout(timeout.current);
 
@@ -22,15 +24,17 @@ export default function Login() {
     const onSubmit = async (e) => {
         e.preventDefault();
         const tryLogin = await login(username, password);
-
+        updateLogin("highkey skibiin")
         if(tryLogin.success) {
+            updateLogin("skibidikunkku");
+            console.log(loginCredentials)
             showPopup("Nyt ois sit niinku kirjautuminen tähä jotenki", false);
         }
         else {
             showPopup(tryLogin.err, true);
         }
     }
-    
+    console.log(loginCredentials)
     return <div>
         <div>
             <Popup popup={popup}/>
