@@ -80,13 +80,19 @@ export default function Week() {
 
     useEffect(() => {
         (async()=> {
-            await updateVuorot();
+            const vuorotyypitFetch = await getVuorotyypit();
+            try {
+                await updateVuorot();
 
-            const tyypit = [];
-            for(let x of await getVuorotyypit()) {
-                tyypit.push({id: x.id, nimi: x.nimi, shown: true});
+                const tyypit = [];
+                for(let x of await vuorotyypitFetch) {
+                    tyypit.push({id: x.id, nimi: x.nimi, shown: true});
+                }
+                setVuorotyypit(tyypit);
             }
-            setVuorotyypit(tyypit);
+            catch(err) {
+                alert(vuorotyypitFetch.err);
+            }
         })();
     }, [day]);
 

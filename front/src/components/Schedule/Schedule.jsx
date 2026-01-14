@@ -28,11 +28,10 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
     }
 
     const tryAdd = async (data, day, hour, shift) => {
-        if(queue.current) {
-            return;
-        }
+        if(queue.current) return; // additions in queue
+        if(data.vuoro?.pv === day && data.vuoro?.aika === parseInt(hour) && data.vuoro?.tyyppi === parseInt(shift)) return; // the shift has not moved an inch
+
         queue.current = true;
-        if(data.vuoro?.pv === day && data.vuoro?.aika === parseInt(hour) && data.vuoro?.tyyppi === parseInt(shift)) return;
         try {
             if(await canAddVuoro(data, day, hour, shift)) {
                 if(data.vuoro) {

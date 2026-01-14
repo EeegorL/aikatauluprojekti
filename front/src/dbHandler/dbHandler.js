@@ -1,13 +1,15 @@
 const url = "http://localhost:3001/api";
 
+import { signalUnauth } from "./AuthenticationBridge";
+
 export const doFetch = async (url, props) => {
+    
     const req = await fetch(url, {
         "credentials": "include",
         ...props
     });
-    
-    if(false) { // TODO login not valid, logout and such
-        // handle auth
+    if(req.status === 401) { // TODO login not valid, logout and such
+        signalUnauth();
     }
 
     return req;

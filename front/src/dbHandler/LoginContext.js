@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { setUnauthHandler } from "./AuthenticationBridge";
 
 export const LoginContext = createContext();
 
@@ -6,7 +7,11 @@ export function LoginProvider({children}) {
     const [user, setUser] = useState("skibidi");
     const updateLogin = login => setUser(login);
 
-    return <LoginContext value={{user, updateLogin}}>
+    useEffect(() => {
+        setUnauthHandler(() => updateLogin(null));
+    });
+
+    return <LoginContext.Provider value={{user, updateLogin}}>
         {children}
-    </LoginContext>
+    </LoginContext.Provider>
 }

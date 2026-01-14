@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import "./App.css";
@@ -17,6 +17,7 @@ function App() {
   const [done, setDone] = useState(false);
   const [backendDown, setBackendDown] = useState(false);
   const {user, updateLogin} = useContext(LoginContext);
+  const location = useLocation();
   
   useEffect(() => {
     (async () => {
@@ -25,6 +26,13 @@ function App() {
       setDone(true);
     })();
   }, []);
+
+useEffect(() => {
+
+  (async () => {
+    updateLogin(await getLoginData());
+  })();
+}, [location]);
 
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;

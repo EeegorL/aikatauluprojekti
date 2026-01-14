@@ -8,7 +8,7 @@ export default function FrontPage() {
     const loginData = useContext(LoginContext);
     const today = dateToStr(new Date(Date.now()));
 
-return <div className="frontPage">
+    return <div className="frontPage">
         <h1>Tervetuloa nimettömään aikataulusovellukseen, {loginData.user.username}!</h1>
         <ul>
             <li><Link to={`/pv/${today}`}>Siirry tähän päivään</Link><br className="mobileListBreak"/></li>

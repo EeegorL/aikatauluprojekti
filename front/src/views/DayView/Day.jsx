@@ -37,12 +37,19 @@ export default function Day() {
 
     useEffect(() => {
         (async () => {
-            updateVuorot(day);
-            const tyypit = [];
-            for(let x of await getVuorotyypit()) {
-                tyypit.push({id: x.id, nimi: x.nimi, shown: true});
+            const vuorotyypitFetch = await getVuorotyypit();
+            try {
+                await updateVuorot(day);
+                const tyypit = [];
+                
+                for(let x of vuorotyypitFetch) {
+                    tyypit.push({id: x.id, nimi: x.nimi, shown: true});
+                }
+                setVuorotyypit(tyypit);
             }
-            setVuorotyypit(tyypit);
+            catch(err) { // Unauthorized
+                alert(vuorotyypitFetch.err);
+            }
         })();
     }, [day]);
 
