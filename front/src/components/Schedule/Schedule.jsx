@@ -176,7 +176,6 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
                 </tr>
                 : ""
             }
-
             <tr>
                 <th className="emptyCell"/>
                 {vuorotyypit.filter(x => x.shown).map(v => {
@@ -187,7 +186,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         <tbody>
             {range(timeRange.start, timeRange.end).map(h => {
                 return <tr key={`scheduleRow_${day}_${h}`}>
-                    <th className="scheduleHeader hourHeader" hourheader={h}>{h}-{h+1}</th>
+                    {onMobile}<th className="scheduleHeader hourHeader" hourheader={h}>{h}-{h+1}</th>
                     {vuorotyypit.map(v => {
                         return <td
                             hour={h}

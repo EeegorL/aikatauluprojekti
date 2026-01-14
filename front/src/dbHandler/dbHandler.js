@@ -1,12 +1,22 @@
 const url = "http://localhost:3001/api";
 
+export const doFetch = async (url, props) => {
+    const req = await fetch(url, {
+        "credentials": "include",
+        ...props
+    });
+    
+    if(false) { // TODO login not valid, logout and such
+        // handle auth
+    }
+
+    return req;
+}
+
 export const connTest = async () => {
     try {
-        const f = await fetch(url+"/test", {
+        await doFetch(url+"/test", {
             method: "GET",
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            }
         });
         return true;
     }
@@ -17,7 +27,7 @@ export const connTest = async () => {
 
 export const login = async (username, password) => {
     try {
-        const f = await fetch(url+"/login", {
+        const f = await doFetch(url+"/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -29,9 +39,8 @@ export const login = async (username, password) => {
         });
         
         if(f.status === 200) {
-            const token = (await f.json()).token;
-            // TODO kaikki muu
-            return {success: true}
+            const data = (await f.json()).data;
+            return {success: true, data};
         }
         else {
             return {success: false, err: (await f.json()).err};
@@ -42,25 +51,28 @@ export const login = async (username, password) => {
     }
 }
 
-export const checkSession = async () => {
-    try {
-        return false; // TODO
-        // const cookie = window.cookieStore.get("sessionId");
-        // if(!cookie) return false;
+export const logout = async () => {
+    await doFetch(url+"/logout", {
+        method: "POST"
+    });
+}
 
+export const getLoginData = async () => {
+    const f = await doFetch(url+"/getLogin", {
+        method: "GET"
+    });
 
+    if(f.status === 200) {
+        const data = await f.json();
+        return data;
     }
-    catch(err) {
 
-    }
-} 
+    return null;
+}
 
 export const getIhmiset = async () => {
-    const f = await fetch(url+"/ihmiset", {
-        method: "GET",
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
+    const f = await doFetch(url+"/ihmiset", {
+        method: "GET"
     });
     const data = await f.json();
 
@@ -68,11 +80,8 @@ export const getIhmiset = async () => {
 }
 
 export const getVuorotyypit = async () => {
-    const f = await fetch(url+"/vuorotyypit", {
-        method: "GET",
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
+    const f = await doFetch(url+"/vuorotyypit", {
+        method: "GET"
     });
     const data = await f.json();
 
@@ -80,11 +89,8 @@ export const getVuorotyypit = async () => {
 }
 
 export const getVuorot = async (pv) => {
-    const f = await fetch(url+"/vuorot/"+pv, {
-        method: "GET",
-        headers: {
-            "Access-Control-Allow-Origin": "*"
-        }
+    const f = await doFetch(url+"/vuorot/"+pv, {
+        method: "GET"
     });
     const data = await f.json();
 
@@ -92,7 +98,7 @@ export const getVuorot = async (pv) => {
 }
 
 export const addVuoro = async (day, hour, shift, henkilo, note=null) => {
-    const f = await fetch(url+"/vuorot", {
+    const f = await doFetch(url+"/vuorot", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -109,7 +115,7 @@ export const addVuoro = async (day, hour, shift, henkilo, note=null) => {
 }
 
 export const deleteVuoro = async (id) => {
-    const f = await fetch(url+"/vuorot", {
+    await doFetch(url+"/vuorot", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -121,7 +127,7 @@ export const deleteVuoro = async (id) => {
 }
 
 export const canAddVuoro = async (movedData, pv, h, v) => {
-    const f = await fetch(url+"/canAdd", {
+    const f = await doFetch(url+"/canAdd", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -144,7 +150,7 @@ export const canAddVuoro = async (movedData, pv, h, v) => {
 }
 
 export const updateNote = async (id, note) => {
-    const f = await fetch(url+"/note", {
+    const f = await doFetch(url+"/note", {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

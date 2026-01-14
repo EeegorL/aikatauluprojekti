@@ -3,6 +3,7 @@ const cors = require("cors");
 const mariadb = require("mariadb");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config({quiet: true});
 const port = process.env.PORT;
@@ -10,9 +11,14 @@ const {DB_USER, DB_PASSWORD, DB_NAME, JWT_SECRET} = process.env;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cookieParser());
 
 const pool = mariadb.createPool({
     host: "localhost",
@@ -22,10 +28,36 @@ const pool = mariadb.createPool({
     connectionLimit: 100
 });
 
-app.use("/", async (req, res, next) => {
+const checkSessionValidity = async (req) => {
+    if(!req.cookies.aikatauluToken) {
+        return {code: 401, err: "Not authenticated"};
+    }
+
+    const verifiedUser = jwt.verify(req.cookies.aikatauluToken, JWT_SECRET);
+    if(!(verifiedUser.userId && verifiedUser.iat)) {
+        return {code: 401, err: "Invalid token"};
+    }
+
+    const issuedAtSec = verifiedUser.iat;
+    const nowSec = Math.round(Date.now() / 1000); // ms to s
+    const timeDiffMinutes = (nowSec - issuedAtSec) / 60;
+
+    if(timeDiffMinutes > 30) { // token is older than half an hour
+        return {code: 401, err: "Expired token"};
+    }
+
+    const userToSend = {
+        id: verifiedUser.userId,
+        username: verifiedUser.username,
+        role: verifiedUser.role
+    }
+
+    return {code: 200, userToSend};
+}
+
+app.use("/", async (req, res, next) => { // db connection middleware
     try {
         const connection = await pool.getConnection();
-
         res.on("finish", () => {
             connection.end();
         });
@@ -60,19 +92,59 @@ app.post("/api/login", async (req, res) => {
 
         const dataForToken = {
             userId: user.id,
-            user: user.kayttajanimi,
+            username: user.kayttajanimi,
             role: user.rooli,
         }
 
         const signedToken = jwt.sign(dataForToken, JWT_SECRET);
         
+        res.cookie("aikatauluToken", signedToken, {
+            maxAge: 1000 * 60 * 30 // 30 min,
+        });
+
         res.status(200).json({
-            token: signedToken,
+            data: dataForToken
         });
     }
     catch(err) {
         res.status(500).end();
     }
+});
+
+
+app.use("/", async (req, res, next) => {
+    if(req.path === "/api/login") return next();
+
+    const validity = await checkSessionValidity(req);
+    if(validity.code === 401) {
+        return res.status(401).json({err: "Not authorized"});
+    }
+
+    return next();
+});
+
+app.post("/api/logout", async (req, res) => {
+    res.cookie("aikatauluToken", "anInvalidCookie", { // ylikirjoitetaan varmuuden vuoksi virheellisellä & heti poistuvalla ennen varsinaista poistoa
+        expires: new Date(0),
+        maxAge: 1
+    });
+    res.clearCookie("aikatauluToken");
+    
+    res.status(200).end();
+});
+
+app.get("/api/getLogin", async (req, res) => {
+    const validity = await checkSessionValidity(req);
+    
+    if(validity.code === 401) {
+        return res.status(validity.code).json({err: validity.err});
+    }
+
+    res.status(200).json({
+        id: validity.userId,
+        username: validity.username,
+        role: validity.role
+    });
 });
 
 app.post("/api/register", async (req, res) => {

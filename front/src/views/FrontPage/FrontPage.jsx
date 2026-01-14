@@ -1,12 +1,15 @@
 import { Link } from "react-router-dom";
 import "./frontpage.css";
 import { dateToStr } from "../../utils";
+import { useContext } from "react";
+import { LoginContext } from "../../dbHandler/LoginContext";
 
 export default function FrontPage() {
+    const loginData = useContext(LoginContext);
     const today = dateToStr(new Date(Date.now()));
 
-    return <div className="frontPage">
-        <h1>Tervetuloa nimettömään aikataulusovellukseen!</h1>
+return <div className="frontPage">
+        <h1>Tervetuloa nimettömään aikataulusovellukseen, {loginData.user.username}!</h1>
         <ul>
             <li><Link to={`/pv/${today}`}>Siirry tähän päivään</Link><br className="mobileListBreak"/></li>
             <li><Link to={`/vk/${today}`}>Siirry tähän viikkoon</Link><br className="mobileListBreak"/></li>

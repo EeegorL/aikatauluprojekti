@@ -3,6 +3,7 @@ import "./login.css";
 import { login } from "../../dbHandler/dbHandler";
 import Popup from "../../components/Popup/Popup";
 import { LoginContext } from "../../dbHandler/LoginContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState(null);
@@ -10,7 +11,8 @@ export default function Login() {
 
     const [popup, setPopup] = useState(null);
     const timeout = useRef(null);
-    const {loginCredentials, updateLogin} = useContext(LoginContext);
+    const {updateLogin} = useContext(LoginContext);
+    const navigate = useNavigate();
     
     const showPopup = (text, isError) => {
         if(timeout.current) clearTimeout(timeout.current);
@@ -24,18 +26,16 @@ export default function Login() {
     const onSubmit = async (e) => {
         e.preventDefault();
         const tryLogin = await login(username, password);
-        updateLogin("highkey skibiin")
         if(tryLogin.success) {
-            updateLogin("skibidikunkku");
-            console.log(loginCredentials)
-            showPopup("Nyt ois sit niinku kirjautuminen tähä jotenki", false);
+            updateLogin(tryLogin.data);
+            navigate("/");
         }
         else {
             showPopup(tryLogin.err, true);
         }
     }
-    console.log(loginCredentials)
-    return <div>
+
+return <div>
         <div>
             <Popup popup={popup}/>
         </div>
@@ -44,10 +44,8 @@ export default function Login() {
                 <fieldset>
                     <label htmlFor="usernameInput">Käyttäjätunnus</label>
                     <input name="usernameInput" onChange={(e) => setUsername(e.target.value)}/>
-                    <br/>
                     <label htmlFor="passwordInput">Salasana</label>
                     <input name="passwordInput" onChange={(e) => setPassword(e.target.value)}/>
-                    <br/>
                     <button type="submit">Submittaa</button>
                 </fieldset>
             </form>
