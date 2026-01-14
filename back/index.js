@@ -111,8 +111,17 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+app.get("/api/test", async (req, res) => {
+    try {
+        res.status(200).end();
+    }
+    catch(err) {
+        res.status(500).end();
+    }
+});
 
-app.use("/", async (req, res, next) => {
+
+app.use("/", async (req, res, next) => { // this middleware after paths that should work regardless of login
     if(req.path === "/api/login") return next();
 
     const validity = await checkSessionValidity(req);
@@ -140,11 +149,7 @@ app.get("/api/getLogin", async (req, res) => {
         return res.status(validity.code).json({err: validity.err});
     }
 
-    res.status(200).json({
-        id: validity.userId,
-        username: validity.username,
-        role: validity.role
-    });
+    res.status(200).json(validity.userToSend);
 });
 
 app.post("/api/register", async (req, res) => {
@@ -162,15 +167,6 @@ app.post("/api/register", async (req, res) => {
     }
     catch(err) {
         res.status(500).json({err: err});
-    }
-});
-
-app.get("/api/test", async (req, res) => {
-    try {
-        res.status(200).end();
-    }
-    catch(err) {
-        res.status(500).end();
     }
 });
 
