@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
-    const timeRange = {start: 8, end: 22};
+    const timeRange = {start: 8, end: 20};
     const touchStart = useRef({x: 0, y: 0});
     const queue = useRef(false);
 

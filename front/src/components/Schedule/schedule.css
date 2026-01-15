@@ -15,11 +15,6 @@ tr, td {
     min-height: 100px;
 }
 
-thead {
-    position: sticky;
-    top: 0px;
-}
-
 .scheduleHeader {
     color: var(--whiteish);
     background-color: var(--light);
@@ -77,7 +72,7 @@ thead {
 }
 
 .scheduleCell {
-    border: 1px solid var(--blackish);
+    border: 1px solid var(--scheduleGrid);
 }
     .scheduleCell:hover {
         background-color: var(--highlight); 

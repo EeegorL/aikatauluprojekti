@@ -2,36 +2,57 @@ header {
     background-color: var(--dark);
     display: flex;
     padding: .5vw;
+    width: 100vw;
 }
 
-header > h1 {
+header h1 {
     width: fit-content;
     display: inline;
     margin: 0;
 }
 
-header > h1 > * { /* <Link/> */
+header h1 > * { /* <Link/> */
     color: var(--whiteish);
 }
 
-header > nav {
+header h1 > *:hover { /* <Link/> */
+    color: var(--light);
+}
+
+header nav {
     text-align: right;
 }
 
-header > nav > ul {
+header nav > ul {
     width: fit-content;
     display: inline;
     padding: 0;
     margin: 0;
 }
 
-.headerLinkList {
-    
+.left {
+    width: 20vw;
 }
 
-.headerLinkList > * {
-    text-align: right;
-    display: inline;
-    margin: 5px;
-    padding: 2px;
+.right {
+    width: 80vw;
+}
+
+.right * {
+    float: right;
+
+    position: relative;
+    right: 2vw;
+    height: 3vh;
+}
+
+.logoutButton {
+    border-radius: 10px;
+    padding: 5px;
+    background-color: var(--lightest);
+}
+
+.logoutButton:hover {
+    background-color: var(--light);
+    color: var(--whiteish);
 }

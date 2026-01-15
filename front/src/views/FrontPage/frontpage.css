@@ -2,10 +2,6 @@
     margin: 5px;
 }
 
-.frontPage > h1 {
-
-}
-
 .frontPage > p {
     margin-left: 10px;
 }
@@ -14,12 +10,26 @@
     display: inline-block;
 }
 
-.frontPage li {
-    
-}
-
 .mobileListBreak {
     display: none;
+}
+
+.linkList li {
+    margin: 30px -30px;
+    list-style: none;
+}
+
+.linkList > li a {
+    background-color: var(--lightest);
+    color: var(--blackish);
+    border-radius: 20px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.linkList > li a:hover {
+    background-color: var(--light);
+    color: var(--whiteish);
 }
 
 @media (max-width: 1000px) {

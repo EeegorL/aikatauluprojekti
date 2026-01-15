@@ -12,7 +12,11 @@ export default function Header() {
     }
     
     return <header>
-        <h1><Link to="/">Moro</Link></h1>
-        <button onClick={doLogout}>Logout (tää pitäs tyylitellä...)</button>
+        <div className="left">
+            <h1><Link to="/">Moro</Link></h1>
+        </div>
+        <div className="right">
+            <button onClick={doLogout} className="logoutButton">Kirjaudu ulos</button>
+        </div>
     </header>;
 }

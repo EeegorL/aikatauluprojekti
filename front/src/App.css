@@ -6,6 +6,7 @@
     --whiteish: #F0EFF4;
 
     --highlight: #9ccddc;
+    --scheduleGrid: #8fc5d6;
 
     --chosenShiftCol: #ffebd5;
     --chosenShiftBg: #c96800;
@@ -38,7 +39,7 @@ body {
     margin: 0;
     padding: 0;
 
-    background-color: var(--col1);
+    background-color: var(--whiteish);
 }
 
 button:hover {
@@ -47,6 +48,5 @@ button:hover {
 
 .main {
     display: grid;
-    background-color: var(--col1);
-
+    background-color: var(--whiteish);
 }

@@ -12,7 +12,6 @@ import Info from "./views/Info/Info";
 import Login from "./views/Login/Login";
 import { LoginContext } from "./dbHandler/LoginContext";
 
-
 function App() {
   const [done, setDone] = useState(false);
   const [backendDown, setBackendDown] = useState(false);
