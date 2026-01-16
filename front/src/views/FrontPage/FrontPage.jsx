@@ -11,9 +11,9 @@ export default function FrontPage() {
     return <div className="frontPage">
         <h1>Tervetuloa nimettömään aikataulusovellukseen, {loginData.user.username}!</h1>
         <ul className="linkList">
-            <li><a><Link to={`/pv/${today}`}>Siirry tähän päivään</Link></a><br className="mobileListBreak"/></li>
-            <li><a><Link to={`/vk/${today}`}>Siirry tähän viikkoon</Link></a><br className="mobileListBreak"/></li>
-            <li><a><Link to={"/info"}>Mikä ihme tää on?</Link></a><br className="mobileListBreak"/></li>
+            <li><Link to={`/pv/${today}`}>Siirry tähän päivään</Link></li>
+            <li><Link to={`/vk/${today}`}>Siirry tähän viikkoon</Link></li>
+            <li><Link to={"/info"}>Mikä ihme tää on?</Link></li>
         </ul>
     </div>
 }

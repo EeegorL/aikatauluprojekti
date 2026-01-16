@@ -33,6 +33,7 @@
     user-select: none;
     font-family: monospace;
     font-size: large;
+    overflow-x: hidden;
 }
 
 body {

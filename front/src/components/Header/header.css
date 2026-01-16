@@ -1,8 +1,7 @@
 header {
     background-color: var(--dark);
     display: flex;
-    padding: .5vw;
-    width: 100vw;
+    padding: .50px;
 }
 
 header h1 {
@@ -35,7 +34,7 @@ header nav > ul {
 }
 
 .right {
-    width: 80vw;
+    width: 78vw;
 }
 
 .right * {
@@ -43,7 +42,7 @@ header nav > ul {
 
     position: relative;
     right: 2vw;
-    height: 3vh;
+    height: 30px;
 }
 
 .logoutButton {
