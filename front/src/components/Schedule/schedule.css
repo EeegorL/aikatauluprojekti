@@ -1,7 +1,7 @@
 .schedule {
     margin: 10px;
     width: 99%;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     table-layout: fixed;
     overflow-wrap: break-word;
     text-align: center;
@@ -79,8 +79,9 @@ tr, td {
     }
 
 .shiftContainer {
-    min-height: 15px;
-    padding: 10px;
+    min-height: 25px;
+    min-width: 35px;
+    /* padding: 10px; */
 }
 
 .helperLines {

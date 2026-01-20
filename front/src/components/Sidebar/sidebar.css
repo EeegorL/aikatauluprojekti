@@ -22,21 +22,6 @@
     scrollbar-color: var(--light) var(--lightest);
 }
 
-.peopleListItem {
-    list-style: none;
-    border: .01vh solid var(--blackish);
-    margin-top: .5vh;
-}
-
-.peopleListItem:hover {
-    cursor: pointer;
-}
-
-.peopleListItem:hover:not(.chosen_sidebar) {
-    background-color: var(--dark);
-    color: var(--whiteish);
-}
-
 .chosen_sidebar {
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
@@ -47,7 +32,6 @@
         padding: 0;
         overflow: hidden;
 
-        height: 96vh;
         width: 96vw;
         margin-top: 1vh;
 
@@ -59,7 +43,7 @@
        white-space: initial;
        overflow: scroll;
        width: 94vw;
-       height: 5vh;
+       height: 3vh;
        border: 1px solid black;
     }
     .mobileFilter > * {

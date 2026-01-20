@@ -4,7 +4,7 @@ import { setUnauthHandler } from "./AuthenticationBridge";
 export const LoginContext = createContext();
 
 export function LoginProvider({children}) {
-    const [user, setUser] = useState("skibidi");
+    const [user, setUser] = useState(null);
     const updateLogin = login => setUser(login);
 
     useEffect(() => {

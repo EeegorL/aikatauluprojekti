@@ -1,23 +1,24 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { deleteVuoro, getIhmiset } from "../../dbHandler/dbHandler";
 import "./sidebar.css";
 import PersonPick from "./PersonPick/PersonPick";
 
-export default function Sidebar({updateVuorot, vuorotyypit, chosen, setChosen, showPopup}) {
+export default function Sidebar({updateVuorot, chosen, setChosen, showPopup}) {
     const [people, setPeople] = useState([]);
     const [filter, setFilter] = useState("");
 
-    const filteredPeople = filter.startsWith("/")
-        ? [people[0]]
-        : people.filter(x => x.nimi.toLowerCase().includes(filter.toLowerCase()));
-
-    const mobileFilteredPeople = people.filter(x => x.nimi.startsWith(filter));
-
     useEffect(() => {
         (async () => {
-            setPeople(await getIhmiset());
+            setPeople(await getIhmiset() ?? []);
         })();
     }, []);
+
+    const mobileFilteredPeople = people.length > 0 ? people.filter(x => x.nimi.startsWith(filter)) : [];
+
+    const filteredPeople = people.length > 0 ? filter.startsWith("/")
+            ? [people[0]]
+            : people.filter(x => x.nimi.toLowerCase().includes(filter.toLowerCase()))
+        : [];
 
     const onDragOver = (e) => {
         e.preventDefault();

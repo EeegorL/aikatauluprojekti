@@ -3,7 +3,6 @@ import "./login.css";
 import { login } from "../../dbHandler/dbHandler";
 import Popup from "../../components/Popup/Popup";
 import { LoginContext } from "../../dbHandler/LoginContext";
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState(null);
@@ -12,8 +11,7 @@ export default function Login() {
     const [popup, setPopup] = useState(null);
     const timeout = useRef(null);
     const {updateLogin} = useContext(LoginContext);
-    const navigate = useNavigate();
-    
+
     const showPopup = (text, isError) => {
         if(timeout.current) clearTimeout(timeout.current);
 
@@ -28,7 +26,6 @@ export default function Login() {
         const tryLogin = await login(username, password);
         if(tryLogin.success) {
             updateLogin(tryLogin.data);
-            navigate("/");
         }
         else {
             showPopup(tryLogin.err, true);
@@ -43,9 +40,9 @@ return <div>
             <form onSubmit={onSubmit}>
                 <fieldset>
                     <label htmlFor="usernameInput">Käyttäjätunnus</label>
-                    <input name="usernameInput" onChange={(e) => setUsername(e.target.value)}/>
+                    <input name="usernameInput" type="text" onChange={(e) => setUsername(e.target.value)}/>
                     <label htmlFor="passwordInput">Salasana</label>
-                    <input name="passwordInput" onChange={(e) => setPassword(e.target.value)}/>
+                    <input name="passwordInput" type="password" onChange={(e) => setPassword(e.target.value)}/>
                     <button type="submit">Submittaa</button>
                 </fieldset>
             </form>

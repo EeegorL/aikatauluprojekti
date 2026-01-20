@@ -3,7 +3,7 @@ import {dateToStr} from "../../utils";
 import {deleteVuoro, updateNote} from "../../dbHandler/dbHandler";
 import { useEffect, useState } from "react";
 
-export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
+export default function Menu({updateVuorot, menuTarget, setMenuTarget, showPopup }) {
     const [note, setNote] = useState(menuTarget ? menuTarget.vuoro.note : "");
 
     useEffect(() => {
@@ -18,6 +18,7 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
     const onClickDelete = async () => {
         await deleteVuoro(menuTarget.vuoro.id);
         await updateVuorot(menuTarget.vuoro.pv);
+        showPopup("Vuoro poistettu", false);
         setMenuTarget(null);
     }
 
@@ -25,6 +26,7 @@ export default function Menu({updateVuorot, menuTarget, setMenuTarget }) {
         const id = menuTarget.vuoro.id;
         await updateNote(id, note);
         await updateVuorot(menuTarget.vuoro.pv);
+        showPopup("Vuoro lisätty", false);
         setMenuTarget(null);
     }
     

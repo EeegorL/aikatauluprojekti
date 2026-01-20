@@ -70,7 +70,7 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
         onDrag={onDrag}
         onDragEnd={onDragEnd}
 
-        title={`${fData.nimi}\nklo ${fData.vuoro.aika}-${fData.vuoro.aika + 1}, ${fData.vuoro.nimi}${fData.vuoro.note ? `\n------------\n${fData.vuoro.note}` : ""}`}
+        title={`${fData.nimi}\nklo ${fData.vuoro.aika}-${fData.vuoro.aika + 1}, ${fData.vuoro.nimi}${fData.vuoro.note ? `\n//\n${fData.vuoro.note}\n//` : ""}`}
         draggable
     >
         {data.lyhenne}

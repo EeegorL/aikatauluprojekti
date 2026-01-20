@@ -28,31 +28,47 @@ const pool = mariadb.createPool({
     connectionLimit: 100
 });
 
-const checkSessionValidity = async (req) => {
-    if(!req.cookies.aikatauluToken) {
-        return {code: 401, err: "Not authenticated"};
-    }
+const destroyCookie = (res) => {
+    res.cookie("aikatauluToken", "anInvalidCookie", { // ylikirjoitetaan varmuuden vuoksi virheellisellä & heti poistuvalla ennen varsinaista poistoa
+        expires: new Date(0),
+        maxAge: 1
+    });
+    res.clearCookie("aikatauluToken");
+}
 
-    const verifiedUser = jwt.verify(req.cookies.aikatauluToken, JWT_SECRET);
-    if(!(verifiedUser.userId && verifiedUser.iat)) {
+const checkSessionValidity = async (req, res) => {
+    try {
+        if(!req.cookies.aikatauluToken) {
+            return {code: 401, err: "Not authenticated"};
+        }
+
+        const verifiedUser = jwt.verify(req.cookies.aikatauluToken, JWT_SECRET);
+        if(!(verifiedUser.userId && verifiedUser.iat)) {
+            destroyCookie(res);
+            return {code: 401, err: "Invalid token"};
+        }
+
+        const issuedAtSec = verifiedUser.iat;
+        const nowSec = Math.round(Date.now() / 1000); // ms to s
+        const timeDiffMinutes = (nowSec - issuedAtSec) / 60;
+
+        if(timeDiffMinutes > 30) { // token is older than half an hour
+            destroyCookie(res);
+            return {code: 401, err: "Expired token"};
+        }
+
+        const userToSend = {
+            id: verifiedUser.userId,
+            username: verifiedUser.username,
+            role: verifiedUser.role
+        }
+
+        return {code: 200, userToSend};
+    }
+    catch(err) {
+        destroyCookie(req);
         return {code: 401, err: "Invalid token"};
     }
-
-    const issuedAtSec = verifiedUser.iat;
-    const nowSec = Math.round(Date.now() / 1000); // ms to s
-    const timeDiffMinutes = (nowSec - issuedAtSec) / 60;
-
-    if(timeDiffMinutes > 30) { // token is older than half an hour
-        return {code: 401, err: "Expired token"};
-    }
-
-    const userToSend = {
-        id: verifiedUser.userId,
-        username: verifiedUser.username,
-        role: verifiedUser.role
-    }
-
-    return {code: 200, userToSend};
 }
 
 app.use("/", async (req, res, next) => { // db connection middleware
@@ -120,11 +136,10 @@ app.get("/api/test", async (req, res) => {
     }
 });
 
-
 app.use("/", async (req, res, next) => { // this middleware after paths that should work regardless of login
     if(req.path === "/api/login") return next();
 
-    const validity = await checkSessionValidity(req);
+    const validity = await checkSessionValidity(req, res);
     if(validity.code === 401) {
         return res.status(401).json({err: "Not authorized"});
     }
@@ -231,7 +246,7 @@ app.post("/api/canAdd", async (req, res) => {
         const henkilo = movedData.id;
 
         const shiftsAtSameTimeQueryStr = "SELECT (SELECT COUNT(*) FROM vuoro WHERE henkilo = ? AND pv = ? AND aika = ?) > 0 as res;";
-        const alreadyShiftOnHour = (await pool.query(shiftsAtSameTimeQueryStr, [henkilo, day, hour]))[0].res === 1;
+        const alreadyShiftOnHour = (await pool.query(shiftsAtSameTimeQueryStr, [henkilo, day, hour]))[0].res === 1; // true/false whether there is a shift for the person at the given time
 
         if(alreadyShiftOnHour) {
             if(movedData.vuoro) { // if shift has data, i.e. is being dragged from the schedule, not from the sidebar

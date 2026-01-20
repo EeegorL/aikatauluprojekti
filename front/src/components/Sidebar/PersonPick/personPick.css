@@ -1,3 +1,18 @@
 .ghost {
     pointer-events: none;
 }
+
+.peopleListItem {
+    list-style: none;
+    border: .01vh solid var(--blackish);
+    margin-top: .5vh;
+}
+
+.peopleListItem:hover {
+    cursor: pointer;
+}
+
+.peopleListItem:hover:not(.chosen_sidebar) {
+    background-color: var(--dark);
+    color: var(--whiteish);
+}

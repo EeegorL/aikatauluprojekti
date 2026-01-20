@@ -1,4 +1,5 @@
 import {useRef} from "react";
+import "./personPick.css";
 
 export default function PersonPick({henkilo, chosen, setChosen}) {
     const fData = {
@@ -41,6 +42,7 @@ export default function PersonPick({henkilo, chosen, setChosen}) {
         onDragStart={onDragStart}
         onDrag={onDrag}
         onDragEnd={onDragEnd}
+        onDragOver={e=>e.preventDefault()}
         draggable>
             <b>{fData.lyhenne}</b> {fData.nimi}
         </li>

@@ -8,7 +8,7 @@ export const doFetch = async (url, props) => {
         "credentials": "include",
         ...props
     });
-    if(req.status === 401) { // TODO login not valid, logout and such
+    if(req.status === 401) {
         signalUnauth();
     }
 

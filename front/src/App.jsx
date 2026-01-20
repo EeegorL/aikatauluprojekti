@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import "./App.css";
@@ -17,7 +17,8 @@ function App() {
   const [backendDown, setBackendDown] = useState(false);
   const {user, updateLogin} = useContext(LoginContext);
   const location = useLocation();
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async () => {
       if(!await connTest()) setBackendDown(true);
@@ -26,18 +27,20 @@ function App() {
     })();
   }, []);
 
-useEffect(() => {
+  useEffect(() => { // on navigation, check if login still valid
+    (async () => {
+      updateLogin(await getLoginData());
+    })();
+  }, [location]);
 
-  (async () => {
-    updateLogin(await getLoginData());
-  })();
-}, [location]);
+  useEffect(() => { // if user is not valid on user change, redirect to /login if not there yet
+
+  }, [user]);
 
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
-    if(user) {
-      return (
-        <div className="main">
+    return user 
+      ? <div className="main">
           <Header/>
           <Routes>
             <Route path="/" element={<FrontPage/>}/>
@@ -47,11 +50,7 @@ useEffect(() => {
             <Route path="*" element={<Navigate to={`/`} replace/>}/>
           </Routes>
         </div>
-    );
-    }
-    else {
-      return <Login/>;
-    }
+      : <Login/>
   }
   else return <div>...</div>;
 }

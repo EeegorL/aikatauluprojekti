@@ -30,4 +30,8 @@
         grid-column: 1;
         grid-row: 2;
     }
+
+    .day_scheduleWrapper > *{
+        margin-top: 20px;
+    }
 }
