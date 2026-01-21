@@ -1,7 +1,12 @@
+.scheduleContainer {
+    margin-bottom: 30px;
+}
+
 .schedule {
     margin: 10px;
+    margin-left: 0;
+    margin-right: 0;
     width: 99%;
-    margin-bottom: 50px;
     table-layout: fixed;
     overflow-wrap: break-word;
     text-align: center;
@@ -9,6 +14,8 @@
 
     user-select: none;
     border-collapse: collapse;
+
+    font-size: 9px;
 }
 
 tr, td {
@@ -93,6 +100,7 @@ tr, td {
     .scheduleContainer {
         width: 100vw;
         overflow: auto;
+        height: fit-content;
     }
 
     .schedule {
@@ -101,7 +109,7 @@ tr, td {
 
     .hourHeader {
         position: sticky;
-        left: 0px;
+        left: 0;
     }
 
     .emptyCell {
@@ -110,8 +118,7 @@ tr, td {
 
     .scheduleDateSwitcher {
         position: sticky;
-        left: 0px;
-        margin-left: 10px;
+        left: 0;
     }
 }
 

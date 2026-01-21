@@ -42,7 +42,7 @@ return <div>
                     <label htmlFor="usernameInput">Käyttäjätunnus</label>
                     <input name="usernameInput" type="text" onChange={(e) => setUsername(e.target.value)}/>
                     <label htmlFor="passwordInput">Salasana</label>
-                    <input name="passwordInput" type="password" onChange={(e) => setPassword(e.target.value)}/>
+                    <input name="passwordInput" type="password" autoComplete="off" onChange={(e) => setPassword(e.target.value)}/>
                     <button type="submit">Submittaa</button>
                 </fieldset>
             </form>

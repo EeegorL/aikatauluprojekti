@@ -91,7 +91,6 @@ export default function Week() {
                 setVuorotyypit(tyypit);
             }
             catch(err) {
-                alert(vuorotyypitFetch.err);
             }
         })();
     }, [day]);
@@ -158,7 +157,7 @@ export default function Week() {
                             showPopup={showPopup}
                             skipAmount={7}
                             />
-                        : "Odotapas..."
+                        : "..."
                     }
                     </div>
             })}

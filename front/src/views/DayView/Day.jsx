@@ -48,7 +48,6 @@ export default function Day() {
                 setVuorotyypit(tyypit);
             }
             catch(err) { // Unauthorized
-                alert(vuorotyypitFetch.err);
             }
         })();
     }, [day]);
@@ -109,7 +108,7 @@ export default function Day() {
                     showPopup={showPopup}
                     skipAmount={1}   
                     />
-                : "Odotapas..."
+                : "..."
             }
         </div>
     </div>

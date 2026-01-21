@@ -4,8 +4,10 @@
 
 .peopleListItem {
     list-style: none;
-    border: .01vh solid var(--blackish);
+    border: .1vh solid var(--blackish);
     margin-top: .5vh;
+    margin-right: 5px;
+    padding: 1px;
 }
 
 .peopleListItem:hover {
