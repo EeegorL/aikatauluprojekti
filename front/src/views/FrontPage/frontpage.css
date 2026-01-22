@@ -37,9 +37,3 @@
     background-color: var(--light);
     color: var(--whiteish);
 }
-
-/* @media (max-width: 1000px) {
-    .mobileListBreak {
-        display: initial;
-    }
-} */

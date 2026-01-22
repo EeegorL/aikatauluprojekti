@@ -6,20 +6,21 @@
     margin: 10px;
     margin-left: 0;
     margin-right: 0;
-    width: 99%;
+    width: 100%;
     table-layout: fixed;
     overflow-wrap: break-word;
     text-align: center;
-    background-color: var(--lightest);
+    background-color: var(--scheduleBg);
 
     user-select: none;
     border-collapse: collapse;
 
-    font-size: 9px;
+    font-size: 12px;
 }
 
 tr, td {
-    min-height: 100px;
+    min-height: 150px;
+    height: fit-content;
 }
 
 .scheduleHeader {
@@ -28,7 +29,6 @@ tr, td {
 }
 
 .emptyCell {
-    width: 10px;
     background-color: var(--light);
 }
 
@@ -80,15 +80,17 @@ tr, td {
 
 .scheduleCell {
     border: 1px solid var(--scheduleGrid);
+    min-height: 50px;
+    min-width: 50px;
 }
     .scheduleCell:hover {
         background-color: var(--highlight); 
     }
 
 .shiftContainer {
-    min-height: 25px;
-    min-width: 35px;
-    /* padding: 10px; */
+    min-height: 50px;
+    height: fit-content;
+    padding: 5px;
 }
 
 .helperLines {
@@ -99,8 +101,8 @@ tr, td {
 @media (max-width: 1000px) {
     .scheduleContainer {
         width: 100vw;
-        overflow: auto;
         height: fit-content;
+        overflow-x: scroll;
     }
 
     .schedule {

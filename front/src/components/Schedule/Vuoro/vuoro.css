@@ -2,10 +2,12 @@
     border: 1px solid var(--blackish);
     background-color: var(--light);
     color: var(--whiteish);
-    margin-right: 5px;
-    padding: 1px;
+    margin-right: 2px;
+    padding: 2px;
     white-space: nowrap;
-    font-size: 9px;
+    font-size: 15px;
+    display: inline-block;
+    margin-top: 3px;
 }
 
 .vuoro:hover {
@@ -34,7 +36,6 @@
 .menu_vuoro {
     background-color: var(--menuShiftBg);
     color: var(--menuShiftCol);
-    padding: 5px;
 }
 
 .menu_vuoro:hover {

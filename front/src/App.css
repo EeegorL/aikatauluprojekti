@@ -1,12 +1,13 @@
 :root {
     --blackish: #00222e;
-    --dark: #044370;
-    --light: #1096c3;
-    --lightest: #caf2ff;
-    --whiteish: #F0EFF4;
+    --dark: #781508;
+    --light: #a62e1e;
+    --lightest: #e24e3a;
+    --whiteish: rgb(255, 252, 245);
 
-    --highlight: #9ccddc;
-    --scheduleGrid: #8fc5d6;
+    --highlight: #a62e1e;
+    --scheduleBg: #f7dfc1;
+    --scheduleGrid: #d5b58e;
 
     --chosenShiftCol: #ffebd5;
     --chosenShiftBg: #c96800;
@@ -32,8 +33,8 @@
 
     user-select: none;
     font-family: monospace;
-    font-size: 12px;
-    overflow: hidden;
+    font-size: 15px;
+    overflow-x: hidden;
 }
 
 body {
