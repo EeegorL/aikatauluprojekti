@@ -2,6 +2,7 @@
     background-color: var(--lightest);
     color: var(--blackish);
     padding: .5vw;
+    margin-bottom: 10vh;
 }
 
 .sidebarFilter > input {
@@ -20,11 +21,6 @@
     max-height: 60vh;
     overflow-y: scroll;
     scrollbar-color: var(--light) var(--lightest);
-}
-
-.chosen_sidebar {
-    background-color: var(--chosenShiftBg);
-    color: var(--chosenShiftCol);
 }
 
 @media (max-width: 1000px) {

@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import "./frontpage.css";
 import { dateToStr } from "../../utils";
 import { useContext } from "react";
-import { LoginContext } from "../../dbHandler/LoginContext";
+import { GlobalContext } from "../../dbHandler/GlobalContext";
 
 export default function FrontPage() {
-    const loginData = useContext(LoginContext);
+    const loginData = useContext(GlobalContext);
     const today = dateToStr(new Date(Date.now()));
 
     return <div className="frontPage">

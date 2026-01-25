@@ -136,6 +136,24 @@ app.get("/api/test", async (req, res) => {
     }
 });
 
+app.post("/api/register", async (req, res) => {
+    try {
+        const {username, password} = req.body;
+        if(!username || !password) {
+            res.status(400).json({err: "Username of password missing"});
+            return;
+        }
+        
+        let passwordHash = await bcrypt.hash(password, 12);
+        const queryStr = "INSERT INTO kayttaja(kayttajanimi, pwdHash) VALUES(?, ?);";
+        await pool.query(queryStr, [username, passwordHash]);
+        res.status(200).end();
+    }
+    catch(err) {
+        res.status(500).json({err: err});
+    }
+});
+
 app.use("/", async (req, res, next) => { // this middleware after paths that should work regardless of login
     if(req.path === "/api/login") return next();
 
@@ -165,24 +183,6 @@ app.get("/api/getLogin", async (req, res) => {
     }
 
     res.status(200).json(validity.userToSend);
-});
-
-app.post("/api/register", async (req, res) => {
-    try {
-        const {username, password} = req.body;
-        if(!username || !password) {
-            res.status(400).json({err: "Username of password missing"});
-            return;
-        }
-        
-        let passwordHash = await bcrypt.hash(password, 12);
-        const queryStr = "INSERT INTO kayttaja(kayttajanimi, pwdHash) VALUES(?, ?);";
-        await pool.query(queryStr, [username, passwordHash]);
-        res.status(200).end();
-    }
-    catch(err) {
-        res.status(500).json({err: err});
-    }
 });
 
 app.get("/api/ihmiset", async (req, res) => {

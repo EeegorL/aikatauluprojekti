@@ -1,5 +1,5 @@
 header {
-    background-color: var(--dark);
+    background-color: var(--darkest);
     display: flex;
     padding: 10px;
 }

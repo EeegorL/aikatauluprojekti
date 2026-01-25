@@ -8,13 +8,20 @@
     margin-top: .5vh;
     margin-right: 5px;
     padding: 1px;
+    background-color: var(--whiteish);
+    color: var(--blackish);
 }
 
 .peopleListItem:hover {
     cursor: pointer;
 }
 
+.chosen_sidebar {
+    background-color: var(--chosenShiftBg);
+    color: var(--chosenShiftCol);
+}
+
 .peopleListItem:hover:not(.chosen_sidebar) {
-    background-color: var(--dark);
+    background-color: var(--darkest);
     color: var(--whiteish);
 }

@@ -18,8 +18,7 @@
     .dayView {
         display: grid;
         grid-template-columns: 100vw;
-        grid-template-rows: 10vh 80vh;
-        gap: 10px;
+        grid-template-rows: 15vh 75vh;
     }
 
     .day_sidebarWrapper {
@@ -29,9 +28,9 @@
     .day_scheduleWrapper {
         grid-column: 1;
         grid-row: 2;
+        margin-top: 10px;
     }
 
     .day_scheduleWrapper > *{
-        margin-top: 20px;
     }
 }

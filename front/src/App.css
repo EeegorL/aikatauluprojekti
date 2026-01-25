@@ -1,31 +1,32 @@
 :root {
-    --blackish: #00222e;
-    --dark: #781508;
-    --light: #a62e1e;
-    --lightest: #e24e3a;
-    --whiteish: rgb(255, 252, 245);
+    --blackish: #040506;
+    --darkest: #2e1d16;
+    --dark: #553528;
+    --light: #75452f;
+    --lightest: #a1735e;
+    --whiteish: #e4d5c2;
 
-    --highlight: #a62e1e;
-    --scheduleBg: #f7dfc1;
-    --scheduleGrid: #d5b58e;
+    --highlight: #ac9778;
+    --scheduleBg: #bda98b;
+    --scheduleGrid: #493927;
 
-    --chosenShiftCol: #ffebd5;
-    --chosenShiftBg: #c96800;
-    --chosenShiftBg_hover: #954d00;
+    --chosenShiftCol: var(--blackish);
+    --chosenShiftBg: #e2c878;
+    --chosenShiftBg_hover: #e7c926;
 
-    --menuShiftCol: #ddffdc;
-    --menuShiftBg: #078c00;
-    --menuShiftBg_hover: #056800;
+    --menuShiftCol: var(--whiteish);
+    --menuShiftBg: #1a547b;
+    --menuShiftBg_hover: #063454;
 
     --goodButtonCol: var(--whiteish);
     --goodButtonBg: var(--menuShiftBg);
     --goodButtonBg_hover: var(--menuShiftBg_hover);
 
-    --goodCol: #deffdc;
+    --goodCol: var(--whiteish);
     --goodBg: #078c00;
     --goodHover: #056800;
 
-    --badCol: #ffe0e0;
+    --badCol: var(--whiteish);
     --badBg: #c32929;
     --badHover: #7d1414;
     
@@ -46,9 +47,4 @@ body {
 
 button:hover {
     cursor: pointer;
-}
-
-.main {
-    display: grid;
-    background-color: var(--whiteish);
 }

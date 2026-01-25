@@ -29,6 +29,7 @@ tr, td {
 }
 
 .emptyCell {
+    height: 70px;
     background-color: var(--light);
 }
 
@@ -71,7 +72,7 @@ tr, td {
         }
             .scheduleDateSwitcher > b > *:hover {
                 text-decoration: none;
-                color: var(--dark);
+                color: var(--darkest);
             }
 
 .focusHighlight {
@@ -94,7 +95,7 @@ tr, td {
 }
 
 .helperLines {
-    background-color: var(--dark);
+    background-color: var(--darkest);
     color: white;
 }
 

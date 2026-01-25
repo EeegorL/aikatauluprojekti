@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 
 import "./day.css";
 
-import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
+import { getVuorot } from "../../dbHandler/dbHandler";
 import { isValidDate, dateToStr } from "../../utils";
 
 import Menu from "../../components/Menu/Menu";
@@ -16,7 +16,6 @@ export default function Day() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [vuorot, setVuorot] = useState(null);
-    const [vuorotyypit, setVuorotyypit] = useState([]);
     const [menuTarget, _setMenuTarget] = useState(null);
 
     const [popup, setPopup] = useState();
@@ -37,15 +36,8 @@ export default function Day() {
 
     useEffect(() => {
         (async () => {
-            const vuorotyypitFetch = await getVuorotyypit();
             try {
                 await updateVuorot(day);
-                const tyypit = [];
-                
-                for(let x of vuorotyypitFetch) {
-                    tyypit.push({id: x.id, nimi: x.nimi, shown: true});
-                }
-                setVuorotyypit(tyypit);
             }
             catch(err) { // Unauthorized
             }
@@ -91,7 +83,7 @@ export default function Day() {
         <Popup popup={popup}/>
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
         <div className="day_sidebarWrapper">
-            <Sidebar updateVuorot={updateVuorot} vuorotyypit={vuorotyypit} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
+            <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
         <div className="day_scheduleWrapper">
             {
@@ -99,7 +91,6 @@ export default function Day() {
                 ? <Schedule 
                     vuorot={vuorot} 
                     updateVuorot={updateVuorot}
-                    vuorotyypit={vuorotyypit} 
                     day={day} 
                     chosen={chosen} 
                     setChosen={setChosen} 

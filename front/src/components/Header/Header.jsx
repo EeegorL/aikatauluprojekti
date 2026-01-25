@@ -2,14 +2,14 @@ import "./header.css";
 import {Link} from "react-router-dom";
 import { logout } from "../../dbHandler/dbHandler";
 import { useContext } from "react";
-import { LoginContext } from "../../dbHandler/LoginContext";
+import { GlobalContext } from "../../dbHandler/GlobalContext";
 
 export default function Header() {
-    const loginContext = useContext(LoginContext);
-    const user = loginContext.user;
+    const globalContext = useContext(GlobalContext);
+    const user = globalContext.user;
     const doLogout = async () => {
         await logout();
-        loginContext.updateLogin(null);
+        globalContext.updateLogin(null);
     }
     
     return <header>

@@ -12,7 +12,7 @@
 
 .vuoro:hover {
     cursor: pointer;
-    background-color: var(--dark);
+    background-color: var(--darkest);
     color: var(--whiteish);
 }
 
@@ -20,7 +20,7 @@
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
     border: 1px solid black;
-    padding: 5px;
+    padding: .05vw;
 }
 
 .chosen_vuoro:hover {

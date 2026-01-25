@@ -1,12 +1,16 @@
 import "./schedule.css";
-import { addVuoro, canAddVuoro, deleteVuoro } from "../../dbHandler/dbHandler";
+import { addVuoro, canAddVuoro, deleteVuoro, getLoginData } from "../../dbHandler/dbHandler";
 import { dateToStr, range, weekNum } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { GlobalContext } from "../../dbHandler/GlobalContext";
 
-export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
-    const timeRange = {start: 8, end: 20};
+export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
+    const context = useContext(GlobalContext);
+    const vuorotyypit = context.vuorotyypit;
+    
+    const timeRange = context.timeRange;
     const touchStart = useRef({x: 0, y: 0});
     const queue = useRef(false);
 
@@ -15,7 +19,7 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
 
         const f = async () => {
             await updateVuorot();
-            timeout = setTimeout(f, 1000 * 60 * 20);
+            timeout = setTimeout(f, 1000 * 60 * 10);
         }
         
         setTimeout(f, 1000 * 60 * 10); // the first periodic update launches after 10 minutes, starting the loop
@@ -80,8 +84,8 @@ export default function Schedule({vuorot, updateVuorot, vuorotyypit, day, chosen
         const shiftHeader = tableParent.querySelector(`[shiftheader="${shift}"]`);
         const hourHeader = tableParent.querySelector(`[hourheader="${hour}"]`);
         
-        shiftHeader.classList.add("helperLines");
-        hourHeader.classList.add("helperLines");
+        shiftHeader?.classList.add("helperLines");
+        hourHeader?.classList.add("helperLines");
     }
 
     const onMouseLeave = () => {

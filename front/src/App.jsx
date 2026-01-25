@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 
 import "./App.css";
@@ -10,14 +10,14 @@ import { connTest, getLoginData } from "./dbHandler/dbHandler";
 import FrontPage from "./views/FrontPage/FrontPage";
 import Info from "./views/Info/Info";
 import Login from "./views/Login/Login";
-import { LoginContext } from "./dbHandler/LoginContext";
+import { GlobalContext } from "./dbHandler/GlobalContext";
 
 function App() {
   const [done, setDone] = useState(false);
   const [backendDown, setBackendDown] = useState(false);
-  const {user, updateLogin} = useContext(LoginContext);
+  const {user, updateLogin} = useContext(GlobalContext);
   const location = useLocation();
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     (async () => {
@@ -33,9 +33,7 @@ function App() {
     })();
   }, [location]);
 
-  useEffect(() => { // if user is not valid on user change, redirect to /login if not there yet
 
-  }, [user]);
 
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;

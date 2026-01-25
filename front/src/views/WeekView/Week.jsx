@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import "./week.css";
 
 import { isValidDate, dateToStr } from "../../utils";
-import { getVuorot, getVuorotyypit } from "../../dbHandler/dbHandler";
+import { getVuorot } from "../../dbHandler/dbHandler";
 
 import Menu from "../../components/Menu/Menu";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -15,7 +15,6 @@ export default function Week() {
     const {day} = useParams();
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [menuTarget, _setMenuTarget] = useState(null);
-    const [vuorotyypit, setVuorotyypit] = useState([]);
     const [vuorot, setVuorot] = useState(null);
 
     const [popup, setPopup] = useState();
@@ -80,15 +79,8 @@ export default function Week() {
 
     useEffect(() => {
         (async()=> {
-            const vuorotyypitFetch = await getVuorotyypit();
             try {
                 await updateVuorot();
-
-                const tyypit = [];
-                for(let x of await vuorotyypitFetch) {
-                    tyypit.push({id: x.id, nimi: x.nimi, shown: true});
-                }
-                setVuorotyypit(tyypit);
             }
             catch(err) {
             }
@@ -133,7 +125,7 @@ export default function Week() {
         <Popup popup={popup}/>
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
         <div className="week_sidebarWrapper">
-            <Sidebar vuorotyypit={vuorotyypit} updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
+            <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
         {vuorot // displays the schedules once loaded
         ? <div className="week_scheduleWrapper">
@@ -148,7 +140,6 @@ export default function Week() {
                         ? <Schedule 
                             vuorot={data} 
                             updateVuorot={updateVuorot}
-                            vuorotyypit={vuorotyypit}
                             day={_day} 
                             chosen={chosen} 
                             setChosen={setChosen} 

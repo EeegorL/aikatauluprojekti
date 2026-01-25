@@ -1,12 +1,13 @@
 .loginContainer {
-    display: inline-block;
     position: absolute;
     width: 400px;
     left: 50%;
     margin-left: -200px;
     top: 25%;
     
-    background-color: aliceblue;
+    background-color: var(--lightest);
+    font-size: large;
+    color: var(--blackish);
 }
 
 .loginContainer fieldset {
@@ -22,4 +23,20 @@
     width: 200px;
     margin-left: -100px;
     text-align: center;
+}
+
+.loginContainer fieldset {
+    border-color: var(--blackish);
+}
+
+.loginContainer fieldset legend{
+    font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+    .loginContainer {
+        width: 90vw;
+        margin: 0;
+        left: 5vw;
+    }
 }
