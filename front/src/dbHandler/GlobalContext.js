@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { setUnauthHandler } from "./AuthenticationBridge";
-import { getLoginData, getVuorotyypit } from "./dbHandler";
+import { getIhmiset, getLoginData, getVuorotyypit } from "./dbHandler";
 
 export const GlobalContext = createContext();
 
@@ -12,7 +12,6 @@ export function ContextProvider({children}) {
 
     const updateLogin = login => {
         setUser(login);
-        console.log(login)
     };
 
     useEffect(() => {
@@ -28,6 +27,7 @@ export function ContextProvider({children}) {
                     tyypit.push({id: x.id, nimi: x.nimi, shown: true});
                 }
                 setVuorotyypit(tyypit);
+                setPeople(await getIhmiset() ?? []);
             }
         })();
     }, [user]);

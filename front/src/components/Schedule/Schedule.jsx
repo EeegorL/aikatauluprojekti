@@ -9,22 +9,22 @@ import { GlobalContext } from "../../dbHandler/GlobalContext";
 export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
     const context = useContext(GlobalContext);
     const vuorotyypit = context.vuorotyypit;
-    
+
+    const timeout = useRef(null);
+
     const timeRange = context.timeRange;
     const touchStart = useRef({x: 0, y: 0});
     const queue = useRef(false);
 
     useEffect(() => {
-        let timeout;
-
         const f = async () => {
             await updateVuorot();
-            if(await getLoginData()) timeout = setTimeout(f, 1000); // tää vähä sketchy, pitää pitää silmäl
+            if(await getLoginData()) timeout.current = setTimeout(f, 1000 * 60 * 15);
         }
-        
-        setTimeout(f, 1000); // the first periodic update launches after 10 minutes, starting the loop
-
-        return clearTimeout(timeout);
+        timeout.current = setTimeout(f, 1000 * 60 * 15); // the first periodic update launches after 10 minutes, starting the loop
+        return () => {
+            clearTimeout(timeout.current);
+        }
     }, []);
 
     const correctVuorot = (vuoro, aika) => {

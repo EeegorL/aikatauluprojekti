@@ -1,21 +1,15 @@
-import { useContext, useState, useEffect } from "react";
-import { deleteVuoro, getIhmiset } from "../../dbHandler/dbHandler";
+import { useContext, useState } from "react";
+import { deleteVuoro } from "../../dbHandler/dbHandler";
 import "./sidebar.css";
 import PersonPick from "./PersonPick/PersonPick";
 import { GlobalContext } from "../../dbHandler/GlobalContext";
 
 export default function Sidebar({updateVuorot, chosen, setChosen, showPopup}) {
     const context = useContext(GlobalContext);
-    const [people, setPeople] = useState([]);
+    const people = context.people;
     const [filter, setFilter] = useState("");
 
     const mobileFilteredPeople = people.length > 0 ? people.filter(x => x.nimi.startsWith(filter)) : [];
-
-    useEffect(() => {
-        (async () => {
-            setPeople(await getIhmiset() ?? []);
-        })();
-    }, []);
 
     const filteredPeople = people.length > 0 ? filter.startsWith("/")
             ? [people[0]]
