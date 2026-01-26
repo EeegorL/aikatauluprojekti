@@ -7,6 +7,7 @@ import { GlobalContext } from "../../dbHandler/GlobalContext";
 export default function Header() {
     const globalContext = useContext(GlobalContext);
     const user = globalContext.user;
+    
     const doLogout = async () => {
         await logout();
         globalContext.updateLogin(null);

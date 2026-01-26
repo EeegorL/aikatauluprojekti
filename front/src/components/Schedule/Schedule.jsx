@@ -19,10 +19,10 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
 
         const f = async () => {
             await updateVuorot();
-            timeout = setTimeout(f, 1000 * 60 * 10);
+            if(await getLoginData()) timeout = setTimeout(f, 1000); // tää vähä sketchy, pitää pitää silmäl
         }
         
-        setTimeout(f, 1000 * 60 * 10); // the first periodic update launches after 10 minutes, starting the loop
+        setTimeout(f, 1000); // the first periodic update launches after 10 minutes, starting the loop
 
         return clearTimeout(timeout);
     }, []);

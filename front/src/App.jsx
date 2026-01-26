@@ -33,8 +33,6 @@ function App() {
     })();
   }, [location]);
 
-
-
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
     return user 

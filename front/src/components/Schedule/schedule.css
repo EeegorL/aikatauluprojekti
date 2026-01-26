@@ -28,6 +28,15 @@ tr, td {
     background-color: var(--light);
 }
 
+tbody .scheduleHeader {
+    border-top: 1px solid var(--blackish);
+}
+
+thead .scheduleHeader {
+    border-top: 1px solid var(--blackish);
+    border-left: 1px solid var(--blackish);
+}
+
 .emptyCell {
     height: 70px;
     background-color: var(--light);
