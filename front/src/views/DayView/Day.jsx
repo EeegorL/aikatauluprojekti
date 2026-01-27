@@ -1,10 +1,10 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
 import "./day.css";
 
 import { getVuorot } from "../../dbHandler/dbHandler";
-import { isValidDate, dateToStr } from "../../utils";
+import { isValidDate, dateToStr, navToNext, weekNum } from "../../utils";
 
 import Menu from "../../components/Menu/Menu";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -20,7 +20,8 @@ export default function Day() {
 
     const [popup, setPopup] = useState();
     const timeout = useRef(null);
-    
+    const [waitForLoad, doWaitForLoad] = useState(false);
+
     const showPopup = (text, isError) => {
         if(timeout.current) clearTimeout(timeout.current);
 
@@ -37,7 +38,9 @@ export default function Day() {
     useEffect(() => {
         (async () => {
             try {
+                doWaitForLoad(true);
                 await updateVuorot(day);
+                doWaitForLoad(false);
             }
             catch(err) { // Unauthorized
             }
@@ -72,13 +75,20 @@ export default function Day() {
         }
     }
 
+    const navToNext = (dir) => {
+        const next = Date.parse(day) + dir * 1000*60*60*24;
+        const newDate = new Date(next);
+
+        return `/pv/${dateToStr(newDate)}`;
+    }
+
     if(!isValidDate(day)) {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
 
         return <Navigate to={`/pv/${todayStr}`} replace/>
     }
-    
+
     return <div className="dayView">
         <Popup popup={popup}/>
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
@@ -86,8 +96,15 @@ export default function Day() {
             <Sidebar updateVuorot={updateVuorot} chosen={chosen} setChosen={setChosen} showPopup={showPopup}/>
         </div>
         <div className="day_scheduleWrapper">
+            <div className="dateSwitcher">
+                <nav className="scheduleDateSwitcher">
+                    <b><Link to={navToNext(-1)}>&#8666;</Link></b>
+                    <span className={"scheduleInfo"}><Link to={`/vk/${day}`}>Viikko {weekNum(day)}</Link></span>
+                    <b><Link to={navToNext(1)}>&#8667;</Link></b>
+                </nav>
+            </div>
             {
-                vuorot 
+                vuorot
                 ? <Schedule 
                     vuorot={vuorot} 
                     updateVuorot={updateVuorot}
@@ -97,9 +114,10 @@ export default function Day() {
                     menuTarget={menuTarget} 
                     setMenuTarget={setMenuTarget}
                     showPopup={showPopup}
-                    skipAmount={1}   
+                    skipAmount={1}
+                    waitingForLoad={waitForLoad}
                     />
-                : "..."
+                : ""
             }
         </div>
     </div>

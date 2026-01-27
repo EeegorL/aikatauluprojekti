@@ -16,6 +16,15 @@
 
     overflow-y: scroll;
     overflow-x: hidden;
+    scrollbar-color: var(--light) var(--lightest);
+}
+
+.week_scheduleWrapper .dateSwitcher {
+    position: sticky;
+    padding: 10px;
+    background-color: var(--lightest);
+
+    top: 0px;
 }
 
 @media (max-width: 1000px) {

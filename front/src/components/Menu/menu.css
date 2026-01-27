@@ -1,6 +1,6 @@
 .menu {
-    outline: 1px solid black;
-    background-color: aliceblue;
+    outline: 1px solid var(--blackish);
+    background-color: var(--whiteish);
     height: 80px;
     display: grid;
 

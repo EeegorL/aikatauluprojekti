@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../dbHandler/GlobalContext";
 
-export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount}) {
+export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount, waitingForLoad}) {
     const context = useContext(GlobalContext);
     const vuorotyypit = context.vuorotyypit;
 
@@ -28,7 +28,13 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
     }, []);
 
     const correctVuorot = (vuoro, aika) => {
-        return vuorot.length > 0 ? vuorot.filter(x => x.vuoro === vuoro && x.aika === aika) : [];
+        const _correctVuorot = vuorot.length > 0 
+        ? vuorot.filter(x => x.vuoro === vuoro && x.aika === aika).sort((a, b) => {
+            return a.lyhenne < b.lyhenne ? -1 : 1;
+        }) 
+        : [];
+
+        return _correctVuorot;
     }
 
     const tryAdd = async (data, day, hour, shift) => {
@@ -120,20 +126,11 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
         await tryAdd(data, day, hour, shift);
     }
 
-    const navToText = (dir) => {
-        const next = Date.parse(day) + dir * skipAmount * 1000*60*60*24;
-        const newDate = new Date(next);
-
-        return skipAmount === 1
-            ? `/pv/${dateToStr(newDate)}`
-            : `/vk/${dateToStr(newDate)}`;
-    }
-
-    const onTouchStart = (e) => {
+    const onTouchStart = (e) => { // mobile
         touchStart.current = {x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY};
     }
 
-    const onTouchEnd = async (e) => {
+    const onTouchEnd = async (e) => { // mobile
         if(!chosen.id) return;
 
         const aX = touchStart.current.x;
@@ -151,36 +148,41 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
         await tryAdd(chosen, day, hour, shift);
     }
 
+    const navToNext = (dir) => {
+        const next = Date.parse(day) + dir * skipAmount * 1000*60*60*24;
+        const newDate = new Date(next);
+
+        return skipAmount === 1
+            ? `/pv/${dateToStr(newDate)}`
+            : `/vk/${dateToStr(newDate)}`;
+    }
+
     const onMobile = screen.width <= 1000;
     const viewChange = window.location.pathname.startsWith("/pv") ? "vk" : "pv";
 
     if(vuorotyypit.length === 0) return;
-    if(!vuorot) return <div>Odota...</div>
+    if(!vuorot || waitingForLoad) return;
     else return <div className="scheduleContainer">
         {onMobile 
             ? <nav className="scheduleDateSwitcher">
-                <b><Link to={navToText(-1)}>&#8666;</Link></b>
+                <b><Link to={navToNext(-1)}>&#8666;</Link></b>
                 <span className={"scheduleInfo"}><Link to={`/${viewChange}/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
-                <b><Link to={navToText(1)}>&#8667;</Link></b>
+                <b><Link to={navToNext(1)}>&#8667;</Link></b>
             </nav>
             : ""
         }
         <table className="schedule">
         <thead>
-            {!onMobile 
-                ? <tr>
-                    <th colSpan={vuorotyypit.length + 1} className="scheduleDateSwitcherRow">
-                        <nav className="scheduleDateSwitcher">
-                            <b><Link to={navToText(-1)}>&#8666;</Link></b>
-                            <span className={"scheduleInfo"}><Link to={`/${viewChange}/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
-                            <b><Link to={navToText(1)}>&#8667;</Link></b>
-                        </nav>
+            <tr> 
+                {onMobile 
+                    ? <th className="emptyCell"/>
+                    : <th className="dateCell">
+                        {location.pathname.startsWith("/vk")
+                        ? <Link to={`/pv/${day}`}>{dateToStr(day, true)}</Link>
+                        : <span>{dateToStr(day, true)}</span>
+                        }
                     </th>
-                </tr>
-                : ""
-            }
-            <tr>
-                <th className="emptyCell"/>
+                }
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th key={`shiftHeader_${v.id}`} className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}

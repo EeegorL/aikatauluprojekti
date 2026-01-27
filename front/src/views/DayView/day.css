@@ -7,11 +7,21 @@
 
 .day_sidebarWrapper {
     grid-column: 1;
+    position: sticky;
+    top: 0px;
 }
 
 .day_scheduleWrapper {
     grid-column: 2;
     grid-row: 1;
+}
+
+.day_scheduleWrapper .dateSwitcher {
+    position: sticky;
+    padding: 10px;
+    background-color: var(--lightest);
+
+    top: 0px;
 }
 
 @media (max-width: 1000px) {
@@ -29,8 +39,5 @@
         grid-column: 1;
         grid-row: 2;
         margin-top: 10px;
-    }
-
-    .day_scheduleWrapper > *{
     }
 }

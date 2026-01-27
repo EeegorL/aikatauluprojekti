@@ -4,9 +4,9 @@
     color: var(--whiteish);
     margin-right: 2px;
     padding: 2px;
-    white-space: nowrap;
+    white-space: wrap;
     font-size: 15px;
-    display: inline-block;
+    display: block;
     margin-top: 3px;
 }
 

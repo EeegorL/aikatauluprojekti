@@ -23,6 +23,14 @@ tr, td {
     height: fit-content;
 }
 
+tr:nth-child(odd) {
+    background-color: var(--scheduleEvenBg);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
 .scheduleHeader {
     color: var(--whiteish);
     background-color: var(--light);
@@ -56,6 +64,8 @@ thead .scheduleHeader {
         border: 1px solid black;
         display: grid;
         grid-template-columns: 10% 80% 10%;
+        position: sticky;
+        top: 0;
     }
         .scheduleDateSwitcher > * {
             align-self: center;
@@ -134,7 +144,22 @@ thead .scheduleHeader {
     }
 }
 
+
+.scheduleInfo {
+    padding: 10px;
+}
 .scheduleInfo > * {
     text-decoration: underline;
+    color: var(--whiteish);
+}
+
+.dateCell {
+    padding: 20px;
+    background-color: var(--lightest);
+    color: var(--whiteish);
+    font-size: large;
+}
+
+.dateCell > * { /*Link*/
     color: var(--whiteish);
 }

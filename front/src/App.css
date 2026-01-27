@@ -6,13 +6,14 @@
     --lightest: #a1735e;
     --whiteish: #e4d5c2;
 
-    --highlight: #ac9778;
+    --highlight: #a48b65;
     --scheduleBg: #bda98b;
+    --scheduleEvenBg: #b29f80;
     --scheduleGrid: #493927;
 
     --chosenShiftCol: var(--blackish);
-    --chosenShiftBg: #e2c878;
-    --chosenShiftBg_hover: #e7c926;
+    --chosenShiftBg: #ebc659;
+    --chosenShiftBg_hover: #d2b14c;
 
     --menuShiftCol: var(--whiteish);
     --menuShiftBg: #1a547b;

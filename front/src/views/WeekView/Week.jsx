@@ -1,9 +1,9 @@
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
 import "./week.css";
 
-import { isValidDate, dateToStr } from "../../utils";
+import { isValidDate, dateToStr, weekNum, navToNext, dayName } from "../../utils";
 import { getVuorot } from "../../dbHandler/dbHandler";
 
 import Menu from "../../components/Menu/Menu";
@@ -16,6 +16,7 @@ export default function Week() {
     const [chosen, _setChosen] = useState({id: null, nimi: null, lyhenne: null, vuoro: null});
     const [menuTarget, _setMenuTarget] = useState(null);
     const [vuorot, setVuorot] = useState(null);
+    const [waitForLoad, doWaitForLoad] = useState(false);
 
     const [popup, setPopup] = useState();
     const timeout = useRef(null);
@@ -37,6 +38,8 @@ export default function Week() {
 
     const updateVuorot = async (...daysToUpdate) => {
         if(daysToUpdate.length === 0) { // updates the whole week
+            doWaitForLoad(true); // loading whole week causes some delay in rendering, so wait for all to load
+
             const vuorotTemp = {
                 0: [],
                 1: [],
@@ -53,6 +56,7 @@ export default function Week() {
                 vuorotTemp[key] = data;
              }
             setVuorot(vuorotTemp);
+            doWaitForLoad(false);
         }
         else if(daysToUpdate.every(d => days.some(x => dateToStr(x) === d))) { // updates only data for a certain day(s). Checks if the daysToUpdate only contains valid days
             const getNewData = await Promise.all( // returns {day's index: data}, e.g. {3: [{...}, {...}, ...]}
@@ -115,12 +119,20 @@ export default function Week() {
         }
     }
 
+    const navToNext = (dir) => {
+        const next = Date.parse(day) + dir * 7 * 1000*60*60*24;
+        const newDate = new Date(next);
+
+        return `/vk/${dateToStr(newDate)}`;
+    }
+
     if(!isValidDate(day)) {
         const today = new Date(Date.now());
         const todayStr = dateToStr(today);
 
         return <Navigate to={`/pv/${todayStr}`} replace/>
     }
+    
     return <div className="weekView">
         <Popup popup={popup}/>
         <Menu updateVuorot={updateVuorot} menuTarget={menuTarget} setMenuTarget={setMenuTarget} showPopup={showPopup}/>
@@ -129,12 +141,19 @@ export default function Week() {
         </div>
         {vuorot // displays the schedules once loaded
         ? <div className="week_scheduleWrapper">
+            <div className="dateSwitcher">
+                <nav className="scheduleDateSwitcher">
+                    <b><Link to={navToNext(-1)}>&#8666;</Link></b>
+                    <span className={"scheduleInfo"}>Viikko {weekNum(day)}</span>
+                    <b><Link to={navToNext(1)}>&#8667;</Link></b>
+                </nav>
+            </div>
             {days.map(day => {
                 const _day = dateToStr(day);
                 const idx = days.indexOf(day);
                 const data = vuorot[idx];              
                 
-                return <div key={`scheduleContainer_${day.getDay()}`}>
+                return <div id={dayName(idx+1)} key={`scheduleContainer_${day.getDay()}`}>
                     {
                         data 
                         ? <Schedule 
@@ -147,6 +166,7 @@ export default function Week() {
                             setMenuTarget={setMenuTarget}
                             showPopup={showPopup}
                             skipAmount={7}
+                            waitingForLoad={waitForLoad}
                             />
                         : "..."
                     }

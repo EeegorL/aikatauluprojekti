@@ -45,6 +45,7 @@ export const dayName = (day) => {
         case 4: return "to";
         case 5: return "pe";
         case 6: return "la";
+        case 7: return "su";
         case 0: return "su";
         default: return null;
     }
@@ -56,4 +57,13 @@ export const range = (start, end) => {
         arr.push(start);
     }
     return arr;
+}
+
+export const navToNext = (dir, today, skipAmount) => {
+    const next = Date.parse(today) + dir * skipAmount * 1000*60*60*24;
+    const newDate = new Date(next);
+
+    return skipAmount === 1
+        ? `/pv/${dateToStr(newDate)}`
+        : `/vk/${dateToStr(newDate)}`;
 }
