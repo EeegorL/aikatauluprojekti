@@ -4,6 +4,7 @@ const mariadb = require("mariadb");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 require("dotenv").config({quiet: true});
 const port = process.env.PORT;
@@ -19,6 +20,8 @@ app.use(cors({
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "/build")));
 
 const pool = mariadb.createPool({
     host: "localhost",
@@ -301,6 +304,10 @@ app.put("/api/note", async (req, res) => {
     catch(err) {
         res.status(500).end();
     }
+});
+
+app.get(/.*/, (req, res) => { // toimii mut tutkitaan lisää!
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {
