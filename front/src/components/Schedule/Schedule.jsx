@@ -163,26 +163,17 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
     if(vuorotyypit.length === 0) return;
     if(!vuorot || waitingForLoad) return;
     else return <div className="scheduleContainer">
-        {onMobile 
-            ? <nav className="scheduleDateSwitcher">
-                <b><Link to={navToNext(-1)}>&#8666;</Link></b>
-                <span className={"scheduleInfo"}><Link to={`/${viewChange}/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
-                <b><Link to={navToNext(1)}>&#8667;</Link></b>
-            </nav>
-            : ""
-        }
         <table className="schedule">
         <thead>
             <tr> 
-                {onMobile 
-                    ? <th className="emptyCell"/>
-                    : <th className="dateCell">
+
+                     <th className="dateCell">
                         {location.pathname.startsWith("/vk")
                         ? <Link to={`/pv/${day}`}>{dateToStr(day, true)}</Link>
                         : <span>{dateToStr(day, true)}</span>
                         }
                     </th>
-                }
+
                 {vuorotyypit.filter(x => x.shown).map(v => {
                     return <th key={`shiftHeader_${v.id}`} className="scheduleHeader" shiftheader={v.id}>{v.nimi}</th>
                 })}

@@ -99,7 +99,7 @@ export default function Day() {
             <div className="dateSwitcher">
                 <nav className="scheduleDateSwitcher">
                     <b><Link to={navToNext(-1)}>&#8666;</Link></b>
-                    <span className={"scheduleInfo"}><Link to={`/vk/${day}`}>Viikko {weekNum(day)}</Link></span>
+                    <span className={"scheduleInfo"}><Link to={`/vk/${day}`}>Viikko {weekNum(day)}<br/>{dateToStr(day, true)}</Link></span>
                     <b><Link to={navToNext(1)}>&#8667;</Link></b>
                 </nav>
             </div>

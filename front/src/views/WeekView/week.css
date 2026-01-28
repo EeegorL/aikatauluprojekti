@@ -23,6 +23,7 @@
     position: sticky;
     padding: 10px;
     background-color: var(--lightest);
+    z-index: 1;
 
     top: 0px;
 }

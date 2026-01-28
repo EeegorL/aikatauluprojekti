@@ -57,8 +57,8 @@ export default function Sidebar({updateVuorot, chosen, setChosen, showPopup}) {
         </div>
         :   <div className="sidebar" onDrop={onDrop} onDragOver={onDragOver}>
                 <div className="sidebarFilter">
-                    <label htmlFor="filter">Suodata:</label>
-                    <input name="filter" onChange={(e)=>setFilter(e.target.value)}/>
+                    <label htmlFor="filterInput">Suodata:</label>
+                    <input id="filterInput" onChange={(e)=>setFilter(e.target.value)}/>
                 </div>  
                 <ul className="peopleList">
                     {filteredPeople.map(p => {
