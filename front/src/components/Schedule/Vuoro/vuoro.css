@@ -16,6 +16,16 @@
     color: var(--whiteish);
 }
 
+
+.hasNote {
+    font-weight: bold;
+}
+
+.hasNote:not(.chosen_vuoro) {
+    background-color: var(--whiteish);
+    color: var(--light);
+}
+
 .chosen_vuoro {
     background-color: var(--chosenShiftBg);
     color: var(--chosenShiftCol);
@@ -25,12 +35,6 @@
 
 .chosen_vuoro:hover {
     background-color: var(--chosenShiftBg_hover);
-}
-
-.hasNote {
-    background-color: var(--whiteish);
-    color: var(--light);
-    font-weight: bold;
 }
 
 .menu_vuoro {
