@@ -45,11 +45,6 @@ thead .scheduleHeader {
     border-left: 1px solid var(--blackish);
 }
 
-.emptyCell {
-    height: 70px;
-    background-color: var(--light);
-}
-
 .scheduleDateSwitcherRow {
     background-color: var(--light);
     color: var(--whiteish);
@@ -118,33 +113,6 @@ thead .scheduleHeader {
     color: white;
 }
 
-@media (max-width: 1000px) {
-    .scheduleContainer {
-        width: 100vw;
-        height: fit-content;
-        overflow-x: scroll;
-    }
-
-    .schedule {
-        width: 1500px;
-    }
-
-    .hourHeader {
-        position: sticky;
-        left: 0;
-    }
-
-    .emptyCell {
-        width: 50px;
-    }
-
-    .scheduleDateSwitcher {
-        position: sticky;
-        left: 0;
-    }
-}
-
-
 .scheduleInfo {
     padding: 10px;
 }
@@ -162,4 +130,33 @@ thead .scheduleHeader {
 
 .dateCell > * { /*Link*/
     color: var(--whiteish);
+}
+
+@media (max-width: 1000px) {
+    .scheduleContainer {
+        width: 100vw;
+        height: fit-content;
+        overflow-x: scroll;
+    }
+
+    .schedule {
+        width: 1500px;
+    }
+
+    .hourHeader {
+        position: sticky;
+        left: 0;
+    }
+
+    .scheduleDateSwitcher {
+        position: sticky;
+        left: 0;
+    }
+
+    .dateCell {
+        width: fit-content;
+        font-size: 12px;
+        padding: 0px;
+        width: 60px;
+    }
 }

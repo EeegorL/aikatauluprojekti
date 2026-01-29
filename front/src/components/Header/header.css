@@ -1,7 +1,8 @@
 header {
     background-color: var(--darkest);
     display: flex;
-    padding: 10px;
+    width: 98vw;
+    padding: 1vw;
 }
 
 header h1 {

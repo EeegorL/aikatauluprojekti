@@ -9,7 +9,7 @@ export default function FrontPage() {
     const today = dateToStr(new Date(Date.now()));
 
     return <div className="frontPage">
-        <h1>Tervetuloa nimettömään aikataulusovellukseen, {loginData?.user?.username}!</h1>
+        <p>Tervetuloa nimettömään aikataulusovellukseen, {loginData?.user?.username}!</p>
         <ul className="linkList">
             <li><Link to={`/pv/${today}`}>Siirry tähän päivään</Link></li>
             <li><Link to={`/vk/${today}`}>Siirry tähän viikkoon</Link></li>

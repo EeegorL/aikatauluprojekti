@@ -1,5 +1,6 @@
 .frontPage {
-    margin: 5px;
+    overflow-x: hidden;
+    width: 100vw;
 }
 
 .frontPage > p {
@@ -39,9 +40,6 @@
 }
 
 @media (max-width: 1000px) {
-    .frontPage {
-        width: 1vw;
-    }
     .linkList {
         width: fit-content;
     }

@@ -36,7 +36,7 @@ function App() {
   if(done) {
     if(backendDown) return <div>Shit on alhaal sori bro</div>;
     return user 
-      ? <div className="main">
+      ? <div>
           <Header/>
           <Routes>
             <Route path="/" element={<FrontPage/>}/>
