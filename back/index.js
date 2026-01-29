@@ -157,12 +157,14 @@ app.post("/api/register", async (req, res) => {
     }
 });
 
-app.use("/", async (req, res, next) => { // this middleware after paths that should work regardless of login
+app.use("/", async (req, res, next) => { // this middleware after the paths that should work regardless of login
     if(req.path === "/api/login") return next();
 
-    const validity = await checkSessionValidity(req, res);
-    if(validity.code === 401) {
-        return res.status(401).json({err: "Not authorized"});
+    if(req.path.startsWith("/api")) {
+        const validity = await checkSessionValidity(req, res);
+        if(validity.code === 401) {
+            return res.status(401).json({err: "Not authorized"});
+        }
     }
 
     return next();
