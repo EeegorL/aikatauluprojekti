@@ -13,7 +13,11 @@
 
 .day_scheduleWrapper {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: 1 / span 2;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-color: var(--light) var(--lightest);
 }
 
 .day_scheduleWrapper .dateSwitcher {
