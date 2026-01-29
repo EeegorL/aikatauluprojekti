@@ -18,6 +18,10 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
             note: data.note
         }
     }
+
+    const isOnMobile = window.screen.width <= 1000;
+    let touchStartTime = null;
+    let touchTimeout = null;
     
     const clone = useRef(null);
 
@@ -27,8 +31,19 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
 
     const onRightClick = (e) => {
         e.preventDefault();
-        
-        setMenuTarget(fData);
+        if(!isOnMobile) setMenuTarget(fData);
+    }
+
+    const onTouchStart = () => {
+        touchStartTime = Date.now();
+        touchTimeout = setTimeout(() => setMenuTarget(fData), 400);
+    }
+
+    const onTouchEnd = () => {
+        if((Date.now() - touchStartTime) / 1000 < 1) {
+            clearTimeout(touchTimeout)
+            setChosen(fData);
+        };
     }
 
     const onDragStart = (e) => {
@@ -63,15 +78,16 @@ export default function Vuoro({data, chosen, setChosen, menuTarget, setMenuTarge
             ${fData.vuoro.id === (menuTarget ? menuTarget.vuoro.id : null) ? " menu_vuoro" : ""}
             ${fData.vuoro.note ? "hasNote" : ""}
             `}
-        onClick={() => setChosen(fData)}
+        onClick={() => !isOnMobile ? setChosen(fData) : null}
         onDoubleClick={onDoubleClick}
         onContextMenu={onRightClick}
         onDragStart={onDragStart}
         onDrag={onDrag}
         onDragEnd={onDragEnd}
-
+        draggable={isOnMobile ? false : true}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
         title={`${fData.nimi}\nklo ${fData.vuoro.aika}-${fData.vuoro.aika + 1}, ${fData.vuoro.nimi}${fData.vuoro.note ? `\n//\n${fData.vuoro.note}\n//` : ""}`}
-        draggable
     >
         {data.lyhenne}
     </span>

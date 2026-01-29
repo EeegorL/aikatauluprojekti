@@ -65,7 +65,7 @@ thead .scheduleHeader {
         display: grid;
         grid-template-columns: 10% 80% 10%;
         position: sticky;
-        top: 0;
+        top: 10px;
     }
         .scheduleDateSwitcher > * {
             align-self: center;

@@ -1,12 +1,12 @@
 import "./schedule.css";
 import { addVuoro, canAddVuoro, deleteVuoro, getLoginData } from "../../dbHandler/dbHandler";
-import { dateToStr, range, weekNum } from "../../utils";
+import { dateToStr, range } from "../../utils";
 import Vuoro from "./Vuoro/Vuoro";
 import { useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../dbHandler/GlobalContext";
 
-export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, skipAmount, waitingForLoad}) {
+export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, menuTarget, setMenuTarget, showPopup, waitingForLoad}) {
     const context = useContext(GlobalContext);
     const vuorotyypit = context.vuorotyypit;
 
@@ -147,18 +147,6 @@ export default function Schedule({vuorot, updateVuorot, day, chosen, setChosen, 
 
         await tryAdd(chosen, day, hour, shift);
     }
-
-    const navToNext = (dir) => {
-        const next = Date.parse(day) + dir * skipAmount * 1000*60*60*24;
-        const newDate = new Date(next);
-
-        return skipAmount === 1
-            ? `/pv/${dateToStr(newDate)}`
-            : `/vk/${dateToStr(newDate)}`;
-    }
-
-    const onMobile = screen.width <= 1000;
-    const viewChange = window.location.pathname.startsWith("/pv") ? "vk" : "pv";
 
     if(vuorotyypit.length === 0) return;
     if(!vuorot || waitingForLoad) return;

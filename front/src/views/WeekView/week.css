@@ -8,6 +8,9 @@
 .week_sidebarWrapper {
     grid-row: 1;
     grid-column: 1;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
 }
 
 .week_scheduleWrapper {

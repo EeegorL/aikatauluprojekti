@@ -37,7 +37,8 @@
 
     .mobileFilter {
        white-space: initial;
-       overflow: scroll;
+       overflow-x: scroll;
+       overflow-y: hidden;
        width: 94vw;
        height: 3vh;
        border: 1px solid black;
@@ -80,6 +81,4 @@
         display: inline;
         white-space: nowrap;
     }
-
-
 }

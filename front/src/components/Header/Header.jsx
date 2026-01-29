@@ -25,12 +25,11 @@ export default function Header() {
             </>
             : <>
                 <div className="left">
-                    <h1><span>Moro</span></h1>
+                    <h1><span>Trokee</span></h1>
                 </div>
                 <div className="right">
                 </div>
             </>
         }
-
     </header>;
 }

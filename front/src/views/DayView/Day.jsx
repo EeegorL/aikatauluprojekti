@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import "./day.css";
 
 import { getVuorot } from "../../dbHandler/dbHandler";
-import { isValidDate, dateToStr, navToNext, weekNum } from "../../utils";
+import { isValidDate, dateToStr, weekNum } from "../../utils";
 
 import Menu from "../../components/Menu/Menu";
 import Sidebar from "../../components/Sidebar/Sidebar";
@@ -71,7 +71,7 @@ export default function Day() {
 
         if(p.vuoro && (p.id !== chosen.id)) {
             const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
-            sidebarSelectionElem.scrollIntoView({container: "nearest"});
+            if(sidebarSelectionElem) sidebarSelectionElem.scrollIntoView({container: "nearest"});
         }
     }
 
@@ -114,7 +114,6 @@ export default function Day() {
                     menuTarget={menuTarget} 
                     setMenuTarget={setMenuTarget}
                     showPopup={showPopup}
-                    skipAmount={1}
                     waitingForLoad={waitForLoad}
                     />
                 : ""

@@ -115,7 +115,7 @@ export default function Week() {
 
         if(p.vuoro && (p.id !== chosen.id)) {
             const sidebarSelectionElem = document.querySelector(`[person='${p.id}']`);
-            sidebarSelectionElem.scrollIntoView({container: "nearest"});
+            if(sidebarSelectionElem) sidebarSelectionElem.scrollIntoView({container: "nearest"});
         }
     }
 
@@ -165,7 +165,6 @@ export default function Week() {
                             menuTarget={menuTarget} 
                             setMenuTarget={setMenuTarget}
                             showPopup={showPopup}
-                            skipAmount={7}
                             waitingForLoad={waitForLoad}
                             />
                         : "..."
